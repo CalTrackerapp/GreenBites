@@ -1,3 +1,4 @@
+/*
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -41,7 +42,7 @@
   color: #888;
 }
 
-/* Hero styles for landing */
+
 .hero {
   display: flex;
   flex-direction: column;
@@ -59,12 +60,12 @@
 }
 
 .accent {
-  color: #22c55e; /* green-500 */
+  color: #22c55e; 
 }
 
 .hero__subtitle {
   font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: #94a3b8; /* slate-400 */
+  color: #94a3b8; 
   margin: 0.25rem 0 0.75rem 0;
 }
 
@@ -91,7 +92,7 @@
 
 .btn--ghost {
   background: transparent;
-  border-color: #334155; /* slate-700 */
+  border-color: #334155; 
   color: inherit;
 }
 
@@ -99,3 +100,4 @@
   border-color: #22c55e;
   color: #22c55e;
 }
+*/

@@ -2,10 +2,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import "./index.css";
 import HomePage from "./features/ui/HomePage";
+import Header from "./features/ui/Header";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route index element={<HomePage />} />
 
