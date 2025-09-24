@@ -5,13 +5,11 @@ export default function Header() {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo + Brand */}
         <Link to="/" className="flex items-center gap-2">
           <Leaf className="h-8 w-8 text-green-600" />
           <span className="text-2xl font-bold text-green-700">GreenBites</span>
         </Link>
 
-        {/* Navigation */}
         <nav className="hidden md:flex gap-6">
           <NavLink
             to="/"
@@ -40,7 +38,6 @@ export default function Header() {
           </NavLink>
         </nav>
 
-        {/* Auth buttons */}
         <div className="flex gap-3">
           <Link
             to="/login"
