@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { Leaf } from "lucide-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 
 export default function Header() {
   return (
@@ -24,33 +25,51 @@ export default function Header() {
           >
             Home
           </NavLink>
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) =>
-              `font-medium ${
-                isActive
-                  ? "text-green-600"
-                  : "text-gray-700 hover:text-green-600"
-              }`
-            }
-          >
-            Dashboard
-          </NavLink>
+          <SignedIn>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `font-medium ${
+                  isActive
+                    ? "text-green-600"
+                    : "text-gray-700 hover:text-green-600"
+                }`
+              }
+            >
+              Dashboard
+            </NavLink>
+          </SignedIn>
         </nav>
 
-        <div className="flex gap-3">
-          <Link
-            to="/login"
-            className="px-4 py-2 rounded-lg text-green-700 font-medium hover:bg-green-50"
-          >
-            Log In
-          </Link>
-          <Link
-            to="/sign-up"
-            className="px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700"
-          >
-            Sign Up
-          </Link>
+        <div className="flex gap-3 items-center">
+          <SignedOut>
+            <Link
+              to="/login"
+              className="px-4 py-2 rounded-lg text-green-700 font-medium hover:bg-green-50"
+            >
+              Log In
+            </Link>
+            <Link
+              to="/sign-up"
+              className="px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700"
+            >
+              Sign Up
+            </Link>
+          </SignedOut>
+          <SignedIn>
+            <UserButton 
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                  userButtonPopoverCard: "shadow-lg border border-gray-200",
+                  userButtonPopoverActionButton: "hover:bg-green-50",
+                  userButtonPopoverActionButtonText: "text-gray-700",
+                  userButtonPopoverFooter: "hidden"
+                }
+              }}
+              afterSignOutUrl="/"
+            />
+          </SignedIn>
         </div>
       </div>
     </header>

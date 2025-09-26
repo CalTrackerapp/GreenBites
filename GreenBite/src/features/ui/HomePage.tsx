@@ -1,4 +1,5 @@
 import { Leaf, TrendingDown, BarChart3 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
@@ -15,9 +16,12 @@ export default function HomePage() {
           count for a healthier planet.
         </p>
         <div className="mt-8 flex gap-4">
-          <button className="px-6 py-3 rounded-2xl bg-green-600 text-white font-semibold text-lg shadow-md hover:bg-green-700 transition">
+          <Link 
+            to="/dashboard"
+            className="px-6 py-3 rounded-2xl bg-green-600 text-white font-semibold text-lg shadow-md hover:bg-green-700 transition"
+          >
             Get Started
-          </button>
+          </Link>
           <button className="px-6 py-3 rounded-2xl bg-white text-green-700 font-semibold text-lg shadow-md hover:bg-green-50 border border-green-200 transition">
             Learn More
           </button>
