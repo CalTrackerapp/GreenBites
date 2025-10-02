@@ -8,6 +8,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <Leaf className="h-8 w-8 text-green-600" />
+
           <span className="text-2xl font-bold text-green-700">GreenBites</span>
         </Link>
 
@@ -57,15 +58,15 @@ export default function Header() {
             </Link>
           </SignedOut>
           <SignedIn>
-            <UserButton 
+            <UserButton
               appearance={{
                 elements: {
                   avatarBox: "w-8 h-8",
                   userButtonPopoverCard: "shadow-lg border border-gray-200",
                   userButtonPopoverActionButton: "hover:bg-green-50",
                   userButtonPopoverActionButtonText: "text-gray-700",
-                  userButtonPopoverFooter: "hidden"
-                }
+                  userButtonPopoverFooter: "hidden",
+                },
               }}
               afterSignOutUrl="/"
             />

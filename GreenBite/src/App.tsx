@@ -6,18 +6,20 @@ import HomePage from "./features/ui/HomePage";
 import Header from "./features/ui/Header";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
+import AddMeal from "./features/meal/AddMeal";
 function App() {
   return (
     <BrowserRouter>
       <Header />
+
       <Routes>
         <Route index element={<HomePage />} />
 
         <Route path="sign-up" element={<SignUp />} />
         <Route path="login" element={<SignIn />} />
 
-        <Route 
-          path="dashboard" 
+        <Route
+          path="dashboard"
           element={
             <>
               <SignedIn>
@@ -30,8 +32,8 @@ function App() {
           }
         >
           <Route index element={<Navigate replace to="profile" />} />
-          <Route 
-            path="profile" 
+          <Route
+            path="profile"
             element={
               <>
                 <SignedIn>
@@ -41,20 +43,20 @@ function App() {
                   <RedirectToSignIn />
                 </SignedOut>
               </>
-            } 
+            }
           />
-          <Route 
-            path="add-meal" 
+          <Route
+            path="add-meal"
             element={
               <>
                 <SignedIn>
-                  <h1>Add Meal</h1>
+                  <AddMeal />
                 </SignedIn>
                 <SignedOut>
                   <RedirectToSignIn />
                 </SignedOut>
               </>
-            } 
+            }
           />
         </Route>
         <Route path="*" element={<h1>Page Not Found</h1>} />

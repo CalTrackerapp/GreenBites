@@ -5,18 +5,25 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col">
       <header className="flex flex-col items-center justify-center text-center py-20 px-6">
-        <div className="flex items-center gap-3 mb-6">
-          <Leaf className="h-12 w-12 text-green-600" />
-          <h1 className="text-5xl font-extrabold text-green-800 tracking-tight">
-            GreenBites
-          </h1>
+        <div className="flex justify-between items-center mb-6 gap-6">
+          <img
+            src="logo2.jpg"
+            alt="GreenBites Logo"
+            className="w-1/3 max-w-xs object-contain rounded-lg"
+          />
+          <img
+            src="home_page.jpg"
+            alt="Carbon Footprint"
+            className="w-2/3 max-w-2xl object-cover rounded-lg shadow-md"
+          />
         </div>
+
         <p className="max-w-2xl text-lg md:text-xl text-green-700 leading-relaxed">
           Track your meals, reduce your carbon footprint, and make every bite
           count for a healthier planet.
         </p>
         <div className="mt-8 flex gap-4">
-          <Link 
+          <Link
             to="/dashboard"
             className="px-6 py-3 rounded-2xl bg-green-600 text-white font-semibold text-lg shadow-md hover:bg-green-700 transition"
           >
