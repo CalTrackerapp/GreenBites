@@ -7,6 +7,7 @@ import Header from "./features/ui/Header";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import AddMeal from "./features/meal/AddMeal";
+import Dashboard from "./features/dashboard/Dashboard";
 function App() {
   return (
     <BrowserRouter>
@@ -23,7 +24,7 @@ function App() {
           element={
             <>
               <SignedIn>
-                <h1>Dashboard</h1>
+                <Dashboard />
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />
