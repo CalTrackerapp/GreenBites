@@ -14,29 +14,42 @@ import {
   Legend,
 } from "recharts";
 
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
+
 const COLORS = ["#3b82f6", "#10b981", "#facc15"];
 
-// Mock data (you can replace this with dynamic data from the user
-const calorieGoal = 2500;
-const calorieData = [{ name: "Calories", value: 2100, fill: COLORS[0] }];
-
-const macroData = [
-  { name: "Fat", value: 77.6 },
-  { name: "Protein", value: 123.5 },
-  { name: "Carbs", value: 120 },
-];
-
-const weeklyCalories = [
-  { day: "Mon", calories: 2300 },
-  { day: "Tue", calories: 1950 },
-  { day: "Wed", calories: 2100 },
-  { day: "Thu", calories: 2500 },
-  { day: "Fri", calories: 2200 },
-  { day: "Sat", calories: 2700 },
-  { day: "Sun", calories: 2000 },
-];
-
 function Dashboard() {
+  const user = useSelector((state: RootState) => state.user.user);
+  const macroData = [
+    { name: "Fat", value: user?.totalFats },
+    { name: "Protein", value: user?.totalProtein },
+    { name: "Carbs", value: user?.totalCarb },
+  ];
+
+  const weeklyCalories = [
+    { day: user?.calorieHistory[0].date, calories: 2300 },
+    { day: user?.calorieHistory[1].date, calories: 1950 },
+    { day: user?.calorieHistory[2].date, calories: 2100 },
+    { day: user?.calorieHistory[3].date, calories: 2500 },
+    { day: user?.calorieHistory[4].date, calories: 2200 },
+    { day: user?.calorieHistory[5].date, calories: 2700 },
+    { day: user?.calorieHistory[6].date, calories: 2000 },
+  ];
+  const calorieGoal = user?.calorieGoal || 0;
+  const calorieData = [
+    {
+      name: "Calories",
+      value:
+        user?.calorieHistory[user.calorieHistory.length - 1].caloriesToday || 0,
+      fill: COLORS[0],
+    },
+  ];
+
+  if (user) {
+    console.log("User:", user);
+  }
+
   const caloriePercentage = Math.round(
     (calorieData[0].value / calorieGoal) * 100
   );
