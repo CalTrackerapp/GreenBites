@@ -13,50 +13,58 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { useUserContext } from "../../context/user-context";
 
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
+//import { useSelector } from "react-redux";
+//import type { RootState } from "../../store/store";
 
 const COLORS = ["#3b82f6", "#10b981", "#facc15"];
 
 function Dashboard() {
-  const user = useSelector((state: RootState) => state.user.user);
+  const user = useUserContext();
+  const { addCalorieEntry } = useUserContext();
+  const caloriesToday =
+    user?.calorieHistory[user.calorieHistory.length - 1].caloriesToday;
+
+  console.log(user);
+
+  // const user = useSelector((state: RootState) => state.user.user);
   const macroData = [
     { name: "Fat", value: user?.totalFats },
     { name: "Protein", value: user?.totalProtein },
-    { name: "Carbs", value: user?.totalCarb },
+    { name: "Carbs", value: user?.totalCarbs },
   ];
 
-  const weeklyCalories = [
-    { day: user?.calorieHistory[0].date, calories: 2300 },
-    { day: user?.calorieHistory[1].date, calories: 1950 },
-    { day: user?.calorieHistory[2].date, calories: 2100 },
-    { day: user?.calorieHistory[3].date, calories: 2500 },
-    { day: user?.calorieHistory[4].date, calories: 2200 },
-    { day: user?.calorieHistory[5].date, calories: 2700 },
-    { day: user?.calorieHistory[6].date, calories: 2000 },
-  ];
+  const weeklyCalories: { day: string; calories: number }[] = [];
+
+  if (user?.calorieHistory) {
+    for (let i = 0; i < user.calorieHistory.length; i++) {
+      weeklyCalories.push({
+        day: user.calorieHistory[i].date,
+        calories: user.calorieHistory[i].caloriesToday,
+      });
+    }
+  }
+
   const calorieGoal = user?.calorieGoal || 0;
-  const calorieData = [
+  /*   const calorieData = [
     {
       name: "Calories",
       value:
         user?.calorieHistory[user.calorieHistory.length - 1].caloriesToday || 0,
-      fill: COLORS[0],
     },
-  ];
+  ]; */
 
   if (user) {
-    console.log("User:", user);
+    //console.log("User:", user);
   }
 
-  const caloriePercentage = Math.round(
-    (calorieData[0].value / calorieGoal) * 100
-  );
+  const caloriePercentage = Math.round((caloriesToday / calorieGoal) * 100);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 p-6 bg-gray-100 min-h-screen">
       {/* Calorie Progress */}
+
       <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center">
         <h2 className="text-lg font-semibold mb-2">Daily Calorie Progress</h2>
         <ResponsiveContainer width="100%" height={250}>
@@ -65,7 +73,14 @@ function Dashboard() {
             cy="50%"
             innerRadius="50%"
             outerRadius="100%"
-            data={calorieData}
+            data={[
+              {
+                name: "Calories",
+                value:
+                  user?.calorieHistory[user.calorieHistory.length - 1]
+                    .caloriesToday || 0,
+              },
+            ]}
             startAngle={90}
             endAngle={-270}
           >
@@ -83,7 +98,7 @@ function Dashboard() {
         </ResponsiveContainer>
 
         <p className="text-gray-600 text-sm mt-2">
-          {calorieData[0].value} / {calorieGoal} kcal
+          {caloriesToday} / {calorieGoal} kcal
         </p>
       </div>
 
