@@ -10,3 +10,12 @@ const pool = new Pool({
 });
 
 export const db = drizzle(pool, { schema });
+
+export async function getAllUsers() {
+  return await db.select().from(schema.users);
+}
+
+export async function createUser(data: { name: string }) {
+  // map `name` to the schema field `username`
+  return await db.insert(schema.users).values({ username: data.name });
+}
