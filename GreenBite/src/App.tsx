@@ -18,6 +18,19 @@ function App() {
 
         <Route path="sign-up" element={<SignUp />} />
         <Route path="login" element={<SignIn />} />
+        <Route
+          path="add-meal"
+          element={
+            <>
+              <SignedIn>
+                <AddMeal />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
 
         <Route
           path="dashboard"
@@ -31,35 +44,22 @@ function App() {
               </SignedOut>
             </>
           }
-        >
-          <Route index element={<Navigate replace to="profile" />} />
-          <Route
-            path="profile"
-            element={
-              <>
-                <SignedIn>
-                  <h1>Profile</h1>
-                </SignedIn>
-                <SignedOut>
-                  <RedirectToSignIn />
-                </SignedOut>
-              </>
-            }
-          />
-          <Route
-            path="add-meal"
-            element={
-              <>
-                <SignedIn>
-                  <AddMeal />
-                </SignedIn>
-                <SignedOut>
-                  <RedirectToSignIn />
-                </SignedOut>
-              </>
-            }
-          />
-        </Route>
+        />
+        {/*                 <Route index element={<Navigate replace to="profile" />} />  */}
+        <Route
+          path="profile"
+          element={
+            <>
+              <SignedIn>
+                <h1>Profile</h1>
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+
         <Route path="*" element={<h1>Page Not Found</h1>} />
       </Routes>
       {/*    <Footer /> */}
