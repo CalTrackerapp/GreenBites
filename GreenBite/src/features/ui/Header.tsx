@@ -5,10 +5,11 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-green-50 via-white to-green-50 backdrop-blur-md border-b border-green-100 shadow-[0_4px_12px_rgba(34,197,94,0.25)]">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap justify-between items-center gap-4">
+        {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-2 hover:scale-105 transition-transform"
+          className="flex items-center gap-2 hover:scale-105 transition-transform flex-shrink-0"
         >
           <div className="bg-green-100 p-2 rounded-full">
             <Leaf className="h-6 w-6 text-green-600" />
@@ -18,12 +19,13 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="flex gap-6">
+        {/* Navigation */}
+        <nav className="flex flex-wrap gap-4 items-center flex-grow">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
-              `font-medium transition-colors ${
+              `font-medium text-lg transition-colors ${
                 isActive
                   ? "text-green-700 underline underline-offset-4 decoration-green-500"
                   : "text-gray-700 hover:text-green-600"
@@ -37,7 +39,7 @@ export default function Header() {
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
-                `font-medium transition-colors ${
+                `font-medium text-lg transition-colors ${
                   isActive
                     ? "text-green-700 underline underline-offset-4 decoration-green-500"
                     : "text-gray-700 hover:text-green-600"
@@ -46,10 +48,37 @@ export default function Header() {
             >
               Dashboard
             </NavLink>
+
+            <NavLink
+              to="/add-meal"
+              className={({ isActive }) =>
+                `font-medium text-lg transition-colors ${
+                  isActive
+                    ? "text-green-700 underline underline-offset-4 decoration-green-500"
+                    : "text-gray-700 hover:text-green-600"
+                }`
+              }
+            >
+              Add Meal
+            </NavLink>
+
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                `font-medium text-lg transition-colors ${
+                  isActive
+                    ? "text-green-700 underline underline-offset-4 decoration-green-500"
+                    : "text-gray-700 hover:text-green-600"
+                }`
+              }
+            >
+              Profile
+            </NavLink>
           </SignedIn>
         </nav>
 
-        <div className="flex gap-3 items-center">
+        {/* Auth Buttons */}
+        <div className="flex gap-3 items-center flex-shrink-0">
           <SignedOut>
             <Link
               to="/login"
