@@ -11,6 +11,7 @@ function calculateBMI(weightInPounds: number, heightInInches: number): number {
 
 
 type UserData = {
+
     name: string;
     gender: string;
     height: number;
@@ -23,9 +24,9 @@ export async function getAllUsers() {
   return await db.select().from(schema.users);
 }
 
-export async function createUser(data: UserData { 
+export async function createUser(data: UserData) {
 
-    const bmi = calculateBMI(data.weight, data.height) : number;
+    const bmi = calculateBMI(data.weight, data.height);
     const result = await db.insert(schema.users).values({
         username: data.name,
         gender: data.gender,
@@ -36,8 +37,9 @@ export async function createUser(data: UserData {
         totalProtein: 0,
         totalFats: 0,
         calGoal: data.calGoal,
-    }).returning();
+    } as any).returning();
 
+    return result;
 }
 
 export async function deleteUser(username: string) {
