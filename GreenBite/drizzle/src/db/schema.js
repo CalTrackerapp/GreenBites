@@ -13,6 +13,7 @@ exports.users = (0, pg_core_1.pgTable)("users", {
     totalProtein: (0, pg_core_1.integer)("totalProtein"),
     totalCarb: (0, pg_core_1.integer)("totalCarb"),
     totalFats: (0, pg_core_1.integer)("totalFats"),
+    totalCO2Expense: (0, pg_core_1.integer)("totalCO2Expense"),
     calGoal: (0, pg_core_1.integer)("calGoal"),
 });
 // Foods table

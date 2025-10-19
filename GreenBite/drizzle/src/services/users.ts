@@ -1,4 +1,3 @@
-//TODO: finish users service functions, along with FoodLog and Foods service functions
 // Import the database instance and schema from the main file
 import { db } from "../index.ts"; 
 import * as schema from "../db/schema.ts";
@@ -35,7 +34,9 @@ export async function createUser(data: UserData) {
         bmi,
         totalCalories: 0,
         totalProtein: 0,
+        totalCarb: 0,
         totalFats: 0,
+        totalCO2Expense: 0,
         calGoal: data.calGoal,
     } as any).returning();
 

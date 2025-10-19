@@ -1,0 +1,224 @@
+{
+  "id": "eab99c87-06a8-4658-a7bc-38ee14ee0b65",
+  "prevId": "ad933df7-adf8-4ff2-980a-e365a9bdc179",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.foodLog": {
+      "name": "foodLog",
+      "schema": "",
+      "columns": {
+        "logID": {
+          "name": "logID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userID": {
+          "name": "userID",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "foodID": {
+          "name": "foodID",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "servingSize": {
+          "name": "servingSize",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "loggedAt": {
+          "name": "loggedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "foodLog_userID_users_username_fk": {
+          "name": "foodLog_userID_users_username_fk",
+          "tableFrom": "foodLog",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userID"
+          ],
+          "columnsTo": [
+            "username"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "foodLog_foodID_foods_foodID_fk": {
+          "name": "foodLog_foodID_foods_foodID_fk",
+          "tableFrom": "foodLog",
+          "tableTo": "foods",
+          "columnsFrom": [
+            "foodID"
+          ],
+          "columnsTo": [
+            "foodID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.foods": {
+      "name": "foods",
+      "schema": "",
+      "columns": {
+        "foodID": {
+          "name": "foodID",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calories": {
+          "name": "calories",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fatInGrams": {
+          "name": "fatInGrams",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "proteinInGrams": {
+          "name": "proteinInGrams",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "carbsInGrams": {
+          "name": "carbsInGrams",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CO2Expense": {
+          "name": "CO2Expense",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "username": {
+          "name": "username",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "gender": {
+          "name": "gender",
+          "type": "char",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "height": {
+          "name": "height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight": {
+          "name": "weight",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bmi": {
+          "name": "bmi",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCalories": {
+          "name": "totalCalories",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalProtein": {
+          "name": "totalProtein",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCarb": {
+          "name": "totalCarb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalFats": {
+          "name": "totalFats",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCO2Expense": {
+          "name": "totalCO2Expense",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calGoal": {
+          "name": "calGoal",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
