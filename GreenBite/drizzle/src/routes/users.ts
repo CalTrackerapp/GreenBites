@@ -2,7 +2,7 @@ import express from 'express';
 import {getAllUsers, createUser, deleteUser, getUser} from '../services/users.ts';
 import foodLogsRouter from './foodLog.ts';
 
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 
 // Mount nested foodLogs route
 router.use('/:username/foodLogs', foodLogsRouter);
