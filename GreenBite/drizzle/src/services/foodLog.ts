@@ -89,6 +89,19 @@ async function calculateCO2Expense(foodID: string, servingSize: number): Promise
     return first.CO2Expense * servingSize;
 }
 
+async function alterUserTotals(username: string, calories: number, protein: number, carbs: number, fats: number, totalCO2Expense: number) { // updates user's total nutritional values
+    await db.update(schema.users)
+    .set({
+      totalCalories: calories,
+      totalProtein: protein,
+      totalCarb: carbs,
+      totalFats: fats,
+      totalCO2Expense: totalCO2Expense,
+    })
+    .where(eq(schema.users.username, username));
+
+}
+
 export async function getAllFoodLogs() { // returns all food log entries
   return await db.select().from(schema.foodLog);
 }
@@ -118,15 +131,3 @@ export async function deleteFoodLogEntry(logID: number) { // deletes a food log 
   return await db.delete(schema.foodLog).where(eq(schema.foodLog.logID, logID));
 }
 
-export async function alterUserTotals(username: string, calories: number, protein: number, carbs: number, fats: number, totalCO2Expense: number) { // updates user's total nutritional values
-    await db.update(schema.users)
-    .set({
-      totalCalories: calories,
-      totalProtein: protein,
-      totalCarb: carbs,
-      totalFats: fats,
-      totalCO2Expense: totalCO2Expense,
-    })
-    .where(eq(schema.users.username, username));
-
-}
