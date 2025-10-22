@@ -9,12 +9,12 @@ router.get('/users/:username/foodLogs', async (req, res) => {
 });
 
 
-router.post('/users:/username/foodLogs', async (req, res) => {
+router.post('/users/:username/foodLogs', async (req, res) => {
     const newFoodLog = await createFoodLogEntry(req.body);
     res.json(newFoodLog);
 });
 
-router.delete('users/:username/foodLogs/:logID', async (req, res) => {
+router.delete('/users/:username/foodLogs/:logID', async (req, res) => {
   const result = await deleteFoodLogEntry(Number(req.params.logID));
     res.json(result);
 });

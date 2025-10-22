@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:username', async (req, res) => {
-  const user = await getUser(req.body);
+  const user = await getUser(req.params.username);
   if (!user) return res.status(404).json({ error: 'User not found' })
   res.json(user);
 });
