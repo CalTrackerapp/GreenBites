@@ -19,6 +19,10 @@ export async function getAllFoods() {
   return await db.select().from(schema.foods);
 }
 
+export async function getFood(id: String) {
+  return await db.select().from(schema.foods).where(eq(schema.foods.foodID, id));
+}
+
 export async function createFood(data: FoodData) {
 
     // only insert if a food with the same foodID doesn't already exist

@@ -1,11 +1,17 @@
 import express from 'express';
-import { getAllFoods, createFood, deleteFood, searchNutrition, createFoodFromNutrition } from '../services/foods.ts';
+import { getAllFoods, getFood, createFood, deleteFood, searchNutrition, createFoodFromNutrition } from '../services/foods.ts';
 
 const router = express.Router();
 
+// Basic CRUD operations (from teammate)
 router.get('/', async (req, res) => {
   const foods = await getAllFoods();
   res.json(foods);
+});
+
+router.get('/:foodID', async (req, res) => {
+  const food = await getFood(req.params.foodID);
+  res.json(food);
 });
 
 router.post('/', async (req, res) => {
@@ -14,11 +20,11 @@ router.post('/', async (req, res) => {
 });
 
 router.delete('/:foodID', async (req, res) => {
-  const result = await deleteFood(req.params.foodID);
-  res.json(result);
+  const deletedFood = await deleteFood(req.params.foodID);
+  res.json(deletedFood);
 });
 
-// Nutrition API routes
+// Nutrition API routes (from your work)
 router.get('/search', async (req, res) => {
   try {
     const { query } = req.query;
