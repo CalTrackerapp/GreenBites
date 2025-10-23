@@ -22,6 +22,7 @@ const MACRO_COLORS = ["#ef4444", "#3b82f6", "#10b981"];
 
 function Dashboard() {
   const user = useUserContext();
+  const { addCalorieEntry } = user;
   const caloriesToday =
     user?.calorieHistory[user.calorieHistory.length - 1].caloriesToday;
 
@@ -68,6 +69,22 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <button
+        onClick={() =>
+          addCalorieEntry({
+            name: "Surrac was guui",
+            date: "2025-10-21", // change date to test new entries
+            calories: 500,
+            protein: 40,
+            carbs: 45,
+            fats: 12,
+            sodium: 700,
+            carbonFootPrintValue: 3,
+          })
+        }
+      >
+        Add Meal
+      </button>
       {/* Header Section */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-white/20 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-8">
