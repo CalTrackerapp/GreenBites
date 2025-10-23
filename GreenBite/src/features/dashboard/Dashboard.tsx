@@ -123,7 +123,7 @@ function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 py-10">
           <div className="flex items-center justify-between">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-green-800 via-green-600  bg-clip-text text-transparent">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-emerald-800 via-green-700 to-teal-700 bg-clip-text text-transparent hover:animate-none transition-all duration-300 hover:scale-105 drop-shadow-lg">
                 {greeting}, {user?.username}! 👋
               </h1>
               <p className="text-slate-600 text-lg font-medium">

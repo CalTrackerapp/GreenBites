@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserContext } from "../../context/user-context";
 import {
   Search,
@@ -47,25 +47,35 @@ type SelectedFood = {
   carbonFootprint: number;
 };
 
+type MealLog = {
+  id: string;
+  name: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+  sodium: number;
+  carbonFootprint: number;
+  timestamp: string;
+  foods: SelectedFood[];
+};
+
 const CALORIE_NINJAS_API_URL = "https://api.calorieninjas.com/v1/nutrition";
 const API_KEY = "S7okFpAr/YkWyHNo754tIA==LLV0XkmStgrD6cN3"; // Replace with your actual API key
 
-export default function AddMeal() {
-  const user = useUserContext();
+export default function AddMeal2() {
   const { addCalorieEntry } = useUserContext();
-
-  // Console log user data for testing
-  console.log("Current user data:", user);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<CalorieNinjasItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedFoods, setSelectedFoods] = useState<SelectedFood[]>([]);
+  const [pastLogs, setPastLogs] = useState<MealLog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   // Search for nutrition data using Calorie Ninjas API
-  async function handleSearch() {
+  const handleSearch = async () => {
     if (!searchQuery.trim()) return;
 
     setIsSearching(true);
@@ -100,10 +110,10 @@ export default function AddMeal() {
     } finally {
       setIsSearching(false);
     }
-  }
+  };
 
   // Add food to selected foods
-  function addFoodToSelection(food: CalorieNinjasItem) {
+  const addFoodToSelection = (food: CalorieNinjasItem) => {
     const existingFood = selectedFoods.find((f) => f.name === food.name);
     if (existingFood) {
       // Update serving size if food already exists
@@ -127,31 +137,31 @@ export default function AddMeal() {
       };
       setSelectedFoods([...selectedFoods, newFood]);
     }
-  }
+  };
 
   // Remove food from selection
-  function removeFoodFromSelection(foodId: string) {
+  const removeFoodFromSelection = (foodId: string) => {
     setSelectedFoods(selectedFoods.filter((f) => f.id !== foodId));
-  }
+  };
 
   // Update serving size
-  function updateServingSize(foodId: string, size: number) {
+  const updateServingSize = (foodId: string, size: number) => {
     if (size <= 0) return;
     setSelectedFoods(
       selectedFoods.map((f) =>
         f.id === foodId ? { ...f, servingSize: size } : f
       )
     );
-  }
+  };
 
   // Calculate carbon footprint based on calories
-  function calculateCarbonFootprint(calories: number): number {
+  const calculateCarbonFootprint = (calories: number): number => {
     // Rough estimation: 1 calorie ≈ 0.1 kg CO₂
     return Math.round(calories * 0.1 * 100) / 100;
-  }
+  };
 
   // Calculate totals for selected foods
-  function calculateTotals() {
+  const calculateTotals = () => {
     return selectedFoods.reduce(
       (totals, food) => {
         return {
@@ -173,60 +183,54 @@ export default function AddMeal() {
         carbonFootprint: 0,
       }
     );
-  }
+  };
 
   // Log the meal
-  async function logMeal() {
+  const logMeal = async () => {
     if (selectedFoods.length === 0) return;
 
     setIsLoading(true);
     setError(null);
     setSuccess(null);
 
+    const totals = calculateTotals();
     const today = new Date().toISOString().split("T")[0];
 
     try {
-      // Add each food item as a separate entry
-      for (const food of selectedFoods) {
-        const calories = Math.round(food.calories * food.servingSize);
-        const protein = Math.round(food.protein * food.servingSize);
-        const carbs = Math.round(food.carbs * food.servingSize);
-        const fats = Math.round(food.fats * food.servingSize);
-        const sodium = Math.round(food.sodium * food.servingSize);
-        const carbonFootprint = Math.round(
-          food.carbonFootprint * food.servingSize
-        );
+      // Add to Context API (for Dashboard updates)
+      addCalorieEntry({
+        name: selectedFoods.map((f) => f.name).join(", "),
+        date: today,
+        calories: Math.round(totals.calories),
+        protein: Math.round(totals.protein),
+        carbs: Math.round(totals.carbs),
+        fats: Math.round(totals.fats),
+        sodium: Math.round(totals.sodium),
+        carbonFootPrintValue: Math.round(totals.carbonFootprint),
+      });
 
-        console.log("Adding individual food entry:", {
-          name: food.name,
-          date: today,
-          calories: calories,
-          protein: protein,
-          carbs: carbs,
-          fats: fats,
-          sodium: sodium,
-          carbonFootPrintValue: carbonFootprint,
-        });
+      // Create meal log entry
+      const newMealLog: MealLog = {
+        id: Date.now().toString(),
+        name: selectedFoods.map((f) => f.name).join(", "),
+        calories: Math.round(totals.calories),
+        protein: Math.round(totals.protein),
+        carbs: Math.round(totals.carbs),
+        fats: Math.round(totals.fats),
+        sodium: Math.round(totals.sodium),
+        carbonFootprint: Math.round(totals.carbonFootprint),
+        timestamp: new Date().toLocaleTimeString(),
+        foods: selectedFoods,
+      };
 
-        addCalorieEntry({
-          name: food.name,
-          date: today,
-          calories: calories,
-          protein: protein,
-          carbs: carbs,
-          fats: fats,
-          sodium: sodium,
-          carbonFootPrintValue: carbonFootprint,
-        });
-      }
+      // Add to past logs
+      setPastLogs([newMealLog, ...pastLogs]);
 
       // Clear selection
       setSelectedFoods([]);
       setSearchQuery("");
       setSearchResults([]);
-      setSuccess(
-        `${selectedFoods.length} food item(s) logged successfully! 🎉`
-      );
+      setSuccess("Meal logged successfully! 🎉");
 
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
@@ -236,7 +240,20 @@ export default function AddMeal() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+
+  // Load past logs from localStorage (for demo purposes)
+  useEffect(() => {
+    const savedLogs = localStorage.getItem("mealLogs");
+    if (savedLogs) {
+      setPastLogs(JSON.parse(savedLogs));
+    }
+  }, []);
+
+  // Save logs to localStorage whenever pastLogs changes
+  useEffect(() => {
+    localStorage.setItem("mealLogs", JSON.stringify(pastLogs));
+  }, [pastLogs]);
 
   const totals = calculateTotals();
 
@@ -253,7 +270,7 @@ export default function AddMeal() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
             <Utensils className="mr-3 text-green-600" />
-            Meal Logger
+            Smart Meal Logger
             <Leaf className="ml-3 text-green-600" />
           </h1>
           <p className="text-slate-600 text-lg">
@@ -466,58 +483,68 @@ export default function AddMeal() {
             )}
           </div>
 
-          {/* Right Column: Instructions */}
+          {/* Right Column: Past Logs */}
           <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-8 hover:shadow-2xl transition-all duration-300">
             <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-6 flex items-center">
               <Clock className="mr-3 text-purple-600" />
-              How to Use
+              Today's Meals
             </h2>
 
-            <div className="space-y-6">
-              <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
-                <h3 className="font-semibold text-slate-900 mb-2 flex items-center">
-                  <Search className="w-5 h-5 text-blue-600 mr-2" />
-                  1. Search for Food
-                </h3>
-                <p className="text-sm text-slate-600">
-                  Enter food items with quantities like "1lb chicken breast" or
-                  "2 cups rice"
+            {pastLogs.length === 0 ? (
+              <div className="text-center py-12">
+                <Utensils className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                <p className="text-slate-500 text-lg">No meals logged today</p>
+                <p className="text-slate-400 text-sm mt-2">
+                  Start by searching for food items above!
                 </p>
               </div>
-
-              <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
-                <h3 className="font-semibold text-slate-900 mb-2 flex items-center">
-                  <Plus className="w-5 h-5 text-green-600 mr-2" />
-                  2. Add to Meal
-                </h3>
-                <p className="text-sm text-slate-600">
-                  Click the + button to add foods to your meal. Adjust serving
-                  sizes as needed.
-                </p>
+            ) : (
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {pastLogs.map((log) => (
+                  <div
+                    key={log.id}
+                    className="p-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl border border-slate-200 hover:shadow-md transition-all duration-300"
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="font-semibold text-slate-900">
+                        {log.name}
+                      </h3>
+                      <span className="text-sm text-slate-500 bg-white/50 px-2 py-1 rounded-lg">
+                        {log.timestamp}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">🔥 Calories:</span>
+                        <span className="font-semibold">{log.calories}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">💪 Protein:</span>
+                        <span className="font-semibold">{log.protein}g</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">🍞 Carbs:</span>
+                        <span className="font-semibold">{log.carbs}g</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">🥑 Fats:</span>
+                        <span className="font-semibold">{log.fats}g</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">🧂 Sodium:</span>
+                        <span className="font-semibold">{log.sodium}mg</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">🌱 CO₂:</span>
+                        <span className="font-semibold">
+                          {log.carbonFootprint}kg
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200">
-                <h3 className="font-semibold text-slate-900 mb-2 flex items-center">
-                  <Zap className="w-5 h-5 text-purple-600 mr-2" />
-                  3. Log Meal
-                </h3>
-                <p className="text-sm text-slate-600">
-                  Click "Log This Meal" to save your nutrition data to the
-                  dashboard.
-                </p>
-              </div>
-
-              <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200">
-                <h3 className="font-semibold text-slate-900 mb-2 flex items-center">
-                  <Leaf className="w-5 h-5 text-orange-600 mr-2" />
-                  Environmental Impact
-                </h3>
-                <p className="text-sm text-slate-600">
-                  Track your carbon footprint and make eco-friendly food
-                  choices.
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
