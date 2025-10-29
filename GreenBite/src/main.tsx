@@ -3,8 +3,7 @@ import { createRoot } from "react-dom/client";
 import { ClerkProvider } from "@clerk/clerk-react";
 import "./index.css";
 import App from "./App.tsx";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
+
 import UserContextProvider from "./context/user-context.tsx";
 
 // Import your publishable key
@@ -19,11 +18,9 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <UserContextProvider>
-      <Provider store={store}>
-        <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-          <App />
-        </ClerkProvider>
-      </Provider>
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+        <App />
+      </ClerkProvider>
     </UserContextProvider>
   </StrictMode>
 );

@@ -4,12 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "vite:dev": "vite",
+    "vite:build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.8.0",
+    "next": "^15.0.0",
     "@clerk/clerk-react": "^5.48.1",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^1.12.2",
