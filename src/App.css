@@ -1,0 +1,103 @@
+/*
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 3rem 1rem;
+}
+
+.hero__title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.accent {
+  color: #22c55e; 
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: #94a3b8; 
+  margin: 0.25rem 0 0.75rem 0;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn {
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: white;
+}
+
+.btn--primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: #334155; 
+  color: inherit;
+}
+
+.btn--ghost:hover {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+*/

@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "totalCO2Expense" integer;
