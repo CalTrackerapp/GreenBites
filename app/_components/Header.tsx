@@ -1,9 +1,9 @@
 "use client";
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Leaf, Sparkles, Zap, Heart, Menu, X } from 'lucide-react';
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import { useState } from 'react';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Leaf, Sparkles, Zap, Heart, Menu, X } from "lucide-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useState } from "react";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,11 +18,12 @@ export default function Header() {
   }
 
   function navClass(target: string) {
-    const isActive = pathname === target || (target === '/' && pathname === '/');
+    const isActive =
+      pathname === target || (target === "/" && pathname === "/");
     return `relative font-semibold text-lg px-4 py-2 rounded-xl transition-all duration-300 group ${
       isActive
-        ? 'text-white bg-gradient-to-r from-emerald-500 to-green-600 shadow-lg'
-        : 'text-slate-700 hover:text-emerald-600 hover:bg-emerald-50'
+        ? "text-white bg-gradient-to-r from-emerald-500 to-green-600 shadow-lg"
+        : "text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
     }`;
   }
 
@@ -51,12 +52,14 @@ export default function Header() {
               <span className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-emerald-700 via-green-600 to-teal-600 bg-clip-text text-transparent group-hover:from-emerald-600 group-hover:via-green-500 group-hover:to-teal-500 transition-all duration-300">
                 GreenBites
               </span>
-              <span className="text-xs text-slate-500 font-medium -mt-1 hidden sm:block">Eco-Friendly Nutrition</span>
+              <span className="text-xs text-slate-500 font-medium -mt-1 hidden sm:block">
+                Eco-Friendly Nutrition
+              </span>
             </div>
           </Link>
 
           <nav className="hidden lg:flex gap-2 items-center">
-            <Link href="/" className={navClass('/')}> 
+            <Link href="/" className={navClass("/")}>
               <span className="flex items-center gap-2">
                 <Heart className="w-4 h-4" />
                 Home
@@ -64,19 +67,19 @@ export default function Header() {
             </Link>
 
             <SignedIn>
-              <Link href="/dashboard" className={navClass('/dashboard')}>
+              <Link href="/dashboard" className={navClass("/dashboard")}>
                 <span className="flex items-center gap-2">
                   <Zap className="w-4 h-4" />
                   Dashboard
                 </span>
               </Link>
-              <Link href="/add-meal" className={navClass('/add-meal')}>
+              <Link href="/add-meal" className={navClass("/add-meal")}>
                 <span className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4" />
                   Add Meal
                 </span>
               </Link>
-              <Link href="/profile" className={navClass('/profile')}>
+              <Link href="/profile" className={navClass("/profile")}>
                 <span className="flex items-center gap-2">
                   <Leaf className="w-4 h-4" />
                   Profile
@@ -86,7 +89,7 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <div className="hidden lg:flex gap-3 items-center">
+            <div className="hidden lg:flex gap-3 items-center ">
               <SignedOut>
                 <Link
                   href="/login"
@@ -109,14 +112,16 @@ export default function Header() {
                     appearance={{
                       elements: {
                         avatarBox:
-                          'w-8 h-8 lg:w-10 lg:h-10 ring-2 ring-emerald-500 ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-300',
+                          "w-8 h-8 lg:w-10 lg:h-10 ring-2 ring-emerald-500 ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-300",
                         userButtonPopoverCard:
-                          'shadow-2xl border border-emerald-100 bg-white/95 backdrop-blur-xl rounded-2xl',
+                          "shadow-2xl border border-emerald-100 bg-white/95 backdrop-blur-xl rounded-2xl",
                         userButtonPopoverActionButton:
-                          'hover:bg-gradient-to-r hover:from-emerald-50 hover:to-green-50 transition-all duration-300 rounded-xl mx-2 my-1',
-                        userButtonPopoverActionButtonText: 'text-slate-700 font-medium',
-                        userButtonPopoverFooter: 'hidden',
-                        userButtonPopoverHeader: 'bg-gradient-to-r from-emerald-50 to-green-50 rounded-t-2xl',
+                          "hover:bg-gradient-to-r hover:from-emerald-50 hover:to-green-50 transition-all duration-300 rounded-xl mx-2 my-1",
+                        userButtonPopoverActionButtonText:
+                          "text-slate-700 font-medium",
+                        userButtonPopoverFooter: "hidden",
+                        userButtonPopoverHeader:
+                          "bg-gradient-to-r from-emerald-50 to-green-50 rounded-t-2xl",
                       },
                     }}
                     afterSignOutUrl="/"
@@ -130,7 +135,11 @@ export default function Header() {
               onClick={toggleMobileMenu}
               className="lg:hidden p-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -138,21 +147,37 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="lg:hidden mt-4 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/30 p-6 animate-in slide-in-from-top-2 duration-300">
             <nav className="space-y-4">
-              <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50">
+              <Link
+                href="/"
+                onClick={closeMobileMenu}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+              >
                 <Heart className="w-5 h-5" />
                 Home
               </Link>
 
               <SignedIn>
-                <Link href="/dashboard" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50">
+                <Link
+                  href="/dashboard"
+                  onClick={closeMobileMenu}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+                >
                   <Zap className="w-5 h-5" />
                   Dashboard
                 </Link>
-                <Link href="/add-meal" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50">
+                <Link
+                  href="/add-meal"
+                  onClick={closeMobileMenu}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+                >
                   <Sparkles className="w-5 h-5" />
                   Add Meal
                 </Link>
-                <Link href="/profile" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50">
+                <Link
+                  href="/profile"
+                  onClick={closeMobileMenu}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+                >
                   <Leaf className="w-5 h-5" />
                   Profile
                 </Link>
@@ -161,10 +186,18 @@ export default function Header() {
               <div className="pt-4 border-t border-slate-200">
                 <SignedOut>
                   <div className="space-y-3">
-                    <Link href="/login" onClick={closeMobileMenu} className="block w-full px-4 py-3 rounded-xl text-emerald-700 font-semibold border-2 border-emerald-200 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-green-50 hover:border-emerald-300 transition-all duration-300 text-center">
+                    <Link
+                      href="/login"
+                      onClick={closeMobileMenu}
+                      className="block w-full px-4 py-3 rounded-xl text-emerald-700 font-semibold border-2 border-emerald-200 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-green-50 hover:border-emerald-300 transition-all duration-300 text-center"
+                    >
                       Log In
                     </Link>
-                    <Link href="/sign-up" onClick={closeMobileMenu} className="block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2">
+                    <Link
+                      href="/sign-up"
+                      onClick={closeMobileMenu}
+                      className="block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2"
+                    >
                       <Sparkles className="w-4 h-4" />
                       Sign Up
                     </Link>
@@ -177,14 +210,16 @@ export default function Header() {
                       appearance={{
                         elements: {
                           avatarBox:
-                            'w-12 h-12 ring-2 ring-emerald-500 ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-300',
+                            "w-12 h-12 ring-2 ring-emerald-500 ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-300",
                           userButtonPopoverCard:
-                            'shadow-2xl border border-emerald-100 bg-white/95 backdrop-blur-xl rounded-2xl',
+                            "shadow-2xl border border-emerald-100 bg-white/95 backdrop-blur-xl rounded-2xl",
                           userButtonPopoverActionButton:
-                            'hover:bg-gradient-to-r hover:from-emerald-50 hover:to-green-50 transition-all duration-300 rounded-xl mx-2 my-1',
-                          userButtonPopoverActionButtonText: 'text-slate-700 font-medium',
-                          userButtonPopoverFooter: 'hidden',
-                          userButtonPopoverHeader: 'bg-gradient-to-r from-emerald-50 to-green-50 rounded-t-2xl',
+                            "hover:bg-gradient-to-r hover:from-emerald-50 hover:to-green-50 transition-all duration-300 rounded-xl mx-2 my-1",
+                          userButtonPopoverActionButtonText:
+                            "text-slate-700 font-medium",
+                          userButtonPopoverFooter: "hidden",
+                          userButtonPopoverHeader:
+                            "bg-gradient-to-r from-emerald-50 to-green-50 rounded-t-2xl",
                         },
                       }}
                       afterSignOutUrl="/"
@@ -199,4 +234,3 @@ export default function Header() {
     </header>
   );
 }
-
