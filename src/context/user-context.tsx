@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, type ReactNode } from "react";
+import { useAuth } from "@clerk/nextjs";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  type ReactNode,
+} from "react";
 
 // =========================
 // Types
@@ -27,7 +34,6 @@ export type CalorieHistoryItem = {
 };
 
 export type User = {
-  username: string;
   gender: string;
   height: number;
   weight: number;
@@ -47,7 +53,6 @@ export type User = {
 // =========================
 
 const initialState: User = {
-  username: "",
   gender: "",
   height: 0,
   weight: 0,
@@ -312,6 +317,7 @@ function userReducer(state: User, action: Action): User {
     }
 
     case "SET_USER": {
+      // PLACE API CALL TO UPDATE USER
       return action.payload;
     }
 
@@ -346,7 +352,27 @@ export default function UserContextProvider({
   children,
 }: UserContextProviderProps) {
   const [userState, dispatch] = useReducer(userReducer, initialState);
+  const { userId } = useAuth();
+  /* 
+  useEffect(() => {
+    async function fetchUserData() {
+      if (!userId) return;
 
+      try {
+        const res = await fetch("/api/user");
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Failed to fetch user");
+
+        dispatch({ type: "SET_USER", payload: data });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+
+    fetchUserData();
+  }, [userId]);
+ */
   const ctx: UserContextValue = {
     ...userState,
     addCalorieEntry(meal) {

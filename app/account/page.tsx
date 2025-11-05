@@ -190,16 +190,12 @@ export default function AccountPage() {
             </div>
 
             {/* User Info Display */}
-            {user.username && (
+            {user && (
               <div className="mt-6 bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Current Information
                 </h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-600">Username:</span>
-                    <p className="font-medium text-gray-900">{user.username}</p>
-                  </div>
                   <div>
                     <span className="text-gray-600">Gender:</span>
                     <p className="font-medium text-gray-900">
