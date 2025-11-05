@@ -1,4 +1,12 @@
-import { pgTable, varchar, integer, numeric, char, serial, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  varchar,
+  integer,
+  numeric,
+  char,
+  serial,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 // Users table
 export const users = pgTable("users", {
@@ -29,8 +37,14 @@ export const foods = pgTable("foods", {
 // FoodLog table
 export const foodLog = pgTable("foodLog", {
   logID: serial("logID").primaryKey(),
-  userID: varchar("userID").notNull().references(() => users.username),
-  foodID: varchar("foodID").notNull().references(() => foods.foodID),
+  userID: varchar("userID")
+    .notNull()
+    .references(() => users.username),
+  foodID: varchar("foodID")
+    .notNull()
+    .references(() => foods.foodID),
   servingSize: integer("servingSize").notNull(),
-  loggedAt: timestamp("loggedAt", { withTimezone: true }).defaultNow().notNull()
+  loggedAt: timestamp("loggedAt", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });

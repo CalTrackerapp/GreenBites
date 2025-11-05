@@ -47,6 +47,23 @@ export type User = {
 // =========================
 
 const initialState: User = {
+  username: "",
+  gender: "",
+  height: 0,
+  weight: 0,
+  calorieGoal: 0,
+  totalMeals: [],
+  totalCalories: 0,
+  totalProtein: 0,
+  totalCarbs: 0,
+  totalFats: 0,
+  totalSodium: 0,
+  totalCarbonFootPrint: 0,
+  calorieHistory: [],
+};
+
+/* 
+const initialState: User = {
   username: "TestUser",
   gender: "Male",
   height: 180,
@@ -201,7 +218,7 @@ const initialState: User = {
       mealsToday: [],
     },
   ],
-};
+}; */
 
 // =========================
 // Actions
