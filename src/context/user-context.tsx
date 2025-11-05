@@ -229,7 +229,12 @@ type AddCalorieEntryAction = {
   payload: MealLog;
 };
 
-type Action = AddCalorieEntryAction;
+type SetUserAction = {
+  type: "SET_USER";
+  payload: User;
+};
+
+type Action = AddCalorieEntryAction | SetUserAction;
 
 // =========================
 // Context Value
@@ -237,6 +242,7 @@ type Action = AddCalorieEntryAction;
 
 type UserContextValue = User & {
   addCalorieEntry: (meal: MealLog) => void;
+  setUser: (user: User) => void;
 };
 
 // =========================
@@ -305,6 +311,10 @@ function userReducer(state: User, action: Action): User {
       };
     }
 
+    case "SET_USER": {
+      return action.payload;
+    }
+
     default:
       return state;
   }
@@ -341,6 +351,9 @@ export default function UserContextProvider({
     ...userState,
     addCalorieEntry(meal) {
       dispatch({ type: "ADD_CALORIE_ENTRY", payload: meal });
+    },
+    setUser(user) {
+      dispatch({ type: "SET_USER", payload: user });
     },
   };
 

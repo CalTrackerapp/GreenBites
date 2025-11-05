@@ -29,7 +29,7 @@ export default function SignUpCatchAllPage() {
                 footerActionLink: "text-green-600 hover:text-green-700",
               },
             }}
-            afterSignUpUrl="/profile-setup"
+            afterSignUpUrl="/account"
             signInUrl="/login"
           />
         </div>
