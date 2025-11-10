@@ -1,54 +1,56 @@
-import express from 'express';
-import { getAllFoods, getFood, createFood, deleteFood, searchNutrition, createFoodFromNutrition } from '../services/foods.ts';
+// no longer in use
 
-const router = express.Router();
+// import express from 'express';
+// import { getAllFoods, getFood, createFood, deleteFood, searchNutrition, createFoodFromNutrition } from '../services/foods.ts';
 
-// Basic CRUD operations (from teammate)
-router.get('/', async (req, res) => {
-  const foods = await getAllFoods();
-  res.json(foods);
-});
+// const router = express.Router();
 
-router.get('/:foodID', async (req, res) => {
-  const food = await getFood(req.params.foodID);
-  res.json(food);
-});
+// // Basic CRUD operations (from teammate)
+// router.get('/', async (req, res) => {
+//   const foods = await getAllFoods();
+//   res.json(foods);
+// });
 
-router.post('/', async (req, res) => {
-  const newFood = await createFood(req.body);
-  res.json(newFood);
-});
+// router.get('/:foodID', async (req, res) => {
+//   const food = await getFood(req.params.foodID);
+//   res.json(food);
+// });
 
-router.delete('/:foodID', async (req, res) => {
-  const deletedFood = await deleteFood(req.params.foodID);
-  res.json(deletedFood);
-});
+// router.post('/', async (req, res) => {
+//   const newFood = await createFood(req.body);
+//   res.json(newFood);
+// });
 
-// Nutrition API routes (from your work)
-router.get('/search', async (req, res) => {
-  try {
-    const { query } = req.query;
-    if (!query) {
-      return res.status(400).json({ error: 'Query parameter is required' });
-    }
-    const nutritionData = await searchNutrition(query as string);
-    res.json(nutritionData);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to search nutrition data' });
-  }
-});
+// router.delete('/:foodID', async (req, res) => {
+//   const deletedFood = await deleteFood(req.params.foodID);
+//   res.json(deletedFood);
+// });
 
-router.post('/from-nutrition', async (req, res) => {
-  try {
-    const { nutritionData, userID } = req.body;
-    if (!nutritionData || !userID) {
-      return res.status(400).json({ error: 'nutritionData and userID are required' });
-    }
-    const newFood = await createFoodFromNutrition(nutritionData, userID);
-    res.json(newFood);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to create food from nutrition data' });
-  }
-});
+// // Nutrition API routes (from your work)
+// router.get('/search', async (req, res) => {
+//   try {
+//     const { query } = req.query;
+//     if (!query) {
+//       return res.status(400).json({ error: 'Query parameter is required' });
+//     }
+//     const nutritionData = await searchNutrition(query as string);
+//     res.json(nutritionData);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to search nutrition data' });
+//   }
+// });
 
-export default router;
+// router.post('/from-nutrition', async (req, res) => {
+//   try {
+//     const { nutritionData, userID } = req.body;
+//     if (!nutritionData || !userID) {
+//       return res.status(400).json({ error: 'nutritionData and userID are required' });
+//     }
+//     const newFood = await createFoodFromNutrition(nutritionData, userID);
+//     res.json(newFood);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to create food from nutrition data' });
+//   }
+// });
+
+// export default router;
