@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, type ReactNode } from "react";
+import { useAuth } from "@clerk/nextjs";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  type ReactNode,
+} from "react";
 
 // =========================
 // Types
@@ -27,7 +34,6 @@ export type CalorieHistoryItem = {
 };
 
 export type User = {
-  username: string;
   gender: string;
   height: number;
   weight: number;
@@ -46,6 +52,22 @@ export type User = {
 // Initial State
 // =========================
 
+const initialState: User = {
+  gender: "",
+  height: 0,
+  weight: 0,
+  calorieGoal: 0,
+  totalMeals: [],
+  totalCalories: 0,
+  totalProtein: 0,
+  totalCarbs: 0,
+  totalFats: 0,
+  totalSodium: 0,
+  totalCarbonFootPrint: 0,
+  calorieHistory: [],
+};
+
+/* 
 const initialState: User = {
   username: "TestUser",
   gender: "Male",
@@ -201,7 +223,7 @@ const initialState: User = {
       mealsToday: [],
     },
   ],
-};
+}; */
 
 // =========================
 // Actions
@@ -212,7 +234,12 @@ type AddCalorieEntryAction = {
   payload: MealLog;
 };
 
-type Action = AddCalorieEntryAction;
+type SetUserAction = {
+  type: "SET_USER";
+  payload: User;
+};
+
+type Action = AddCalorieEntryAction | SetUserAction;
 
 // =========================
 // Context Value
@@ -220,6 +247,7 @@ type Action = AddCalorieEntryAction;
 
 type UserContextValue = User & {
   addCalorieEntry: (meal: MealLog) => void;
+  setUser: (user: User) => void;
 };
 
 // =========================
@@ -288,6 +316,11 @@ function userReducer(state: User, action: Action): User {
       };
     }
 
+    case "SET_USER": {
+      // PLACE API CALL TO UPDATE USER
+      return action.payload;
+    }
+
     default:
       return state;
   }
@@ -319,11 +352,34 @@ export default function UserContextProvider({
   children,
 }: UserContextProviderProps) {
   const [userState, dispatch] = useReducer(userReducer, initialState);
+  const { userId } = useAuth();
+  /* 
+  useEffect(() => {
+    async function fetchUserData() {
+      if (!userId) return;
 
+      try {
+        const res = await fetch("/api/user");
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Failed to fetch user");
+
+        dispatch({ type: "SET_USER", payload: data });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+
+    fetchUserData();
+  }, [userId]);
+ */
   const ctx: UserContextValue = {
     ...userState,
     addCalorieEntry(meal) {
       dispatch({ type: "ADD_CALORIE_ENTRY", payload: meal });
+    },
+    setUser(user) {
+      dispatch({ type: "SET_USER", payload: user });
     },
   };
 

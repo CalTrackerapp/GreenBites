@@ -27,8 +27,9 @@ const MACRO_COLORS = ["#ef4444", "#3b82f6", "#10b981"];
 function Dashboard() {
   const user = useUserContext();
   const { addCalorieEntry } = user;
-  const caloriesToday =
-    user?.calorieHistory[user.calorieHistory.length - 1].caloriesToday;
+  const caloriesToday = user.calorieHistory[user.calorieHistory.length - 1]
+    ? user.calorieHistory[user.calorieHistory.length - 1].caloriesToday
+    : 0;
 
   console.log(user);
 
@@ -318,7 +319,7 @@ function Dashboard() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                    {caloriePercentage}%
+                    {caloriePercentage || 0}%
                   </div>
                   <div className="text-sm text-slate-600 mt-2 font-medium">
                     {caloriesToday} / {calorieGoal} kcal

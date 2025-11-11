@@ -1,22 +1,24 @@
-import express from 'express';
-import {getAllFoodLogs, createFoodLogEntry, deleteFoodLogEntry} from '../services/foodLog.ts';
+//no longer in use
 
-const router = express.Router();
+// import express from 'express';
+// import {getAllFoodLogs, createFoodLogEntry, deleteFoodLogEntry} from '../services/foodLog.ts';
 
-router.get('/users/:username/foodLogs', async (req, res) => {
-  const foodLogs = await getAllFoodLogs();
-  res.json(foodLogs);
-});
+// const router = express.Router();
+
+// router.get('/users/:username/foodLogs', async (req, res) => {
+//   const foodLogs = await getAllFoodLogs();
+//   res.json(foodLogs);
+// });
 
 
-router.post('/users/:username/foodLogs', async (req, res) => {
-    const newFoodLog = await createFoodLogEntry(req.body);
-    res.json(newFoodLog);
-});
+// router.post('/users/:username/foodLogs', async (req, res) => {
+//     const newFoodLog = await createFoodLogEntry(req.body);
+//     res.json(newFoodLog);
+// });
 
-router.delete('/users/:username/foodLogs/:logID', async (req, res) => {
-  const result = await deleteFoodLogEntry(Number(req.params.logID));
-    res.json(result);
-});
+// router.delete('/users/:username/foodLogs/:logID', async (req, res) => {
+//   const result = await deleteFoodLogEntry(Number(req.params.logID));
+//     res.json(result);
+// });
 
-export default router;
+// export default router;

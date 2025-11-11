@@ -79,10 +79,10 @@ export default function Header() {
                   Add Meal
                 </span>
               </Link>
-              <Link href="/profile" className={navClass("/profile")}>
+              <Link href="/account" className={navClass("/account")}>
                 <span className="flex items-center gap-2">
                   <Leaf className="w-4 h-4" />
-                  Profile
+                  Account
                 </span>
               </Link>
             </SignedIn>
@@ -174,12 +174,12 @@ export default function Header() {
                   Add Meal
                 </Link>
                 <Link
-                  href="/profile"
+                  href="/account"
                   onClick={closeMobileMenu}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
                 >
                   <Leaf className="w-5 h-5" />
-                  Profile
+                  Account
                 </Link>
               </SignedIn>
 

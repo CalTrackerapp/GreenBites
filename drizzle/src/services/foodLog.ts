@@ -1,6 +1,6 @@
 import { db } from "../index.ts"; 
 import * as schema from "../db/schema.ts";
-import { eq } from 'drizzle-orm'; 
+import { eq, and } from 'drizzle-orm'; 
 //data retrieved from each method assumes that the foodID and userID provided exist in their respective tables from the API calls
 
 type FoodLogData = { // data type for creating a food log entry
@@ -102,9 +102,13 @@ async function alterUserTotals(username: string, calories: number, protein: numb
 
 }
 
-export async function getAllFoodLogs() { // returns all food log entries
-  return await db.select().from(schema.foodLog);
+export async function getAllFoodLogs(username: string) {
+  return await db
+    .select()
+    .from(schema.foodLog)
+    .where(eq(schema.foodLog.userID, username));
 }
+
 
 export async function createFoodLogEntry(data: FoodLogData) { // creates a new food log entry
 
@@ -127,7 +131,15 @@ export async function createFoodLogEntry(data: FoodLogData) { // creates a new f
     return result;
 }
 
-export async function deleteFoodLogEntry(logID: number) { // deletes a food log entry by logID
-  return await db.delete(schema.foodLog).where(eq(schema.foodLog.logID, logID));
+export async function deleteFoodLogEntry(logID: number, userId: string) {
+  return await db
+    .delete(schema.foodLog)
+    .where(
+      and(
+        eq(schema.foodLog.logID, logID),
+        eq(schema.foodLog.userID, userId)
+      )
+    );
 }
+
 
