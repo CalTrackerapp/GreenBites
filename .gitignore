@@ -1,4 +1,11 @@
 node_modules
 
+# Next.js build output
+.next/
+out/
+
+# TypeScript build info
+*.tsbuildinfo
+
 # clerk configuration (can include secrets)
 /.clerk/
