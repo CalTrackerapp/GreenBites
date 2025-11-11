@@ -433,12 +433,13 @@ export default function AddMeal() {
                         {Math.round(totals.fats)}g
                       </span>
                     </div>
-                    <div className="flex justify-between">
+                    {/*<div className="flex justify-between">
                       <span className="text-slate-600">🧂 Sodium:</span>
                       <span className="font-bold text-slate-800">
-                        {/*{Math.round(totals.sodium)}mg sodium not used */}
+                        {/*{Math.round(totals.sodium)}mg sodium not used
                       </span>
-                    </div>
+                    </div> 
+                    */}
                     <div className="flex justify-between">
                       <span className="text-slate-600">🌱 CO₂:</span>
                       <span className="font-bold text-slate-800">
