@@ -223,7 +223,6 @@ export default function AddMeal() {
         });
       }
 
-      //TODO finish revising from this point
       // Clear selection
       setSelectedFoods([]);
       setSearchQuery("");
@@ -337,7 +336,7 @@ export default function AddMeal() {
                           <div>
                             🍞 {Math.round(food.carbohydrates_total_g)}g carbs
                           </div>
-                          <div>🧂 {Math.round(food.sodium_mg)}mg sodium</div>
+                          {/*<div>🧂 {Math.round(food.sodium_mg)}mg sodium</div> sodium not used*/}
                         </div>
                       </div>
                       <button
@@ -437,7 +436,7 @@ export default function AddMeal() {
                     <div className="flex justify-between">
                       <span className="text-slate-600">🧂 Sodium:</span>
                       <span className="font-bold text-slate-800">
-                        {Math.round(totals.sodium)}mg
+                        {/*{Math.round(totals.sodium)}mg sodium not used */}
                       </span>
                     </div>
                     <div className="flex justify-between">
