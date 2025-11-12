@@ -1,50 +1,45 @@
-import {
-  pgTable,
-  varchar,
-  integer,
-  numeric,
-  char,
-  serial,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { pgTable, varchar, integer, numeric, timestamp, serial } from "drizzle-orm/pg-core";
 
-// Users table
+// Users
 export const users = pgTable("users", {
-  username: varchar("username").primaryKey(),
-  gender: varchar("gender"), // Changed from char to varchar to support "Male" and "Female"
+  username: varchar("username", { length: 64 }).primaryKey(),
+  gender: varchar("gender", { length: 10 }),
   height: integer("height"),
   weight: integer("weight"),
   bmi: numeric("bmi"),
+  calorieGoal: integer("calorieGoal"),
   totalCalories: integer("totalCalories"),
   totalProtein: integer("totalProtein"),
-  totalCarb: integer("totalCarb"),
+  totalCarbs: integer("totalCarbs"),
   totalFats: integer("totalFats"),
-  totalCO2Expense: integer("totalCO2Expense"),
-  calGoal: integer("calGoal"),
+  totalSodium: integer("totalSodium"),
+  totalCarbonFootPrint: integer("totalCarbonFootPrint"),
 });
 
-// Foods table
+// Foods
 export const foods = pgTable("foods", {
-  foodID: varchar("foodID").primaryKey(),
-  name: varchar("name"),
+  foodID: varchar("foodID", { length: 64 }).primaryKey(),
+  name: varchar("name", { length: 128 }),
   calories: integer("calories"),
   fatInGrams: integer("fatInGrams"),
   proteinInGrams: integer("proteinInGrams"),
   carbsInGrams: integer("carbsInGrams"),
+  sodiumInMg: integer("sodiumInMg"),
   CO2Expense: integer("CO2Expense"),
 });
 
-// FoodLog table
+// Food Logs
 export const foodLog = pgTable("foodLog", {
   logID: serial("logID").primaryKey(),
-  userID: varchar("userID")
-    .notNull()
-    .references(() => users.username),
-  foodID: varchar("foodID")
-    .notNull()
-    .references(() => foods.foodID),
+  userID: varchar("userID", { length: 64 }).notNull().references(() => users.username),
+  foodID: varchar("foodID", { length: 64 }).notNull().references(() => foods.foodID),
+  name: varchar("name", { length: 128 }),
   servingSize: integer("servingSize").notNull(),
-  loggedAt: timestamp("loggedAt", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
+  loggedAt: timestamp("loggedAt", { withTimezone: true }).defaultNow().notNull(),
+  calories: integer("calories"),
+  protein: integer("protein"),
+  carbs: integer("carbs"),
+  fats: integer("fats"),
+  sodium: integer("sodium"),
+  carbonFootPrintValue: integer("carbonFootPrintValue"),
 });

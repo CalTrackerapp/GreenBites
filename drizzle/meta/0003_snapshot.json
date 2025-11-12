@@ -1,0 +1,278 @@
+{
+  "id": "a45a1a64-6e5f-4085-a2d6-57bdd019ce96",
+  "prevId": "633518b2-a16d-47f4-91bd-7d32d36c7554",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.foodLog": {
+      "name": "foodLog",
+      "schema": "",
+      "columns": {
+        "logID": {
+          "name": "logID",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userID": {
+          "name": "userID",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "foodID": {
+          "name": "foodID",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "servingSize": {
+          "name": "servingSize",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "loggedAt": {
+          "name": "loggedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "calories": {
+          "name": "calories",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "protein": {
+          "name": "protein",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "carbs": {
+          "name": "carbs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fats": {
+          "name": "fats",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sodium": {
+          "name": "sodium",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "carbonFootPrintValue": {
+          "name": "carbonFootPrintValue",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "foodLog_userID_users_username_fk": {
+          "name": "foodLog_userID_users_username_fk",
+          "tableFrom": "foodLog",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userID"
+          ],
+          "columnsTo": [
+            "username"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "foodLog_foodID_foods_foodID_fk": {
+          "name": "foodLog_foodID_foods_foodID_fk",
+          "tableFrom": "foodLog",
+          "tableTo": "foods",
+          "columnsFrom": [
+            "foodID"
+          ],
+          "columnsTo": [
+            "foodID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.foods": {
+      "name": "foods",
+      "schema": "",
+      "columns": {
+        "foodID": {
+          "name": "foodID",
+          "type": "varchar(64)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calories": {
+          "name": "calories",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fatInGrams": {
+          "name": "fatInGrams",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "proteinInGrams": {
+          "name": "proteinInGrams",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "carbsInGrams": {
+          "name": "carbsInGrams",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sodiumInMg": {
+          "name": "sodiumInMg",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CO2Expense": {
+          "name": "CO2Expense",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "username": {
+          "name": "username",
+          "type": "varchar(64)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "gender": {
+          "name": "gender",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "height": {
+          "name": "height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight": {
+          "name": "weight",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bmi": {
+          "name": "bmi",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calorieGoal": {
+          "name": "calorieGoal",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCalories": {
+          "name": "totalCalories",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalProtein": {
+          "name": "totalProtein",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCarbs": {
+          "name": "totalCarbs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalFats": {
+          "name": "totalFats",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalSodium": {
+          "name": "totalSodium",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCarbonFootPrint": {
+          "name": "totalCarbonFootPrint",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
