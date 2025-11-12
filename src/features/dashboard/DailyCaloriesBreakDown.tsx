@@ -1,8 +1,4 @@
-import {
-  RadialBarChart,
-  RadialBar,
-  ResponsiveContainer,
-} from "recharts";
+import { RadialBarChart, RadialBar, ResponsiveContainer } from "recharts";
 
 type DailyCaloriesBreakDownProps = {
   caloriesToday: number;
@@ -92,4 +88,3 @@ export default function DailyCaloriesBreakDown({
     </div>
   );
 }
-

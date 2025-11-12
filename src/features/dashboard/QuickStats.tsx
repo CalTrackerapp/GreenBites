@@ -19,7 +19,7 @@ export default function QuickStats({
 }: QuickStatsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-      <div className="bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-3xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border border-blue-400/20">
+      <div className="bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-3xl p-6 text-white shadow-xl border border-blue-400/20">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <p className="text-blue-100 text-sm font-semibold uppercase tracking-wide">
@@ -30,7 +30,10 @@ export default function QuickStats({
             <div className="w-full bg-blue-400/30 rounded-full h-2">
               <div
                 className="bg-white h-2 rounded-full transition-all duration-500"
-                style={{ width: `${Math.min(caloriePercentage, 100)}%` }}
+                style={{
+                  width: `${Math.min(caloriePercentage, 100)}%`,
+                  backgroundColor: "cyan",
+                }}
               ></div>
             </div>
           </div>
@@ -40,7 +43,7 @@ export default function QuickStats({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-emerald-500 via-emerald-600 to-emerald-700 rounded-3xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border border-emerald-400/20">
+      <div className="bg-gradient-to-br from-emerald-500 via-emerald-600 to-emerald-700 rounded-3xl p-6 text-white shadow-xl border border-emerald-400/20">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <p className="text-emerald-100 text-sm font-semibold uppercase tracking-wide">
@@ -60,7 +63,7 @@ export default function QuickStats({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700 rounded-3xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border border-purple-400/20">
+      <div className="bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700 rounded-3xl p-6 text-white shadow-xl border border-purple-400/20">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <p className="text-purple-100 text-sm font-semibold uppercase tracking-wide">
@@ -79,7 +82,7 @@ export default function QuickStats({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border border-orange-400/20">
+      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl p-6 text-white shadow-xl  border border-orange-400/20">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <p className="text-orange-100 text-sm font-semibold uppercase tracking-wide">
@@ -98,7 +101,7 @@ export default function QuickStats({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-3xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border border-red-400/20">
+      <div className="bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-3xl p-6 text-white shadow-xl  border border-red-400/20">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <p className="text-red-100 text-sm font-semibold uppercase tracking-wide">
@@ -119,4 +122,3 @@ export default function QuickStats({
     </div>
   );
 }
-

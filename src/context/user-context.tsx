@@ -216,7 +216,7 @@ const initialState: User = {
     },
     {
       date: "2025-10-19",
-      caloriesToday: 3050,
+      caloriesToday: 2050,
       proteinToday: 165,
       carbsToday: 340,
       fatsToday: 95,

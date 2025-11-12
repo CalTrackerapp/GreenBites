@@ -37,7 +37,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-[0_8px_32px_rgba(34,197,94,0.15)] relative overflow-hidden">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-white/20 shadow-[0_8px_32px_rgba(34,197,94,0.15)] overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-emerald-400/20 to-green-400/20 rounded-full blur-2xl"></div>
         <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-gradient-to-br from-teal-400/20 to-emerald-400/20 rounded-full blur-2xl"></div>
@@ -48,21 +48,20 @@ export default function Header() {
         <div className="flex justify-between items-center">
           <Link
             href="/"
-            className="flex items-center gap-2 sm:gap-3 hover:scale-105 transition-all duration-300 flex-shrink-0 group"
+            className="flex items-center gap-2 sm:gap-3  flex-shrink-0 group"
             onClick={closeMobileMenu}
           >
             <div className="relative">
               <div className="bg-gradient-to-br from-emerald-500 to-green-600 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:rotate-3">
                 <Leaf className="h-5 w-5 sm:h-7 sm:w-7 text-white" />
               </div>
-              <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-pulse"></div>
             </div>
             <div className="flex flex-col">
               <span className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-emerald-700 via-green-600 to-teal-600 bg-clip-text text-transparent group-hover:from-emerald-600 group-hover:via-green-500 group-hover:to-teal-500 transition-all duration-300">
                 GreenBites
               </span>
               <span className="text-xs text-slate-500 font-medium -mt-1 hidden sm:block">
-                Eco-Friendly Nutrition
+                Track your nutrition and environmental impact
               </span>
             </div>
           </Link>
@@ -159,7 +158,9 @@ export default function Header() {
               <Link
                 href="/"
                 onClick={closeMobileMenu}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+                className={` ${navClass(
+                  "/"
+                )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50`}
               >
                 <House className="w-5 h-5" />
                 Home
@@ -169,7 +170,9 @@ export default function Header() {
                 <Link
                   href="/dashboard"
                   onClick={closeMobileMenu}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+                  className={` ${navClass(
+                    "/dashboard"
+                  )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50`}
                 >
                   <Zap className="w-5 h-5" />
                   Dashboard
@@ -177,7 +180,9 @@ export default function Header() {
                 <Link
                   href="/add-meal"
                   onClick={closeMobileMenu}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+                  className={` ${navClass(
+                    "/add-meal"
+                  )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50`}
                 >
                   <Utensils className="w-5 h-5" />
                   Add Meal
@@ -185,7 +190,9 @@ export default function Header() {
                 <Link
                   href="/account"
                   onClick={closeMobileMenu}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
+                  className={` ${navClass(
+                    "/account"
+                  )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50`}
                 >
                   <User className="w-5 h-5" />
                   Account
@@ -198,14 +205,18 @@ export default function Header() {
                     <Link
                       href="/login"
                       onClick={closeMobileMenu}
-                      className="block w-full px-4 py-3 rounded-xl text-emerald-700 font-semibold border-2 border-emerald-200 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-green-50 hover:border-emerald-300 transition-all duration-300 text-center"
+                      className={` ${navClass(
+                        "/login"
+                      )} block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2`}
                     >
                       Log In
                     </Link>
                     <Link
                       href="/sign-up"
                       onClick={closeMobileMenu}
-                      className="block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2"
+                      className={` ${navClass(
+                        "/sign-up"
+                      )} block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2`}
                     >
                       <Sparkles className="w-4 h-4" />
                       Sign Up
