@@ -34,6 +34,7 @@ export type CalorieHistoryItem = {
 };
 
 export type User = {
+  username: string;
   gender: string;
   height: number;
   weight: number;
@@ -53,6 +54,7 @@ export type User = {
 // =========================
 
 const initialState: User = {
+  username: "",
   gender: "",
   height: 0,
   weight: 0,
@@ -353,12 +355,12 @@ export default function UserContextProvider({
 }: UserContextProviderProps) {
   const [userState, dispatch] = useReducer(userReducer, initialState);
   const { userId, isLoaded } = useAuth();
-  
-  useEffect(() => {
+
+  /*  useEffect(() => {
     async function fetchUserData() {
       // Wait for Clerk to finish loading
       if (!isLoaded) return;
-      
+
       // If user is not signed in, reset to initial state
       if (!userId) {
         dispatch({ type: "SET_USER", payload: initialState });
@@ -379,6 +381,7 @@ export default function UserContextProvider({
         // The API returns: gender, height, weight, calorieGoal, and other fields
         // We need to map it to the full User type with all required fields
         const userData: User = {
+          username: userId || "",
           gender: data.gender || "",
           height: data.height || 0,
           weight: data.weight || 0,
@@ -401,7 +404,7 @@ export default function UserContextProvider({
     }
 
     fetchUserData();
-  }, [userId, isLoaded]);
+  }, [userId, isLoaded]); */
   const ctx: UserContextValue = {
     ...userState,
     addCalorieEntry(meal) {
