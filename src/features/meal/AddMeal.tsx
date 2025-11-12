@@ -188,7 +188,7 @@ export default function AddMeal() {
 
     try {
       const totals = calculateTotals();
-      
+
       // Add each food item to database
       for (const food of selectedFoods) {
         // Create nutrition data object in CalorieNinjas format
@@ -249,9 +249,7 @@ export default function AddMeal() {
       setSelectedFoods([]);
       setSearchQuery("");
       setSearchResults([]);
-      setSuccess(
-        `${mealCount} food item(s) logged successfully! 🎉`
-      );
+      setSuccess(`${mealCount} food item(s) logged successfully! 🎉`);
 
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
@@ -278,13 +276,9 @@ export default function AddMeal() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
             <Utensils className="mr-3 text-green-600" />
-            Meal Logger
+            Add Meal To Track Calories and Carbon Footprint!
             <Leaf className="ml-3 text-green-600" />
           </h1>
-          <p className="text-slate-600 text-lg">
-            Powered by Calorie Ninjas API • Track nutrition & environmental
-            impact
-          </p>
         </div>
 
         {/* Error/Success Messages */}

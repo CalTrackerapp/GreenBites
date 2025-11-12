@@ -2,7 +2,7 @@ type HeaderProps = {
   username: string;
 };
 
-export default function Header({ username }: HeaderProps) {
+export default function DashboardHeader({ username }: HeaderProps) {
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12
@@ -54,4 +54,3 @@ export default function Header({ username }: HeaderProps) {
     </div>
   );
 }
-

@@ -1,5 +1,5 @@
 import { useUserContext } from "../../context/user-context";
-import Header from "./Header";
+import DashboardHeader from "./DashboardHeader";
 import QuickStats from "./QuickStats";
 import DailyCaloriesBreakDown from "./DailyCaloriesBreakDown";
 import MacroNutrientsBreakdown from "./MacroNutrientsBreakdown";
@@ -68,7 +68,7 @@ function Dashboard() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl"></div>
       </div>
 
-      <Header username={user?.username || ""} />
+      <DashboardHeader username={user?.username || ""} />
 
       <div className="relative max-w-7xl mx-auto px-6 py-8">
         <QuickStats

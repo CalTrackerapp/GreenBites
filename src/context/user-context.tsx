@@ -52,7 +52,7 @@ export type User = {
 // =========================
 // Initial State
 // =========================
-
+/* 
 const initialState: User = {
   username: "",
   gender: "",
@@ -68,8 +68,8 @@ const initialState: User = {
   totalCarbonFootPrint: 0,
   calorieHistory: [],
 };
+ */
 
-/* 
 const initialState: User = {
   username: "TestUser",
   gender: "Male",
@@ -225,7 +225,7 @@ const initialState: User = {
       mealsToday: [],
     },
   ],
-}; */
+};
 
 // =========================
 // Actions

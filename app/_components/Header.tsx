@@ -1,7 +1,16 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Leaf, Sparkles, Zap, Heart, Menu, X } from "lucide-react";
+import {
+  Sparkles,
+  Leaf,
+  Utensils,
+  Zap,
+  House,
+  Menu,
+  X,
+  User,
+} from "lucide-react";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useState } from "react";
 
@@ -61,7 +70,7 @@ export default function Header() {
           <nav className="hidden lg:flex gap-2 items-center">
             <Link href="/" className={navClass("/")}>
               <span className="flex items-center gap-2">
-                <Heart className="w-4 h-4" />
+                <House className="w-4 h-4" />
                 Home
               </span>
             </Link>
@@ -75,13 +84,13 @@ export default function Header() {
               </Link>
               <Link href="/add-meal" className={navClass("/add-meal")}>
                 <span className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" />
+                  <Utensils className="w-4 h-4" />
                   Add Meal
                 </span>
               </Link>
               <Link href="/account" className={navClass("/account")}>
                 <span className="flex items-center gap-2">
-                  <Leaf className="w-4 h-4" />
+                  <User className="w-4 h-4" />
                   Account
                 </span>
               </Link>
@@ -101,7 +110,7 @@ export default function Header() {
                   href="/sign-up"
                   className="px-4 lg:px-6 py-2 lg:py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2"
                 >
-                  <Sparkles className="w-4 h-4" />
+                  <Utensils className="w-4 h-4" />
                   Sign Up
                 </Link>
               </SignedOut>
@@ -152,7 +161,7 @@ export default function Header() {
                 onClick={closeMobileMenu}
                 className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
               >
-                <Heart className="w-5 h-5" />
+                <House className="w-5 h-5" />
                 Home
               </Link>
 
@@ -170,7 +179,7 @@ export default function Header() {
                   onClick={closeMobileMenu}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
                 >
-                  <Sparkles className="w-5 h-5" />
+                  <Utensils className="w-5 h-5" />
                   Add Meal
                 </Link>
                 <Link
@@ -178,7 +187,7 @@ export default function Header() {
                   onClick={closeMobileMenu}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50"
                 >
-                  <Leaf className="w-5 h-5" />
+                  <User className="w-5 h-5" />
                   Account
                 </Link>
               </SignedIn>
