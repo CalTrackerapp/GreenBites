@@ -24,6 +24,7 @@ export async function getFood(id: string) {
   return result[0]; // Return the single food object or undefined
 }
 
+
 export async function createFood(data: FoodData) {
 
     // only insert if a food with the same foodID doesn't already exist
