@@ -28,21 +28,46 @@ export default function AccountPage() {
     });
   }, [user]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setMessage(null);
 
-    // PLACE API CALL TO UPDATE USER
-    const updatedUser: User = {
-      ...user,
-      gender: formData.gender,
-      height: formData.height,
-      weight: formData.weight,
-      calorieGoal: formData.calorieGoal,
-    };
+    try {
+      const response = await fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          gender: formData.gender,
+          height: formData.height.toString(),
+          weight: formData.weight.toString(),
+          calorieGoal: formData.calorieGoal.toString(),
+        }),
+      });
 
-    user.setUser(updatedUser);
-    setMessage({ type: "success", text: "Account updated successfully!" });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to update profile");
+      }
+
+      const updatedUserData = await response.json();
+      
+      // Update local context (no conversion needed - database stores inches/pounds)
+      // API returns calGoal but User type expects calorieGoal
+      const updatedUser: User = {
+        ...user,
+        gender: updatedUserData.gender || formData.gender,
+        height: updatedUserData.height || formData.height,
+        weight: updatedUserData.weight || formData.weight,
+        calorieGoal: updatedUserData.calorieGoal || updatedUserData.calGoal || formData.calorieGoal,
+      };
+
+      user.setUser(updatedUser);
+      setMessage({ type: "success", text: "Account updated successfully!" });
+    } catch (error) {
+      console.error("Error updating account:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to update account. Please try again.";
+      setMessage({ type: "error", text: errorMessage });
+    }
   }
 
   return (
@@ -85,8 +110,6 @@ export default function AccountPage() {
                     <option value="">Select gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                    <option value="Prefer not to say">Prefer not to say</option>
                   </select>
                 </div>
 
@@ -97,7 +120,7 @@ export default function AccountPage() {
                     className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2"
                   >
                     <Ruler className="w-4 h-4 text-emerald-600" />
-                    Height (cm)
+                    Height (inches)
                   </label>
                   <input
                     type="number"
@@ -122,7 +145,7 @@ export default function AccountPage() {
                     className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2"
                   >
                     <Weight className="w-4 h-4 text-emerald-600" />
-                    Weight (kg)
+                    Weight (pounds)
                   </label>
                   <input
                     type="number"
@@ -205,13 +228,13 @@ export default function AccountPage() {
                   <div>
                     <span className="text-gray-600">Height:</span>
                     <p className="font-medium text-gray-900">
-                      {user.height ? `${user.height} cm` : "Not set"}
+                      {user.height ? `${user.height} inches` : "Not set"}
                     </p>
                   </div>
                   <div>
                     <span className="text-gray-600">Weight:</span>
                     <p className="font-medium text-gray-900">
-                      {user.weight ? `${user.weight} kg` : "Not set"}
+                      {user.weight ? `${user.weight} lbs` : "Not set"}
                     </p>
                   </div>
                   <div className="col-span-2">

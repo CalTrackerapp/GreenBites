@@ -19,8 +19,9 @@ export async function getAllFoods() {
   return await db.select().from(schema.foods);
 }
 
-export async function getFood(id: String) {
-  return await db.select().from(schema.foods).where(eq(schema.foods.foodID, id));
+export async function getFood(id: string) {
+  const result = await db.select().from(schema.foods).where(eq(schema.foods.foodID, id)).limit(1);
+  return result[0]; // Return the single food object or undefined
 }
 
 export async function createFood(data: FoodData) {

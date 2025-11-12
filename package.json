@@ -10,7 +10,12 @@
     "vite:dev": "vite",
     "vite:build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:check": "tsx scripts/check-db.ts",
+    "db:test": "node scripts/test-connection.js"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.8.0",

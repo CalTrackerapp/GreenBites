@@ -352,27 +352,56 @@ export default function UserContextProvider({
   children,
 }: UserContextProviderProps) {
   const [userState, dispatch] = useReducer(userReducer, initialState);
-  const { userId } = useAuth();
-  /* 
+  const { userId, isLoaded } = useAuth();
+  
   useEffect(() => {
     async function fetchUserData() {
-      if (!userId) return;
+      // Wait for Clerk to finish loading
+      if (!isLoaded) return;
+      
+      // If user is not signed in, reset to initial state
+      if (!userId) {
+        dispatch({ type: "SET_USER", payload: initialState });
+        return;
+      }
 
       try {
-        const res = await fetch("/api/user");
+        const res = await fetch("/api/profile");
         const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error || "Failed to fetch user");
+        if (!res.ok) {
+          // If error, just log it and keep initial state
+          console.error("Error fetching user data:", data.error);
+          return;
+        }
 
-        dispatch({ type: "SET_USER", payload: data });
+        // Map API response to User type
+        // The API returns: gender, height, weight, calorieGoal, and other fields
+        // We need to map it to the full User type with all required fields
+        const userData: User = {
+          gender: data.gender || "",
+          height: data.height || 0,
+          weight: data.weight || 0,
+          calorieGoal: data.calorieGoal || 0,
+          totalMeals: [], // TODO: Load meals from database if needed
+          totalCalories: data.totalCalories || 0,
+          totalProtein: data.totalProtein || 0,
+          totalCarbs: data.totalCarb || 0,
+          totalFats: data.totalFats || 0,
+          totalSodium: 0, // TODO: Add sodium tracking if needed
+          totalCarbonFootPrint: data.totalCO2Expense || 0,
+          calorieHistory: [], // TODO: Load calorie history from database if needed
+        };
+
+        dispatch({ type: "SET_USER", payload: userData });
       } catch (error) {
         console.error("Error fetching user data:", error);
+        // Don't throw, just log the error - user can still use the app
       }
     }
 
     fetchUserData();
-  }, [userId]);
- */
+  }, [userId, isLoaded]);
   const ctx: UserContextValue = {
     ...userState,
     addCalorieEntry(meal) {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useUserContext } from "../../context/user-context";
+import { useUser } from "@clerk/nextjs";
 import {
   Search,
   Plus,
@@ -47,15 +48,13 @@ type SelectedFood = {
   carbonFootprint: number;
 };
 
-const CALORIE_NINJAS_API_URL = "https://api.calorieninjas.com/v1/nutrition";
-const API_KEY = "S7okFpAr/YkWyHNo754tIA==LLV0XkmStgrD6cN3"; // Replace with your actual API key
-
 export default function AddMeal() {
-  const user = useUserContext();
+  const { user: clerkUser } = useUser(); // Get Clerk user for userId
+  const contextUser = useUserContext();
   const { addCalorieEntry } = useUserContext();
 
   // Console log user data for testing
-  console.log("Current user data:", user);
+  console.log("Current user data:", contextUser);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<CalorieNinjasItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -64,7 +63,7 @@ export default function AddMeal() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Search for nutrition data using Calorie Ninjas API
+  // Search for nutrition data using Next.js API route
   async function handleSearch() {
     if (!searchQuery.trim()) return;
 
@@ -72,14 +71,13 @@ export default function AddMeal() {
     setError(null);
 
     try {
-      const response = await fetch(
-        `${CALORIE_NINJAS_API_URL}?query=${encodeURIComponent(searchQuery)}`,
-        {
-          headers: {
-            "X-Api-Key": API_KEY,
-          },
-        }
-      );
+      const response = await fetch("/api/foods/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: searchQuery }),
+      });
 
       if (!response.ok) {
         throw new Error(`API request failed: ${response.status}`);
@@ -93,9 +91,7 @@ export default function AddMeal() {
       }
     } catch (error) {
       console.error("Search failed:", error);
-      setError(
-        "Failed to search for food items. Please check your API key and try again."
-      );
+      setError("Failed to search for food items. Please try again.");
       setSearchResults([]);
     } finally {
       setIsSearching(false);
@@ -178,54 +174,83 @@ export default function AddMeal() {
   // Log the meal
   async function logMeal() {
     if (selectedFoods.length === 0) return;
+    if (!clerkUser?.id) {
+      setError("You must be logged in to log meals.");
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
     setSuccess(null);
 
     const today = new Date().toISOString().split("T")[0];
+    const username = clerkUser.id; // Use Clerk userId as username
 
     try {
-      // Add each food item as a separate entry
+      const totals = calculateTotals();
+      
+      // Add each food item to database
       for (const food of selectedFoods) {
-        const calories = Math.round(food.calories * food.servingSize);
-        const protein = Math.round(food.protein * food.servingSize);
-        const carbs = Math.round(food.carbs * food.servingSize);
-        const fats = Math.round(food.fats * food.servingSize);
-        const sodium = Math.round(food.sodium * food.servingSize);
-        const carbonFootprint = Math.round(
-          food.carbonFootprint * food.servingSize
-        );
-
-        console.log("Adding individual food entry:", {
+        // Create nutrition data object in CalorieNinjas format
+        const nutritionData = {
           name: food.name,
-          date: today,
-          calories: calories,
-          protein: protein,
-          carbs: carbs,
-          fats: fats,
-          sodium: sodium,
-          carbonFootPrintValue: carbonFootprint,
+          calories: food.calories,
+          fat_total_g: food.fats,
+          protein_g: food.protein,
+          carbohydrates_total_g: food.carbs,
+          serving_size_g: 100, // Default serving size
+        };
+
+        // Create food in database
+        const foodRes = await fetch("/api/foods/fromNutrition", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nutritionData,
+            userID: username,
+          }),
         });
 
-        addCalorieEntry({
-          name: food.name,
-          date: today,
-          calories: calories,
-          protein: protein,
-          carbs: carbs,
-          fats: fats,
-          sodium: sodium,
-          carbonFootPrintValue: carbonFootprint,
+        if (!foodRes.ok) {
+          throw new Error("Failed to create food entry");
+        }
+
+        const foodData = await foodRes.json();
+
+        // Create food log entry
+        const logRes = await fetch(`/api/users/${username}/foodLogs`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            foodID: foodData.foodID,
+            servingSize: food.servingSize,
+          }),
         });
+
+        if (!logRes.ok) {
+          throw new Error("Failed to log food entry");
+        }
       }
 
+      // Update Context API for dashboard
+      addCalorieEntry({
+        name: selectedFoods.map((f) => f.name).join(", "),
+        date: today,
+        calories: Math.round(totals.calories),
+        protein: Math.round(totals.protein),
+        carbs: Math.round(totals.carbs),
+        fats: Math.round(totals.fats),
+        sodium: Math.round(totals.sodium),
+        carbonFootPrintValue: Math.round(totals.carbonFootprint),
+      });
+
       // Clear selection
+      const mealCount = selectedFoods.length;
       setSelectedFoods([]);
       setSearchQuery("");
       setSearchResults([]);
       setSuccess(
-        `${selectedFoods.length} food item(s) logged successfully! 🎉`
+        `${mealCount} food item(s) logged successfully! 🎉`
       );
 
       // Clear success message after 3 seconds

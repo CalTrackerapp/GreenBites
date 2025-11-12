@@ -4,13 +4,44 @@ import * as schema from "./db/schema.ts";
 import dotenv from "dotenv";
 import { eq } from 'drizzle-orm';
 
+// Load environment variables (Next.js loads them automatically, but this helps for other contexts)
 dotenv.config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+// Lazy initialization of database connection
+let _pool: Pool | null = null;
+let _db: ReturnType<typeof drizzle> | null = null;
 
-export const db = drizzle(pool, { schema });
+function getDatabase() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error(
+      'DATABASE_URL environment variable is not set. Please create a .env.local file with your database connection string.\n' +
+      'Example: DATABASE_URL=postgresql://user:password@localhost:5432/dbname\n' +
+      'See DATABASE_SETUP.md for detailed instructions.'
+    );
+  }
+
+  if (!_pool) {
+    const connectionString = process.env.DATABASE_URL;
+    
+    // Detect if this is a Supabase connection
+    const isSupabase = connectionString?.includes('supabase.co');
+    
+    _pool = new Pool({
+      connectionString: connectionString,
+      // Supabase requires SSL connections
+      ssl: isSupabase ? { rejectUnauthorized: false } : undefined,
+    });
+    _db = drizzle(_pool, { schema });
+  }
+
+  return _db!;
+}
+
+export const db = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(_target, prop) {
+    return getDatabase()[prop as keyof ReturnType<typeof drizzle>];
+  }
+});
 
 
 //functions to interact with the database

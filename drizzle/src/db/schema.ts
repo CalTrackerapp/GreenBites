@@ -11,7 +11,7 @@ import {
 // Users table
 export const users = pgTable("users", {
   username: varchar("username").primaryKey(),
-  gender: char("gender"),
+  gender: varchar("gender"), // Changed from char to varchar to support "Male" and "Female"
   height: integer("height"),
   weight: integer("weight"),
   bmi: numeric("bmi"),

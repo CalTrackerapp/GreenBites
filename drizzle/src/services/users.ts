@@ -52,3 +52,34 @@ export async function getUser(username: string) {
   const result = await db.select().from(schema.users).where(eq(schema.users.username, username)).limit(1);
   return result[0]; // Return the single user object or undefined
 }
+
+export async function updateUser(username: string, data: Partial<UserData>) {
+  const updateData: any = {};
+  
+  if (data.gender !== undefined) updateData.gender = data.gender;
+  if (data.height !== undefined) updateData.height = data.height;
+  if (data.weight !== undefined) updateData.weight = data.weight;
+  if (data.calGoal !== undefined) updateData.calGoal = data.calGoal;
+  
+  // Recalculate BMI if height or weight changed
+  if (data.height !== undefined && data.weight !== undefined) {
+    updateData.bmi = calculateBMI(data.weight, data.height);
+  } else if (data.height !== undefined || data.weight !== undefined) {
+    // Get current user to calculate BMI with existing values
+    const currentUser = await getUser(username);
+    if (currentUser) {
+      const height = data.height !== undefined ? data.height : currentUser.height;
+      const weight = data.weight !== undefined ? data.weight : currentUser.weight;
+      if (height && weight) {
+        updateData.bmi = calculateBMI(weight as number, height as number);
+      }
+    }
+  }
+  
+  const result = await db.update(schema.users)
+    .set(updateData)
+    .where(eq(schema.users.username, username))
+    .returning();
+  
+  return result[0];
+}

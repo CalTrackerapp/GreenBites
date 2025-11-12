@@ -11,18 +11,34 @@ export default function ProfileSetupPage() {
     weight: "",
     calorieGoal: "",
   });
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
 
-    await fetch("/api/profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch("/api/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    // after saving, send them to the dashboard
-    router.push("/dashboard");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to save profile");
+      }
+
+      // after saving, send them to the dashboard
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      setError(error instanceof Error ? error.message : "Failed to save profile");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -30,24 +46,31 @@ export default function ProfileSetupPage() {
       <h1 className="text-2xl font-bold mb-4 text-center">
         Set Up Your Profile
       </h1>
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-700">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Gender"
+        <select
           value={formData.gender}
           onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
           className="border rounded p-2 w-full"
-        />
+        >
+          <option value="">Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
         <input
           type="number"
-          placeholder="Height (cm)"
+          placeholder="Height (inches)"
           value={formData.height}
           onChange={(e) => setFormData({ ...formData, height: e.target.value })}
           className="border rounded p-2 w-full"
         />
         <input
           type="number"
-          placeholder="Weight (kg)"
+          placeholder="Weight (pounds)"
           value={formData.weight}
           onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
           className="border rounded p-2 w-full"
@@ -63,9 +86,10 @@ export default function ProfileSetupPage() {
         />
         <button
           type="submit"
-          className="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700"
+          disabled={isLoading}
+          className="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700 disabled:opacity-50"
         >
-          Save and Continue
+          {isLoading ? "Saving..." : "Save and Continue"}
         </button>
       </form>
     </div>
