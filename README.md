@@ -19,42 +19,43 @@ Many people want to eat healthier and reduce their environmental impact, but lac
 
 ## Core Features (MVP)
 
-- [ ] **Food Search & Logging** - Integration with USDA/Nutritionix APIs for comprehensive nutrition data
-- [ ] **Natural Language Meal Logging** - OpenAI-powered parsing of meal descriptions like "2 eggs and toast"
-- [ ] **Carbon Footprint Tracking** - Real-time calculation of CO₂e emissions based on food categories
-- [ ] **Interactive Dashboards** - Visual rings showing daily/weekly progress on calories, macros, and CO₂e
+- [x] **Food Search & Logging** - Integration with Calorie Ninjas API for comprehensive nutrition data
+- [x] **Meal Logging** - Search and add foods to track daily nutrition intake
+- [x] **Carbon Footprint Tracking** - Real-time calculation of CO₂e emissions based on food consumption
+- [x] **Interactive Dashboards** - Visual charts showing daily/weekly progress on calories, macros, and CO₂e
+- [x] **User Profiles & Goals** - Personalized targets for nutrition and environmental impact with profile setup
 - [ ] **Favorites & Meal Templates** - Quick-add common meals and customizable meal templates
-- [ ] **User Profiles & Goals** - Personalized targets for nutrition and environmental impact
 
 ## Technical Stack
 
 | Layer | Technology | Justification |
 |-------|------------|---------------|
-| Frontend | React + TypeScript | Type safety, component reusability, and modern development experience |
+| Frontend | Next.js 15 + React 19 + TypeScript | Full-stack framework with App Router, type safety, and modern development experience |
 | Styling | Tailwind CSS | Utility-first CSS framework for rapid, consistent UI development |
-| Type Safety | TypeScript | Enhanced developer experience and runtime error prevention |
-| State Management | React Context + useReducer | Built-in React patterns for predictable state management |
+| Type Safety | TypeScript 5.8 | Enhanced developer experience and runtime error prevention |
+| State Management | React Context API + useReducer | Built-in React patterns for predictable state management |
 | Backend | Next.js API Routes | Full-stack TypeScript with serverless deployment capabilities |
-| Database | PostgreSQL + Drizzle ORM | Relational data with type-safe queries and migrations |
+| Database | PostgreSQL (Supabase/Neon) + Drizzle ORM | Cloud-hosted relational database with type-safe queries and migrations |
 | Authentication | Clerk | Secure, scalable authentication with social login options |
-| AI Integration | OpenAI API | Natural language processing for meal parsing and carbon classification |
-| External APIs | USDA/Nutritionix | Comprehensive nutrition data for accurate food tracking |
-| Deployment | AWS (Vercel/Netlify) | Serverless deployment with automatic scaling |
-| Testing | Vitest + React Testing Library | Fast unit and integration testing with 70%+ coverage |
-| CI/CD | GitHub Actions | Automated testing, building, and deployment pipeline |
+| External APIs | Calorie Ninjas API | Comprehensive nutrition data for accurate food tracking |
+| Data Visualization | Recharts | Interactive charts for dashboard analytics |
+| Deployment | Vercel/Netlify | Serverless deployment with automatic scaling |
+| Testing | (Planned) Vitest + React Testing Library | Fast unit and integration testing with 70%+ coverage |
+| CI/CD | (Planned) GitHub Actions | Automated testing, building, and deployment pipeline |
 
 ## Project Timeline
 
-- **Week 1**: Project setup, authentication integration, and basic UI components
-- **Week 2**: Food search functionality and nutrition API integration
-- **Week 3**: Natural language meal logging with OpenAI integration
-- **Week 4**: Carbon footprint calculation and lookup table implementation
-- **Week 5**: Dashboard components and data visualization
-- **Week 6**: User profiles, goals, and preferences system
-- **Week 7**: Favorites and meal templates functionality
-- **Week 8**: Database schema optimization and performance improvements
-- **Week 9**: Advanced features and mobile responsiveness
-- **Week 10**: Testing, documentation, and production deployment
+- **Week 1** (Sep 9-15): Project initialization, repository setup, initial planning and documentation
+- **Week 2** (Sep 16-22): Clerk authentication integration, Drizzle ORM setup, database schema design, basic UI components
+- **Week 3** (Sep 23-29): Redux store implementation, dashboard foundation, state management architecture
+- **Week 4** (Sep 30-Oct 6): Migration to Context API, homepage redesign, responsive navbar improvements
+- **Week 5** (Oct 7-13): Database services layer (users, foods, foodLog), Express API routes development
+- **Week 6** (Oct 14-20): Food logging functionality, user totals calculation, API route completion
+- **Week 7** (Oct 21-27): Calorie Ninjas API integration, AddMeal component implementation, nutrition search functionality
+- **Week 8** (Oct 28-Nov 3): Migration from Express to Next.js, Next.js API routes, project restructuring
+- **Week 9** (Nov 4-10): Profile setup page, account management, Next.js route integration, AddMeal component refinement
+- **Week 10** (Nov 11-17): Supabase database connection, profile data persistence, schema fixes, gender selection restrictions, documentation updates
+- **Week 11** (Nov 18-24): Testing, final bug fixes, production deployment, and launch preparation
 
 ## Getting Started
 
@@ -68,8 +69,8 @@ Many people want to eat healthier and reduce their environmental impact, but lac
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/greenbites.git
-cd greenbites
+git clone https://github.com/CalTrackerapp/GreenBites.git
+cd GreenBites
 ```
 
 2. Install dependencies:
@@ -77,32 +78,62 @@ cd greenbites
 npm install
 ```
 
-3. Start the development server:
+3. Set up environment variables (see [QUICKSTART.md](./QUICKSTART.md) for details):
+   - Create `.env.local` file in the project root
+   - Add `DATABASE_URL` (from Supabase or Neon - see [DATABASE_SETUP.md](./DATABASE_SETUP.md))
+   - Add Clerk keys: `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` (see [CLERK_SETUP.md](./CLERK_SETUP.md))
+
+4. Run database migrations:
+```bash
+npm run db:push
+```
+This creates all the required tables in your database.
+
+5. (Optional) Verify database connection:
+```bash
+npm run db:check
+```
+
+6. Start the development server:
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:5173](http://localhost:5173) in your browser.
+7. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Current Features
 
 The project currently includes:
-- Basic React + TypeScript + Vite setup
-- Tailwind CSS for styling
-- ESLint configuration
-- Basic authentication components (SignIn/SignUp)
-- Header and HomePage components
-- Project structure with organized components and features
+- **Next.js 15** with App Router and TypeScript
+- **Clerk Authentication** - Complete sign-up, sign-in, and protected routes
+- **Database Integration** - PostgreSQL via Supabase/Neon with Drizzle ORM
+- **Food Search & Logging** - Calorie Ninjas API integration for nutrition data
+- **AddMeal Component** - Search foods, select servings, and log meals to database
+- **Dashboard** - Interactive charts showing:
+  - Daily calorie progress with goal tracking
+  - Macro breakdown (protein, carbs, fats)
+  - Carbon footprint visualization
+  - Weekly calorie trends
+  - Sodium tracking
+- **User Profile System** - Profile setup and account management with:
+  - Gender, height, weight tracking
+  - Customizable calorie goals
+  - Profile data persistence
+- **Protected Routes** - Middleware-based route protection for authenticated users
+- **Responsive Design** - Mobile-friendly UI with Tailwind CSS
+- **State Management** - Context API for global user state
 
-### Upcoming Integrations
+### Upcoming Features
 
-As development progresses, we will add:
-- PostgreSQL database with Drizzle ORM
-- Clerk authentication setup
-- OpenAI API integration
-- USDA/Nutritionix API integration
-- Carbon footprint tracking
-- User dashboards and analytics
+Future enhancements planned:
+- **Favorites & Meal Templates** - Save frequently eaten meals for quick logging
+- **Advanced Analytics** - Long-term trends, weekly/monthly reports, and insights
+- **Natural Language Processing** - AI-powered meal description parsing (e.g., "2 eggs and toast")
+- **Social Features** - Share achievements, compare with friends, community challenges
+- **Mobile App** - Native iOS and Android applications
+- **Export & Reports** - Download nutrition data, generate PDF reports
+- **Meal Planning** - Weekly meal planning with carbon footprint optimization
+- **Recipe Integration** - Recipe database with nutrition and carbon data
 
 ## Development Process
 
@@ -143,11 +174,14 @@ For bug reports or feature requests, please use the GitHub Issues tab.
 
 ## Learning Goals
 
-- [ ] Master full-stack TypeScript development with React and Next.js
+- [x] Master full-stack TypeScript development with React and Next.js
+- [x] Design scalable database schemas with Drizzle ORM
+- [x] Create engaging data visualizations for user insights
+- [x] Implement cloud-hosted database solutions (Supabase/Neon)
+- [x] Build authentication and authorization systems with Clerk
 - [ ] Implement AI integration for natural language processing
 - [ ] Build comprehensive testing strategies with high coverage
-- [ ] Design scalable database schemas with Drizzle ORM
-- [ ] Create engaging data visualizations for user insights
+- [ ] Optimize performance and implement caching strategies
 
 ## Author
 
