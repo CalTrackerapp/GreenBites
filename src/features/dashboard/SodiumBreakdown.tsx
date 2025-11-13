@@ -38,9 +38,7 @@ export default function SodiumBreakdown({
           <div className="text-4xl font-bold text-red-600 mb-2">
             {todaySodium}
           </div>
-          <div className="text-sm text-slate-600 font-medium">
-            mg today
-          </div>
+          <div className="text-sm text-slate-600 font-medium">mg today</div>
           <div className="text-xs text-slate-500 mt-1">
             Recommended: 2,300mg
           </div>
@@ -50,13 +48,7 @@ export default function SodiumBreakdown({
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={sodiumTrendData}>
           <defs>
-            <linearGradient
-              id="sodiumGradient"
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="1"
-            >
+            <linearGradient id="sodiumGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
               <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
             </linearGradient>
@@ -122,4 +114,3 @@ export default function SodiumBreakdown({
     </div>
   );
 }
-

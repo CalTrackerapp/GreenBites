@@ -43,7 +43,7 @@ export default function QuickStats({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-emerald-500 via-emerald-600 to-emerald-700 rounded-3xl p-6 text-white shadow-xl border border-emerald-400/20">
+      <div className="bg-gradient-to-br from-yellow-500 via-yellow-600 to-yellow-700 rounded-3xl p-6 text-white shadow-xl">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <p className="text-emerald-100 text-sm font-semibold uppercase tracking-wide">

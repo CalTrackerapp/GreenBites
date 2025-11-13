@@ -62,6 +62,7 @@ export default function AddMeal() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  console.log(selectedFoods);
 
   // Search for nutrition data using Next.js API route
   async function handleSearch() {
@@ -302,7 +303,7 @@ export default function AddMeal() {
           {/* Left Column: Search and Selection */}
           <div className="space-y-6">
             {/* Food Search */}
-            <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-white/30 p-8 hover:shadow-2xl transition-all duration-300 border-emerald-600 border-2 border-solid">
+            <div className=" backdrop-blur-md rounded-3xl  p-8  border-emerald-600 border-2 border-solid">
               <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-6 flex items-center">
                 <Search className="min-w-8 min-h-8 mr-3 text-blue-600" />
                 Search Food
@@ -320,7 +321,7 @@ export default function AddMeal() {
                 <button
                   onClick={handleSearch}
                   disabled={isSearching}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 flex items-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 flex items-center font-semibold shadow-lg hover:shadow-xl transform  transition-all duration-300"
                 >
                   {isSearching ? (
                     <LoaderIcon className="w-5 h-5 animate-spin" />
@@ -359,7 +360,7 @@ export default function AddMeal() {
                       </div>
                       <button
                         onClick={() => addFoodToSelection(food)}
-                        className="ml-4 p-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                        className="ml-4 p-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 shadow-lg hover:shadow-xl transform  transition-all duration-300"
                       >
                         <Plus className="w-5 h-5" />
                       </button>
@@ -372,7 +373,7 @@ export default function AddMeal() {
             {/* Selected Foods */}
             {selectedFoods.length > 0 && (
               <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-emerald-600 border-2 border-solid p-8">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-amber-700 to-blue-800  bg-clip-text text-transparent mb-6">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-800 to-orange-900  bg-clip-text text-transparent mb-6">
                   Selected Foods
                 </h2>
                 <div className="space-y-4">
@@ -412,7 +413,7 @@ export default function AddMeal() {
                       </div>
                       <button
                         onClick={() => removeFoodFromSelection(food.id)}
-                        className="ml-4 p-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                        className="ml-4 p-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700  hover:shadow-xl   transition-all duration-300"
                       >
                         <Trash2 className="w-5 h-5" />
                       </button>

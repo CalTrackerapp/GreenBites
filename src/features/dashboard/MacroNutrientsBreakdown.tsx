@@ -86,9 +86,7 @@ export default function MacroNutrientsBreakdown({
                 className="w-5 h-5 rounded-full shadow-sm"
                 style={{ backgroundColor: MACRO_COLORS[index] }}
               ></div>
-              <span className="text-slate-700 font-semibold">
-                {macro.name}
-              </span>
+              <span className="text-slate-700 font-semibold">{macro.name}</span>
             </div>
             <span className="text-slate-800 font-bold text-lg">
               {macro.value}g
@@ -99,4 +97,3 @@ export default function MacroNutrientsBreakdown({
     </div>
   );
 }
-
