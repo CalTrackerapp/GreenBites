@@ -12,7 +12,7 @@ import {
   TrendingUp,
   AlertCircle,
   CheckCircle,
-  Loader2,
+  LoaderIcon,
 } from "lucide-react";
 
 // Calorie Ninjas API Response Types
@@ -104,8 +104,10 @@ export default function AddMeal() {
     if (existingFood) {
       // Update serving size if food already exists
       setSelectedFoods(
-        selectedFoods.map((f) =>
-          f.name === food.name ? { ...f, servingSize: f.servingSize + 1 } : f
+        selectedFoods.map((food) =>
+          food.name === food.name
+            ? { ...food, servingSize: food.servingSize + 1 }
+            : food
         )
       );
     } else {
@@ -127,15 +129,15 @@ export default function AddMeal() {
 
   // Remove food from selection
   function removeFoodFromSelection(foodId: string) {
-    setSelectedFoods(selectedFoods.filter((f) => f.id !== foodId));
+    setSelectedFoods(selectedFoods.filter((food) => food.id !== foodId));
   }
 
   // Update serving size
   function updateServingSize(foodId: string, size: number) {
     if (size <= 0) return;
     setSelectedFoods(
-      selectedFoods.map((f) =>
-        f.id === foodId ? { ...f, servingSize: size } : f
+      selectedFoods.map((food) =>
+        food.id === foodId ? { ...food, servingSize: size } : food
       )
     );
   }
@@ -237,11 +239,11 @@ export default function AddMeal() {
         name: selectedFoods.map((f) => f.name).join(", "),
         date: today,
         calories: Math.round(totals.calories),
-        protein: Math.round(totals.protein),
-        carbs: Math.round(totals.carbs),
-        fats: Math.round(totals.fats),
-        sodium: Math.round(totals.sodium),
-        carbonFootPrintValue: Math.round(totals.carbonFootprint),
+        proteinInGrams: Math.round(totals.protein),
+        carbsInGrams: Math.round(totals.carbs),
+        fatInGrams: Math.round(totals.fats),
+        sodiumInMg: Math.round(totals.sodium),
+        CO2Expense: Math.round(totals.carbonFootprint),
       });
 
       // Clear selection
@@ -321,7 +323,7 @@ export default function AddMeal() {
                   className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 flex items-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                 >
                   {isSearching ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <LoaderIcon className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
                       <Search className="w-5 h-5 mr-2" />
@@ -471,12 +473,12 @@ export default function AddMeal() {
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="w-6 h-6 animate-spin mr-3" />
+                      <LoaderIcon className="w-6 h-6 animate-spin mr-3" />
                       Logging Meal...
                     </>
                   ) : (
                     <>
-                      <Zap className="w-6 h-6 mr-3" />
+                      <Utensils className="w-6 h-6 mr-3" />
                       Log This Meal
                     </>
                   )}
@@ -517,7 +519,7 @@ export default function AddMeal() {
 
               <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200">
                 <h3 className="font-semibold text-slate-900 mb-2 flex items-center">
-                  <Zap className="w-5 h-5 text-purple-600 mr-2" />
+                  <LoaderIcon className="w-5 h-5 text-purple-600 mr-2" />
                   3. Log Meal
                 </h3>
                 <p className="text-sm text-slate-600">

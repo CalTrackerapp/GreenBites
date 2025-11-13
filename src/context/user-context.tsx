@@ -11,15 +11,22 @@ import {
 // Types
 // =========================
 
+/* name: nutritionData.name,
+calories: Math.round(nutritionData.calories),
+fatInGrams: Math.round(nutritionData.fat_total_g),
+proteinInGrams: Math.round(nutritionData.protein_g),
+carbsInGrams: Math.round(nutritionData.carbohydrates_total_g),
+sodiumInMg: Math.round(nutritionData.sodium_mg),
+CO2Expense */
 export type MealLog = {
   name: string;
   date: string; // e.g., "2025-10-08"
   calories: number;
-  protein: number;
-  carbs: number;
-  fats: number;
-  sodium: number;
-  carbonFootPrintValue: number;
+  proteinInGrams: number;
+  carbsInGrams: number;
+  fatInGrams: number;
+  sodiumInMg: number;
+  CO2Expense: number;
 };
 
 export type CalorieHistoryItem = {
@@ -29,7 +36,7 @@ export type CalorieHistoryItem = {
   carbsToday: number;
   fatsToday: number;
   sodiumToday: number;
-  carbonFootPrintValueToday: number;
+  carbonFootPrintToday: number;
   mealsToday: MealLog[];
 };
 
@@ -91,7 +98,7 @@ const initialState: User = {
       carbsToday: 230,
       fatsToday: 60,
       sodiumToday: 1800,
-      carbonFootPrintValueToday: 7,
+      carbonFootPrintToday: 7,
       mealsToday: [],
     },
     {
@@ -101,7 +108,7 @@ const initialState: User = {
       carbsToday: 260,
       fatsToday: 70,
       sodiumToday: 2200,
-      carbonFootPrintValueToday: 9,
+      carbonFootPrintToday: 9,
       mealsToday: [],
     },
     {
@@ -111,7 +118,7 @@ const initialState: User = {
       carbsToday: 290,
       fatsToday: 85,
       sodiumToday: 2400,
-      carbonFootPrintValueToday: 11,
+      carbonFootPrintToday: 11,
       mealsToday: [],
     },
     {
@@ -121,7 +128,7 @@ const initialState: User = {
       carbsToday: 240,
       fatsToday: 65,
       sodiumToday: 2100,
-      carbonFootPrintValueToday: 8,
+      carbonFootPrintToday: 8,
       mealsToday: [],
     },
     {
@@ -131,7 +138,7 @@ const initialState: User = {
       carbsToday: 320,
       fatsToday: 95,
       sodiumToday: 2600,
-      carbonFootPrintValueToday: 12,
+      carbonFootPrintToday: 12,
       mealsToday: [],
     },
     {
@@ -141,7 +148,7 @@ const initialState: User = {
       carbsToday: 300,
       fatsToday: 80,
       sodiumToday: 2300,
-      carbonFootPrintValueToday: 10,
+      carbonFootPrintToday: 10,
       mealsToday: [],
     },
     {
@@ -151,7 +158,7 @@ const initialState: User = {
       carbsToday: 250,
       fatsToday: 65,
       sodiumToday: 2000,
-      carbonFootPrintValueToday: 8,
+      carbonFootPrintToday: 8,
       mealsToday: [],
     },
     {
@@ -161,7 +168,7 @@ const initialState: User = {
       carbsToday: 270,
       fatsToday: 75,
       sodiumToday: 2100,
-      carbonFootPrintValueToday: 9,
+      carbonFootPrintToday: 9,
       mealsToday: [],
     },
     {
@@ -171,7 +178,7 @@ const initialState: User = {
       carbsToday: 310,
       fatsToday: 85,
       sodiumToday: 2400,
-      carbonFootPrintValueToday: 11,
+      carbonFootPrintToday: 11,
       mealsToday: [],
     },
     {
@@ -181,7 +188,7 @@ const initialState: User = {
       carbsToday: 280,
       fatsToday: 80,
       sodiumToday: 2200,
-      carbonFootPrintValueToday: 10,
+      carbonFootPrintToday: 10,
       mealsToday: [],
     },
     {
@@ -191,7 +198,7 @@ const initialState: User = {
       carbsToday: 350,
       fatsToday: 100,
       sodiumToday: 2600,
-      carbonFootPrintValueToday: 13,
+      carbonFootPrintToday: 13,
       mealsToday: [],
     },
     {
@@ -201,7 +208,7 @@ const initialState: User = {
       carbsToday: 310,
       fatsToday: 90,
       sodiumToday: 2500,
-      carbonFootPrintValueToday: 11,
+      carbonFootPrintToday: 11,
       mealsToday: [],
     },
     {
@@ -211,7 +218,7 @@ const initialState: User = {
       carbsToday: 260,
       fatsToday: 70,
       sodiumToday: 2000,
-      carbonFootPrintValueToday: 9,
+      carbonFootPrintToday: 9,
       mealsToday: [],
     },
     {
@@ -221,7 +228,7 @@ const initialState: User = {
       carbsToday: 340,
       fatsToday: 95,
       sodiumToday: 2700,
-      carbonFootPrintValueToday: 12,
+      carbonFootPrintToday: 12,
       mealsToday: [],
     },
   ],
@@ -279,12 +286,12 @@ function userReducer(state: User, action: Action): User {
             ? {
                 ...entry,
                 caloriesToday: entry.caloriesToday + meal.calories,
-                proteinToday: entry.proteinToday + meal.protein,
-                carbsToday: entry.carbsToday + meal.carbs,
-                fatsToday: entry.fatsToday + meal.fats,
-                sodiumToday: entry.sodiumToday + meal.sodium,
+                proteinToday: entry.proteinToday + meal.proteinInGrams,
+                carbsToday: entry.carbsToday + meal.carbsInGrams,
+                fatsToday: entry.fatsToday + meal.fatInGrams,
+                sodiumToday: entry.sodiumToday + meal.sodiumInMg,
                 carbonFootPrintValueToday:
-                  entry.carbonFootPrintValueToday + meal.carbonFootPrintValue,
+                  entry.carbonFootPrintToday + meal.CO2Expense,
                 mealsToday: [...entry.mealsToday, meal],
               }
             : entry
@@ -294,11 +301,11 @@ function userReducer(state: User, action: Action): User {
         const newEntry: CalorieHistoryItem = {
           date: meal.date,
           caloriesToday: meal.calories,
-          proteinToday: meal.protein,
-          carbsToday: meal.carbs,
-          fatsToday: meal.fats,
-          sodiumToday: meal.sodium,
-          carbonFootPrintValueToday: meal.carbonFootPrintValue,
+          proteinToday: meal.proteinInGrams,
+          carbsToday: meal.carbsInGrams,
+          fatsToday: meal.fatInGrams,
+          sodiumToday: meal.sodiumInMg,
+          carbonFootPrintToday: meal.CO2Expense,
           mealsToday: [meal],
         };
         updatedHistory = [...state.calorieHistory, newEntry];
@@ -309,12 +316,11 @@ function userReducer(state: User, action: Action): User {
         totalMeals: [...state.totalMeals, meal],
         calorieHistory: updatedHistory,
         totalCalories: state.totalCalories + meal.calories,
-        totalProtein: state.totalProtein + meal.protein,
-        totalCarbs: state.totalCarbs + meal.carbs,
-        totalFats: state.totalFats + meal.fats,
-        totalSodium: state.totalSodium + meal.sodium,
-        totalCarbonFootPrint:
-          state.totalCarbonFootPrint + meal.carbonFootPrintValue,
+        totalProtein: state.totalProtein + meal.proteinInGrams,
+        totalCarbs: state.totalCarbs + meal.carbsInGrams,
+        totalFats: state.totalFats + meal.fatInGrams,
+        totalSodium: state.totalSodium + meal.sodiumInMg,
+        totalCarbonFootPrint: state.totalCarbonFootPrint + meal.CO2Expense,
       };
     }
 

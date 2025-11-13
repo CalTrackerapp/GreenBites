@@ -36,7 +36,7 @@ function Dashboard() {
   // Get today's carbon footprint
   const todayCarbonFootprint =
     user?.calorieHistory[user.calorieHistory.length - 1]
-      ?.carbonFootPrintValueToday || 0;
+      ?.carbonFootPrintToday || 0;
   const totalCarbonFootprint = user?.totalCarbonFootPrint || 0;
 
   // Get today's sodium
@@ -57,7 +57,7 @@ function Dashboard() {
   const carbonTrendData =
     user?.calorieHistory.map((entry) => ({
       day: entry.date,
-      carbonFootprint: entry.carbonFootPrintValueToday,
+      carbonFootprint: entry.carbonFootPrintToday,
     })) || [];
 
   return (
