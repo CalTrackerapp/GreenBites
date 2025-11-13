@@ -12,7 +12,7 @@ export default function DailyCaloriesBreakDown({
   caloriePercentage,
 }: DailyCaloriesBreakDownProps) {
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-8 hover:shadow-2xl transition-all duration-300">
+    <div className="bg-white/80  rounded-3xl shadow-xl border-solid border-4 border-blue-600 p-8 hover:shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
           Daily Calorie Progress
@@ -43,7 +43,7 @@ export default function DailyCaloriesBreakDown({
               dataKey="value"
               cornerRadius={12}
               fill="url(#calorieGradient)"
-              stroke="#fff"
+              stroke="#3b82f6"
               strokeWidth={3}
             />
             <defs>

@@ -1,8 +1,10 @@
+import { Dumbbell } from "lucide-react";
+
 type QuickStatsProps = {
   caloriesToday: number;
   calorieGoal: number;
   caloriePercentage: number;
-  totalProtein: number;
+  proteinToday: number;
   todayCarbonFootprint: number;
   remainingCalories: number;
   todaySodium: number;
@@ -12,7 +14,7 @@ export default function QuickStats({
   caloriesToday,
   calorieGoal,
   caloriePercentage,
-  totalProtein,
+  proteinToday,
   todayCarbonFootprint,
   remainingCalories,
   todaySodium,
@@ -46,15 +48,14 @@ export default function QuickStats({
       <div className="bg-gradient-to-br from-yellow-500 via-yellow-600 to-yellow-700 rounded-3xl p-6 text-white shadow-xl">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
-            <p className="text-emerald-100 text-sm font-semibold uppercase tracking-wide">
+            <p className="text-yellow-100 text-sm font-semibold uppercase ">
               Protein
             </p>
-            <p className="text-4xl font-bold">{totalProtein}g</p>
-            <p className="text-emerald-200 text-sm">muscle building</p>
-            <div className="flex items-center space-x-1">
-              <div className="w-2 h-2 bg-emerald-300 rounded-full"></div>
-              <div className="w-2 h-2 bg-emerald-300 rounded-full"></div>
-              <div className="w-2 h-2 bg-emerald-300 rounded-full"></div>
+            <p className="text-4xl font-bold">{proteinToday}g</p>
+            <p className="text-yellow-100 text-sm">grams today</p>
+            <div className="flex items-center space-x-2 text-sm">
+              <Dumbbell className="w-6 h-6" />
+              <span>Muscle Building</span>
             </div>
           </div>
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">

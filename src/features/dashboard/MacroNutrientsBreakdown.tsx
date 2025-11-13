@@ -23,7 +23,7 @@ export default function MacroNutrientsBreakdown({
   macroData,
 }: MacroNutrientsBreakdownProps) {
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-8 hover:shadow-2xl transition-all duration-300">
+    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-solid border-4 border-green-700 p-8 hover:shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
           Macronutrient Breakdown
@@ -42,7 +42,7 @@ export default function MacroNutrientsBreakdown({
             innerRadius={70}
             outerRadius={130}
             dataKey="value"
-            stroke="#fff"
+            stroke="white/80"
             strokeWidth={3}
           >
             {macroData.map((_, index) => (

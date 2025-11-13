@@ -37,6 +37,10 @@ function Dashboard() {
   const todayCarbonFootprint =
     user?.calorieHistory[user.calorieHistory.length - 1]
       ?.carbonFootPrintToday || 0;
+
+  const todayProtein =
+    user?.calorieHistory[user.calorieHistory.length - 1]?.proteinToday || 0;
+
   const totalCarbonFootprint = user?.totalCarbonFootPrint || 0;
 
   // Get today's sodium
@@ -61,7 +65,7 @@ function Dashboard() {
     })) || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br  from-emerald-500 via-emerald-800 to-indigo-600 relative overflow-hidden ">
+    <div className="min-h-screen bg-gradient-to-br  from-green-700 via-indigo-800 to-green-400 relative overflow-hidden ">
       {/*   <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 rounded-full blur-3xl"></div>
@@ -71,17 +75,42 @@ function Dashboard() {
       <DashboardHeader username={user?.username || ""} />
 
       <div className="relative max-w-7xl mx-auto px-6 py-8">
+        <div className="mb-8">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg flex items-center gap-3">
+              <span className="text-4xl">📊</span>
+              <span className="bg-gradient-to-r from-white via-blue-100 to-green-100 bg-clip-text text-transparent">
+                Quick Stats
+              </span>
+            </h2>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+          </div>
+        </div>
+
         <QuickStats
           caloriesToday={caloriesToday}
           calorieGoal={calorieGoal}
           caloriePercentage={caloriePercentage}
-          totalProtein={user?.totalProtein || 0}
+          proteinToday={todayProtein}
           todayCarbonFootprint={todayCarbonFootprint}
           remainingCalories={remainingCalories}
           todaySodium={todaySodium}
         />
 
-        {/* Charts Grid */}
+        <div className="mt-16 mb-8">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg flex items-center gap-3">
+              <span className="text-4xl">📈</span>
+              <span className="bg-gradient-to-r from-white via-blue-100 to-green-100 bg-clip-text text-transparent">
+                Analytics & Trends
+              </span>
+            </h2>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1  gap-8 mb-8">
           <DailyCaloriesBreakDown
             caloriesToday={caloriesToday}
@@ -97,6 +126,19 @@ function Dashboard() {
           />
 
           <WeeklyCaloriesTrend weeklyCalories={weeklyCalories} />
+        </div>
+
+        <div className="mt-16 mb-8">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg flex items-center gap-3">
+              <span className="text-4xl">🌱</span>
+              <span className="bg-gradient-to-r from-white via-green-100 to-emerald-100 bg-clip-text text-transparent">
+                Carbon Impact
+              </span>
+            </h2>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+          </div>
         </div>
 
         <CarbonImpact

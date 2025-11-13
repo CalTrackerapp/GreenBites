@@ -23,7 +23,7 @@ export default function SodiumBreakdown({
   sodiumTrendData,
 }: SodiumBreakdownProps) {
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-8 hover:shadow-2xl transition-all duration-300">
+    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-solid border-4 border-red-600 p-8 hover:shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">
           Sodium Tracking
