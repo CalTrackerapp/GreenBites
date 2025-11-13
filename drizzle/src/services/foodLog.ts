@@ -89,7 +89,22 @@ async function calculateCO2Expense(foodID: string, servingSize: number): Promise
     return first.CO2Expense * servingSize;
 }
 
-async function alterUserTotals(username: string, calories: number, protein: number, carbs: number, fats: number, totalCO2Expense: number) { // updates user's total nutritional values by ADDING to existing totals
+async function calculateSodium(foodID: string, servingSize: number): Promise<number> { // returns sodium in mg
+    const food = await db.select().from(schema.foods).where(eq(schema.foods.foodID, foodID)).limit(1);
+    if (food.length === 0) {
+        throw new Error(`Food with ID "${foodID}" not found.`);
+    }
+    const first = food[0];
+    if (!first) {
+        throw new Error(`Food with ID "${foodID}" not found.`);
+    }
+    if (first.sodiumInMg == null) {
+        throw new Error(`Sodium value for food ID "${foodID}" is missing.`);
+    }
+    return first.sodiumInMg * servingSize;
+}
+
+async function alterUserTotals(username: string, calories: number, protein: number, carbs: number, fats: number, sodium: number, totalCO2Expense: number) { // updates user's total nutritional values by ADDING to existing totals
     // Get current user totals
     const currentUser = await db.select().from(schema.users).where(eq(schema.users.username, username)).limit(1);
     
@@ -104,9 +119,10 @@ async function alterUserTotals(username: string, calories: number, protein: numb
     .set({
       totalCalories: (user.totalCalories || 0) + calories,
       totalProtein: (user.totalProtein || 0) + protein,
-      totalCarb: (user.totalCarb || 0) + carbs,
+      totalCarbs: (user.totalCarbs || 0) + carbs,
       totalFats: (user.totalFats || 0) + fats,
-      totalCO2Expense: (user.totalCO2Expense || 0) + totalCO2Expense,
+      totalSodium: (user.totalSodium || 0) + sodium,
+      totalCarbonFootPrint: (user.totalCarbonFootPrint || 0) + totalCO2Expense,
     })
     .where(eq(schema.users.username, username));
 
@@ -134,6 +150,7 @@ export async function createFoodLogEntry(data: FoodLogData) { // creates a new f
         await calculateProtein(data.foodID, data.servingSize),
         await calculateCarbs(data.foodID, data.servingSize),
         await calculateFats(data.foodID, data.servingSize),
+        await calculateSodium(data.foodID, data.servingSize),
         await calculateCO2Expense(data.foodID, data.servingSize)
     );
 

@@ -36,6 +36,7 @@ export async function createUser(data: UserData) {
         totalProtein: 0,
         totalCarb: 0,
         totalFats: 0,
+        totalSodium: 0,
         totalCO2Expense: 0,
         calGoal: data.calGoal,
     } as any).returning();
