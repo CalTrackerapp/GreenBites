@@ -276,10 +276,10 @@ export default function AddMeal() {
       <div className="relative max-w-6xl mx-auto p-6">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
-            <Utensils className="mr-3 text-green-600" />
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-green-800 to-blue-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
+            <Utensils className=" min-w-8 min-h-8 mr-3 text-green-600" />
             Add Meal To Track Calories and Carbon Footprint!
-            <Leaf className="ml-3 text-green-600" />
+            <Leaf className="min-w-8 min-h-8 text-green-600" />
           </h1>
         </div>
 
@@ -302,9 +302,9 @@ export default function AddMeal() {
           {/* Left Column: Search and Selection */}
           <div className="space-y-6">
             {/* Food Search */}
-            <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-8 hover:shadow-2xl transition-all duration-300">
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-white/30 p-8 hover:shadow-2xl transition-all duration-300 border-emerald-600 border-2 border-solid">
               <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-6 flex items-center">
-                <Search className="mr-3 text-blue-600" />
+                <Search className="min-w-8 min-h-8 mr-3 text-blue-600" />
                 Search Food
               </h2>
 
@@ -371,8 +371,8 @@ export default function AddMeal() {
 
             {/* Selected Foods */}
             {selectedFoods.length > 0 && (
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-8 hover:shadow-2xl transition-all duration-300">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent mb-6">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-emerald-600 border-2 border-solid p-8">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-amber-700 to-blue-800  bg-clip-text text-transparent mb-6">
                   Selected Foods
                 </h2>
                 <div className="space-y-4">
@@ -488,7 +488,7 @@ export default function AddMeal() {
           </div>
 
           {/* Right Column: Instructions */}
-          <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-8 hover:shadow-2xl transition-all duration-300">
+          <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-emerald-600 border-2 border-solid p-8">
             <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-6 flex items-center">
               <Clock className="mr-3 text-purple-600" />
               How to Use
