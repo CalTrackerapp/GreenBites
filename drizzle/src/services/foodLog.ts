@@ -104,7 +104,7 @@ async function calculateSodium(foodID: string, servingSize: number): Promise<num
     return first.sodiumInMg * servingSize;
 }
 
-async function calculateCalorieHistory(username: string): Promise<number> { // returns an array of all calorie values from food log entries for a user
+export async function calculateCalorieHistory(username: string): Promise<number> { // returns an array of all calorie values from food log entries for a user
     const foodLogs = await db.select().from(schema.foodLog).where(eq(schema.foodLog.userID, username));
     let totalCalories = 0;
 
