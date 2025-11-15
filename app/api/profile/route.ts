@@ -25,19 +25,18 @@ export async function GET(req: NextRequest) {
     }
 
     // Map database user to frontend User type
-    // Database uses calGoal, but frontend uses calorieGoal
     return NextResponse.json({
       gender: user.gender || "",
       height: user.height || 0,
       weight: user.weight || 0,
-      calorieGoal: user.calGoal || 0,
+      calorieGoal: user.calorieGoal || 0,
       // Include other fields if needed
       bmi: user.bmi ? parseFloat(user.bmi.toString()) : undefined,
       totalCalories: user.totalCalories || 0,
       totalProtein: user.totalProtein || 0,
-      totalCarb: user.totalCarb || 0,
+      totalCarbs: user.totalCarbs || 0,
       totalFats: user.totalFats || 0,
-      totalCO2Expense: user.totalCO2Expense || 0,
+      totalCarbonFootPrint: user.totalCarbonFootPrint || 0,
     }, { status: 200 });
   } catch (error: any) {
     console.error('Error fetching user:', error);
@@ -90,7 +89,7 @@ export async function POST(req: NextRequest) {
       gender: gender,
       height: Math.round(parseFloat(height)),
       weight: Math.round(parseFloat(weight)),
-      calGoal: parseInt(calorieGoal),
+      calGoal: parseInt(calorieGoal), // Service expects calGoal but maps to calorieGoal in DB
     };
 
     // Create user in database
@@ -100,18 +99,17 @@ export async function POST(req: NextRequest) {
     const createdUser = Array.isArray(newUser) ? newUser[0] : newUser;
 
     // Map database user to frontend User type
-    // Database uses calGoal, but frontend uses calorieGoal
     return NextResponse.json({
       gender: createdUser.gender || "",
       height: createdUser.height || 0,
       weight: createdUser.weight || 0,
-      calorieGoal: createdUser.calGoal || 0,
+      calorieGoal: createdUser.calorieGoal || 0,
       bmi: createdUser.bmi ? parseFloat(createdUser.bmi.toString()) : undefined,
       totalCalories: createdUser.totalCalories || 0,
       totalProtein: createdUser.totalProtein || 0,
-      totalCarb: createdUser.totalCarb || 0,
+      totalCarbs: createdUser.totalCarbs || 0,
       totalFats: createdUser.totalFats || 0,
-      totalCO2Expense: createdUser.totalCO2Expense || 0,
+      totalCarbonFootPrint: createdUser.totalCarbonFootPrint || 0,
     }, { status: 201 });
   } catch (error: any) {
     console.error('Error creating user:', error);
@@ -167,7 +165,7 @@ export async function PUT(req: NextRequest) {
         gender: gender,
         height: Math.round(parseFloat(height)),
         weight: Math.round(parseFloat(weight)),
-        calGoal: parseInt(calorieGoal),
+        calGoal: parseInt(calorieGoal), // Service expects calGoal but maps to calorieGoal in DB
       };
 
       const newUser = await createUser(userData);
@@ -178,13 +176,13 @@ export async function PUT(req: NextRequest) {
         gender: createdUser.gender || "",
         height: createdUser.height || 0,
         weight: createdUser.weight || 0,
-        calorieGoal: createdUser.calGoal || 0,
+        calorieGoal: createdUser.calorieGoal || 0,
         bmi: createdUser.bmi ? parseFloat(createdUser.bmi.toString()) : undefined,
         totalCalories: createdUser.totalCalories || 0,
         totalProtein: createdUser.totalProtein || 0,
-        totalCarb: createdUser.totalCarb || 0,
+        totalCarbs: createdUser.totalCarbs || 0,
         totalFats: createdUser.totalFats || 0,
-        totalCO2Expense: createdUser.totalCO2Expense || 0,
+        totalCarbonFootPrint: createdUser.totalCarbonFootPrint || 0,
       }, { status: 201 });
     }
 
@@ -193,7 +191,7 @@ export async function PUT(req: NextRequest) {
     if (gender !== undefined) updateData.gender = gender;
     if (height !== undefined) updateData.height = Math.round(parseFloat(height));
     if (weight !== undefined) updateData.weight = Math.round(parseFloat(weight));
-    if (calorieGoal !== undefined) updateData.calGoal = parseInt(calorieGoal);
+    if (calorieGoal !== undefined) updateData.calorieGoal = parseInt(calorieGoal);
 
     // Update user in database
     const updatedUser = await updateUser(userId, updateData);
@@ -206,18 +204,17 @@ export async function PUT(req: NextRequest) {
     }
 
     // Map database user to frontend User type
-    // Database uses calGoal, but frontend uses calorieGoal
     return NextResponse.json({
       gender: updatedUser.gender || "",
       height: updatedUser.height || 0,
       weight: updatedUser.weight || 0,
-      calorieGoal: updatedUser.calGoal || 0,
+      calorieGoal: updatedUser.calorieGoal || 0,
       bmi: updatedUser.bmi ? parseFloat(updatedUser.bmi.toString()) : undefined,
       totalCalories: updatedUser.totalCalories || 0,
       totalProtein: updatedUser.totalProtein || 0,
-      totalCarb: updatedUser.totalCarb || 0,
+      totalCarbs: updatedUser.totalCarbs || 0,
       totalFats: updatedUser.totalFats || 0,
-      totalCO2Expense: updatedUser.totalCO2Expense || 0,
+      totalCarbonFootPrint: updatedUser.totalCarbonFootPrint || 0,
     }, { status: 200 });
   } catch (error: any) {
     console.error('Error updating user:', error);

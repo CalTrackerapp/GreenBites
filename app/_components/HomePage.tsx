@@ -1,5 +1,5 @@
 "use client";
-import Link from 'next/link';
+import Link from "next/link";
 import {
   Leaf,
   TrendingDown,
@@ -11,7 +11,7 @@ import {
   Sparkles,
   ArrowRight,
   CheckCircle,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -27,18 +27,26 @@ export default function HomePage() {
           <div className="mb-8">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-green-100 px-4 py-2 rounded-full border border-emerald-200 mb-6">
               <Sparkles className="w-4 h-4 text-emerald-600" />
-              <span className="text-emerald-700 font-semibold text-sm">Eco-Friendly Nutrition Tracking</span>
+              <span className="text-emerald-700 font-semibold text-sm">
+                Eco-Friendly Nutrition Tracking
+              </span>
             </div>
           </div>
 
           <h1 className="text-6xl md:text-7xl font-bold mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-slate-800 via-emerald-700 to-green-600 bg-clip-text text-transparent">Nourish Yourself.</span>
+            <span className="bg-gradient-to-r from-slate-800 via-emerald-700 to-green-600 bg-clip-text text-transparent">
+              Nourish Yourself.
+            </span>
             <br />
-            <span className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 bg-clip-text text-transparent">Heal the Planet.</span>
+            <span className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 bg-clip-text text-transparent">
+              Heal the Planet.
+            </span>
           </h1>
 
           <p className="max-w-3xl text-xl md:text-2xl text-slate-600 leading-relaxed mb-12 font-medium">
-            GreenBites helps you understand the impact of your meals — track your nutrition, visualize your carbon footprint, and take action toward a greener tomorrow.
+            GreenBites helps you understand the impact of your meals — track
+            your nutrition, visualize your carbon footprint, and take action
+            toward a greener tomorrow.
           </p>
 
           <div className="flex flex-wrap justify-center gap-6 mb-16">
@@ -61,15 +69,24 @@ export default function HomePage() {
       <section className="relative px-8 md:px-0 py-0">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-slate-800 to-emerald-700 bg-clip-text text-transparent mb-6">Why Choose GreenBites?</h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">Discover how our platform transforms your relationship with food and the environment</p>
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-slate-800 to-emerald-700 bg-clip-text text-transparent mb-6">
+              Why Choose GreenBites?
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Discover how our platform transforms your relationship with food
+              and the environment
+            </p>
           </div>
 
           <div className="space-y-32">
             <div className="flex flex-col lg:flex-row items-center gap-16">
               <div className="lg:w-1/2">
                 <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300">
-                  <img src="home_page.jpg" alt="Track Meals" className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300" />
+                  <img
+                    src="home_page.jpg"
+                    alt="Track Meals"
+                    className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
               </div>
               <div className="lg:w-1/2 space-y-6">
@@ -77,10 +94,15 @@ export default function HomePage() {
                   <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
                     <TrendingDown className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-4xl font-bold text-slate-800">Track Your Carbon Footprint</h3>
+                  <h3 className="text-4xl font-bold text-slate-800">
+                    Track Your Carbon Footprint
+                  </h3>
                 </div>
                 <p className="text-slate-600 text-lg leading-relaxed">
-                  Every meal has an environmental cost. GreenBites helps you log what you eat and instantly visualize your carbon savings compared to traditional diets — empowering smarter, sustainable choices.
+                  Every meal has an environmental cost. GreenBites helps you log
+                  what you eat and instantly visualize your carbon savings
+                  compared to traditional diets — empowering smarter,
+                  sustainable choices.
                 </p>
                 <div className="flex items-center gap-2 text-emerald-600 font-semibold">
                   <CheckCircle className="w-5 h-5" />
@@ -92,7 +114,11 @@ export default function HomePage() {
             <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
               <div className="lg:w-1/2">
                 <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300">
-                  <img src="eco-graph.jpg" alt="Visual Insights" className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300" />
+                  <img
+                    src="eco-graph.jpg"
+                    alt="Visual Insights"
+                    className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
               </div>
               <div className="lg:w-1/2 space-y-6">
@@ -100,10 +126,14 @@ export default function HomePage() {
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
                     <BarChart3 className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-4xl font-bold text-slate-800">Visualize Your Impact</h3>
+                  <h3 className="text-4xl font-bold text-slate-800">
+                    Visualize Your Impact
+                  </h3>
                 </div>
                 <p className="text-slate-600 text-lg leading-relaxed">
-                  Your data deserves better than numbers. See your journey come to life through clean, beautiful visualizations — helping you stay motivated while making meaningful change.
+                  Your data deserves better than numbers. See your journey come
+                  to life through clean, beautiful visualizations — helping you
+                  stay motivated while making meaningful change.
                 </p>
                 <div className="flex items-center gap-2 text-emerald-600 font-semibold">
                   <CheckCircle className="w-5 h-5" />
@@ -115,7 +145,11 @@ export default function HomePage() {
             <div className="flex flex-col lg:flex-row items-center gap-16">
               <div className="lg:w-1/2">
                 <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300">
-                  <img src="better_choices.jpg" alt="Eco Choices" className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300" />
+                  <img
+                    src="better_choices.jpg"
+                    alt="Eco Choices"
+                    className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
               </div>
               <div className="lg:w-1/2 space-y-6">
@@ -123,10 +157,14 @@ export default function HomePage() {
                   <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
                     <Leaf className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-4xl font-bold text-slate-800">Choose Greener Alternatives</h3>
+                  <h3 className="text-4xl font-bold text-slate-800">
+                    Choose Greener Alternatives
+                  </h3>
                 </div>
                 <p className="text-slate-600 text-lg leading-relaxed">
-                  GreenBites recommends eco-friendly food swaps that balance taste, health, and sustainability — because the right choice should also be the easiest one.
+                  GreenBites recommends eco-friendly food swaps that balance
+                  taste, health, and sustainability — because the right choice
+                  should also be the easiest one.
                 </p>
                 <div className="flex items-center gap-2 text-emerald-600 font-semibold">
                   <CheckCircle className="w-5 h-5" />
@@ -144,9 +182,12 @@ export default function HomePage() {
           <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-8">
             <Globe2 className="w-10 h-10 text-white" />
           </div>
-          <h2 className="text-5xl font-bold mb-6">Together, We Make an Impact</h2>
+          <h2 className="text-5xl font-bold mb-6">
+            Together, We Make an Impact
+          </h2>
           <p className="text-xl text-emerald-100 mb-12 max-w-2xl mx-auto">
-            Join thousands of conscious eaters reducing emissions one meal at a time. Your plate has power — use it wisely.
+            Join thousands of conscious eaters reducing emissions one meal at a
+            time. Your plate has power — use it wisely.
           </p>
           <Link
             href="/sign-up"
@@ -165,13 +206,18 @@ export default function HomePage() {
             <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl flex items-center justify-center">
               <Leaf className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-green-600 bg-clip-text text-transparent">GreenBites</span>
+            <span className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-green-600 bg-clip-text text-transparent">
+              GreenBites
+            </span>
           </div>
-          <p className="text-slate-600 text-lg font-medium mb-4">© {new Date().getFullYear()} GreenBites — Eat Better. Live Greener.</p>
-          <p className="text-slate-500 text-sm">Making sustainable nutrition accessible to everyone</p>
+          <p className="text-slate-600 text-lg font-medium mb-4">
+            © {new Date().getFullYear()} GreenBites — Eat Better. Live Greener.
+          </p>
+          <p className="text-slate-500 text-sm">
+            Making sustainable nutrition accessible to everyone
+          </p>
         </div>
       </footer>
     </div>
   );
 }
-

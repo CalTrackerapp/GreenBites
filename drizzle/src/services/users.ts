@@ -31,15 +31,15 @@ export async function createUser(data: UserData) {
         gender: data.gender,
         height: data.height,
         weight: data.weight,
-        bmi,
+        bmi: bmi.toString(),
         totalCalories: 0,
         totalProtein: 0,
-        totalCarb: 0,
+        totalCarbs: 0,
         totalFats: 0,
         totalSodium: 0,
-        totalCO2Expense: 0,
-        calGoal: data.calGoal,
-    } as any).returning();
+        totalCarbonFootPrint: 0,
+        calorieGoal: data.calGoal,
+    }).returning();
 
     return result;
 }
@@ -54,17 +54,18 @@ export async function getUser(username: string) {
   return result[0]; // Return the single user object or undefined
 }
 
-export async function updateUser(username: string, data: Partial<UserData>) {
+export async function updateUser(username: string, data: Partial<UserData & { calorieGoal?: number }>) {
   const updateData: any = {};
   
   if (data.gender !== undefined) updateData.gender = data.gender;
   if (data.height !== undefined) updateData.height = data.height;
   if (data.weight !== undefined) updateData.weight = data.weight;
-  if (data.calGoal !== undefined) updateData.calGoal = data.calGoal;
+  if (data.calGoal !== undefined) updateData.calorieGoal = data.calGoal;
+  if ((data as any).calorieGoal !== undefined) updateData.calorieGoal = (data as any).calorieGoal;
   
   // Recalculate BMI if height or weight changed
   if (data.height !== undefined && data.weight !== undefined) {
-    updateData.bmi = calculateBMI(data.weight, data.height);
+    updateData.bmi = calculateBMI(data.weight, data.height).toString();
   } else if (data.height !== undefined || data.weight !== undefined) {
     // Get current user to calculate BMI with existing values
     const currentUser = await getUser(username);
@@ -72,7 +73,7 @@ export async function updateUser(username: string, data: Partial<UserData>) {
       const height = data.height !== undefined ? data.height : currentUser.height;
       const weight = data.weight !== undefined ? data.weight : currentUser.weight;
       if (height && weight) {
-        updateData.bmi = calculateBMI(weight as number, height as number);
+        updateData.bmi = calculateBMI(weight as number, height as number).toString();
       }
     }
   }
