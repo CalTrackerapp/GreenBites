@@ -7,23 +7,18 @@ import {
   Sprout,
   Globe2,
   Zap,
-  Heart,
   Sparkles,
   ArrowRight,
   CheckCircle,
 } from "lucide-react";
 
+import Image from "next/image";
+
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-emerald-50 to-green-100 text-slate-800 overflow-hidden relative">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-green-400/20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-teal-400/20 to-emerald-400/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-green-400/10 to-teal-400/10 rounded-full blur-3xl"></div>
-      </div>
-
       <section className="relative flex flex-col items-center text-center px-6 pt-32 pb-40 overflow-hidden">
-        <div className="max-w-6xl mx-auto z-10">
+        <div className="flex flex-col items-center justify-center max-w-6xl mx-auto z-10">
           <div className="mb-8">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-green-100 px-4 py-2 rounded-full border border-emerald-200 mb-6">
               <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -59,11 +54,19 @@ export default function HomePage() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <Sprout className="w-8 h-8 lg:w-20 lg:h-20 text-green-400 opacity-60" />
+            <Sprout className="w-8 h-8 lg:w-20 lg:h-20 text-green-400 opacity-60" />
+            <Sprout className="w-8 h-8 lg:w-20 lg:h-20 text-green-400 opacity-60" />
+            <Sprout className="w-8 h-8 lg:w-20 lg:h-20 text-green-400 opacity-60" />
+            <Sprout className="w-8 h-8 lg:w-20 lg:h-20 text-green-400 opacity-60" />
+          </div>
         </div>
 
-        <Leaf className="absolute top-20 left-1/4 w-16 h-16 text-emerald-300 opacity-40 animate-[float_6s_ease-in-out_infinite]" />
-        <Sprout className="absolute bottom-20 right-1/3 w-20 h-20 text-green-400 opacity-30 animate-[float_8s_ease-in-out_infinite]" />
-        <Globe2 className="absolute top-1/3 right-1/4 w-12 h-12 text-teal-300 opacity-50 animate-[float_10s_ease-in-out_infinite]" />
+        <Leaf className="absolute top-20 left-1/4 w-16 h-16 text-emerald-300 opacity-50" />
+
+        <Globe2 className="absolute top-1/3 right-1/4 w-12 h-12 text-teal-300 opacity-50" />
       </section>
 
       <section className="relative px-8 md:px-0 py-0">
@@ -80,12 +83,14 @@ export default function HomePage() {
 
           <div className="space-y-32">
             <div className="flex flex-col lg:flex-row items-center gap-16">
-              <div className="lg:w-1/2">
-                <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300">
-                  <img
-                    src="home_page.jpg"
+              <div className="w-2/3 md:w-1/2">
+                <div className=" rounded-3xl p-8 border border-white/30">
+                  <Image
+                    src="/home_page.jpg"
                     alt="Track Meals"
-                    className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+                    width={1200}
+                    height={800}
+                    className="w-full rounded-2xl"
                   />
                 </div>
               </div>
@@ -112,12 +117,14 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
-              <div className="lg:w-1/2">
-                <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300">
-                  <img
-                    src="eco-graph.jpg"
+              <div className=" w-2/3 md:w-1/2">
+                <div className=" rounded-3xl p-8 border border-white/30">
+                  <Image
+                    src="/eco-graph.jpg"
                     alt="Visual Insights"
-                    className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+                    width={1200}
+                    height={800}
+                    className="w-full rounded-2xl "
                   />
                 </div>
               </div>
@@ -143,12 +150,14 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col lg:flex-row items-center gap-16">
-              <div className="lg:w-1/2">
-                <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300">
-                  <img
-                    src="better_choices.jpg"
+              <div className="w-2/3 md:w-1/2">
+                <div className=" rounded-3xl p-8">
+                  <Image
+                    src="/better_choices.jpg"
                     alt="Eco Choices"
-                    className="w-full rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+                    width={1200}
+                    height={800}
+                    className="w-full rounded-2xl"
                   />
                 </div>
               </div>

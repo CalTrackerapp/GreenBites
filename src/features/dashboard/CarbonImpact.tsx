@@ -24,11 +24,10 @@ export default function CarbonImpact({
   totalCarbonFootprint,
   carbonTrendData,
 }: CarbonImpactProps) {
-  // Calculate low-carbon streak (consecutive days under 4.5 kg)
-  const calculateStreak = () => {
+  /* const calculateStreak = () => {
     if (carbonTrendData.length === 0) return 0;
 
-    // Sort by date (most recent first)
+
     const sortedData = [...carbonTrendData].sort(
       (a, b) => new Date(b.day).getTime() - new Date(a.day).getTime()
     );
@@ -44,7 +43,7 @@ export default function CarbonImpact({
     return streak;
   };
 
-  const streak = calculateStreak();
+  const streak = calculateStreak(); */
   const averageDailyFootprint =
     carbonTrendData.length > 0
       ? carbonTrendData.reduce((sum, entry) => sum + entry.carbonFootprint, 0) /
@@ -53,7 +52,7 @@ export default function CarbonImpact({
 
   // What-if calculations
   const weeklySavings10Percent = (averageDailyFootprint * 0.1 * 7).toFixed(1);
-  const yearlyProjection = ((averageDailyFootprint * 365) / 1000).toFixed(2);
+  const yearlyProjection = (averageDailyFootprint * 365).toFixed(2);
   const yearlyProjectionReduced = (
     (averageDailyFootprint * 0.9 * 365) /
     1000
@@ -172,11 +171,11 @@ export default function CarbonImpact({
             </p>
             <p className="text-xs text-slate-500 mt-1">
               📊 Your estimated yearly impact at this rate:{" "}
-              <span className="font-semibold">{yearlyProjection} tons CO₂</span>
+              <span className="font-semibold">{yearlyProjection} kg CO₂</span>
               {parseFloat(yearlyProjection) > 0 && (
                 <span className="text-emerald-600">
                   {" "}
-                  (or {yearlyProjectionReduced} tons with 10% reduction)
+                  (or {yearlyProjectionReduced} kg with 10% reduction)
                 </span>
               )}
             </p>
@@ -263,7 +262,7 @@ export default function CarbonImpact({
         </div>
 
         {/* Eco Goals / Streaks */}
-        {streak > 0 && (
+        {/*    {streak > 0 && (
           <div className="mt-6 bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-4 border border-emerald-200">
             <div className="flex items-center space-x-2">
               <span className="text-lg">🌱</span>
@@ -280,7 +279,7 @@ export default function CarbonImpact({
                 : `Excellent! You're maintaining a low-carbon lifestyle. Keep it up! 🎉`}
             </p>
           </div>
-        )}
+        )} */}
 
         <div className="mt-6 bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
           <div className="flex items-center space-x-3">

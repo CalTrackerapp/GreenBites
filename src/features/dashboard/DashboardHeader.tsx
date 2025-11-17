@@ -12,7 +12,7 @@ export default function DashboardHeader({ username }: HeaderProps) {
       : "Good evening";
 
   return (
-    <div className="  backdrop-blur-xl bg-black/20  shadow-lg">
+    <div className=" bg-black/20  shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
