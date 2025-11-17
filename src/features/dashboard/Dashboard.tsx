@@ -6,13 +6,14 @@ import MacroNutrientsBreakdown from "./MacroNutrientsBreakdown";
 import SodiumBreakdown from "./SodiumBreakdown";
 import WeeklyCaloriesTrend from "./WeeklyCaloriesTrend";
 import CarbonImpact from "./CarbonImpact";
+import { useUser } from "@clerk/clerk-react";
 
 function Dashboard() {
   const user = useUserContext();
+  const firstName = useUser().user?.firstName || "User";
   const caloriesToday = user.calorieHistory[user.calorieHistory.length - 1]
     ? user.calorieHistory[user.calorieHistory.length - 1].caloriesToday
     : 0;
-
   const macroData = [
     { name: "Fat", value: user?.totalFats || 0, color: "#ef4444" },
     { name: "Protein", value: user?.totalProtein || 0, color: "#3b82f6" },
@@ -65,14 +66,14 @@ function Dashboard() {
     })) || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br  from-green-700 via-indigo-800 to-green-400 relative overflow-hidden ">
+    <div className=" bg-gradient-to-br  from-green-700 via-indigo-800 to-green-400 ">
       {/*   <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl"></div>
       </div> */}
 
-      <DashboardHeader username={user?.username || ""} />
+      <DashboardHeader username={firstName || ""} />
 
       <div className="relative max-w-7xl mx-auto px-6 py-8">
         <div className="mb-8">

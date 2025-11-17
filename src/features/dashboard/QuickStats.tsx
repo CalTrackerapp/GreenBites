@@ -40,7 +40,7 @@ export default function QuickStats({
             </div>
           </div>
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <span className="text-3xl">🔥</span>
+            <span className="text-3xl">🍽️</span>
           </div>
         </div>
       </div>
@@ -53,9 +53,8 @@ export default function QuickStats({
             </p>
             <p className="text-4xl font-bold">{proteinToday}g</p>
             <p className="text-yellow-100 text-sm">grams today</p>
-            <div className="flex items-center space-x-2 text-sm">
-              <Dumbbell className="w-6 h-6" />
-              <span>Muscle Building</span>
+            <div className="flex items-center text-sm">
+              <span>🔥 Muscle Building</span>
             </div>
           </div>
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -73,8 +72,7 @@ export default function QuickStats({
             <p className="text-4xl font-bold">{todayCarbonFootprint}</p>
             <p className="text-purple-200 text-sm">kg CO₂ today</p>
             <div className="flex items-center space-x-1">
-              <span className="text-xs">🌍</span>
-              <span className="text-xs">Eco Score</span>
+              <span className="text-xs">🌍 Eco Score</span>
             </div>
           </div>
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -92,8 +90,7 @@ export default function QuickStats({
             <p className="text-4xl font-bold">{remainingCalories}</p>
             <p className="text-orange-200 text-sm">calories left</p>
             <div className="flex items-center space-x-1">
-              <span className="text-xs">⚡</span>
-              <span className="text-xs">Energy</span>
+              <span className="text-xs">⚡ Energy</span>
             </div>
           </div>
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -111,8 +108,7 @@ export default function QuickStats({
             <p className="text-4xl font-bold">{todaySodium}</p>
             <p className="text-red-200 text-sm">mg today</p>
             <div className="flex items-center space-x-1">
-              <span className="text-xs">🧂</span>
-              <span className="text-xs">Salt</span>
+              <span className="text-xs">🧂 Salt</span>
             </div>
           </div>
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">

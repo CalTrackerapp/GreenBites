@@ -65,14 +65,12 @@ export default function CarbonImpact({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-solid border-4 border-green-700 p-8 hover:shadow-2xl transition-all duration-300">
+      <div className="bg-white/80 rounded-3xl shadow-xl border-solid border-4 border-green-700 p-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
             Carbon Footprint Trend
           </h2>
-          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-            <span className="text-white text-xl">🌱</span>
-          </div>
+          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center"></div>
         </div>
 
         <div className="mb-6">
@@ -145,7 +143,7 @@ export default function CarbonImpact({
           </div>
           <div className="mt-3 bg-slate-200 rounded-full h-3">
             <div
-              className="bg-gradient-to-r from-green-500 to-emerald-600 h-3 rounded-full transition-all duration-700"
+              className="bg-gradient-to-r from-green-500 to-emerald-600 h-3 rounded-full"
               style={{
                 width: `${Math.min((todayCarbonFootprint / 4.5) * 100, 100)}%`,
               }}
@@ -186,12 +184,12 @@ export default function CarbonImpact({
         </div>
       </div>
 
-      <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-solid border-4 border-emerald-700 p-8 hover:shadow-2xl transition-all duration-300">
+      <div className="bg-white/80 rounded-3xl border-solid border-4 border-emerald-700 p-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
             Environmental Impact
           </h2>
-          <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center">
             <span className="text-white text-xl">🌍</span>
           </div>
         </div>

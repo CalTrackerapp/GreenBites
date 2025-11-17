@@ -23,12 +23,12 @@ export default function MacroNutrientsBreakdown({
   macroData,
 }: MacroNutrientsBreakdownProps) {
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-solid border-4 border-green-700 p-8 hover:shadow-2xl transition-all duration-300">
+    <div className="bg-white/80 rounded-3xl border-solid border-4 border-green-700 p-8 ">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
           Macronutrient Breakdown
         </h2>
-        <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+        <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center">
           <span className="text-white text-xl">🥗</span>
         </div>
       </div>
@@ -83,7 +83,7 @@ export default function MacroNutrientsBreakdown({
           >
             <div className="flex items-center space-x-3">
               <div
-                className="w-5 h-5 rounded-full shadow-sm"
+                className="w-5 h-5 rounded-full"
                 style={{ backgroundColor: MACRO_COLORS[index] }}
               ></div>
               <span className="text-slate-700 font-semibold">{macro.name}</span>

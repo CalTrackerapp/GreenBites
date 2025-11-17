@@ -21,12 +21,13 @@ export default function WeeklyCaloriesTrend({
   weeklyCalories,
 }: WeeklyCaloriesTrendProps) {
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border-solid border-4 border-purple-600 p-8 hover:shadow-2xl transition-all duration-300 lg:col-span-2 xl:col-span-1">
+    /*   lg:col-span-2 xl:col-span-1 */
+    <div className="bg-white/80 rounded-3xl border-solid border-4 border-purple-600 p-8 ">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
           Weekly Trend
         </h2>
-        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
           <span className="text-white text-xl">📈</span>
         </div>
       </div>
