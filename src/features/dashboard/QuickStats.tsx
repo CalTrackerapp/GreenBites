@@ -1,5 +1,3 @@
-import { Dumbbell } from "lucide-react";
-
 type QuickStatsProps = {
   caloriesToday: number;
   calorieGoal: number;

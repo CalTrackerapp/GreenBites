@@ -46,7 +46,7 @@ export type User = {
   height: number;
   weight: number;
   calorieGoal: number;
-  totalMeals: MealLog[];
+  //totalMeals: MealLog[];
   totalCalories: number;
   totalProtein: number;
   totalCarbs: number;
@@ -83,7 +83,7 @@ const initialState: User = {
   height: 180,
   weight: 75,
   calorieGoal: 2500,
-  totalMeals: [],
+  //totalMeals: [],
   totalCalories: 5200,
   totalProtein: 280,
   totalCarbs: 600,
@@ -313,7 +313,7 @@ function userReducer(state: User, action: Action): User {
 
       return {
         ...state,
-        totalMeals: [...state.totalMeals, meal],
+        // totalMeals: [...state.totalMeals, meal],
         calorieHistory: updatedHistory,
         totalCalories: state.totalCalories + meal.calories,
         totalProtein: state.totalProtein + meal.proteinInGrams,

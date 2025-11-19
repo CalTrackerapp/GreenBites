@@ -7,7 +7,6 @@ import {
   Trash2,
   Clock,
   Utensils,
-  Zap,
   Leaf,
   TrendingUp,
   AlertCircle,
