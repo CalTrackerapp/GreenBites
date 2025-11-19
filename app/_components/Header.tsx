@@ -107,7 +107,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/sign-up"
-                  className="px-4 lg:px-6 py-2 lg:py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                  className="px-4 lg:px-6 py-2 lg:py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl  transition-all duration-300 flex items-center gap-2"
                 >
                   <Utensils className="w-4 h-4" />
                   Sign Up
@@ -160,7 +160,7 @@ export default function Header() {
                 onClick={closeMobileMenu}
                 className={` ${navClass(
                   "/"
-                )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50`}
+                )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700  hover:bg-emerald-50`}
               >
                 <House className="w-5 h-5" />
                 Home
@@ -172,7 +172,7 @@ export default function Header() {
                   onClick={closeMobileMenu}
                   className={` ${navClass(
                     "/dashboard"
-                  )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50`}
+                  )} flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-700  hover:bg-emerald-50`}
                 >
                   <Zap className="w-5 h-5" />
                   Dashboard
@@ -205,18 +205,14 @@ export default function Header() {
                     <Link
                       href="/login"
                       onClick={closeMobileMenu}
-                      className={` ${navClass(
-                        "/login"
-                      )} block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2`}
+                      className={`  block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2`}
                     >
                       Log In
                     </Link>
                     <Link
                       href="/sign-up"
                       onClick={closeMobileMenu}
-                      className={` ${navClass(
-                        "/sign-up"
-                      )} block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2`}
+                      className={`  block w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold hover:from-emerald-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2`}
                     >
                       <Sparkles className="w-4 h-4" />
                       Sign Up

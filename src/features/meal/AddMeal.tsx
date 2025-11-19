@@ -50,7 +50,7 @@ type SelectedFood = {
 export default function AddMeal() {
   const { user: clerkUser } = useUser(); // Get Clerk user for userId
   const contextUser = useUserContext();
-  const { addCalorieEntry } = useUserContext();
+  const { addMeal } = useUserContext();
 
   // Console log user data for testing
   console.log("Current user data:", contextUser);
@@ -104,10 +104,8 @@ export default function AddMeal() {
     if (existingFood) {
       // Update serving size if food already exists
       setSelectedFoods(
-        selectedFoods.map((food) =>
-          food.name === food.name
-            ? { ...food, servingSize: food.servingSize + 1 }
-            : food
+        selectedFoods.map((f) =>
+          f.name === food.name ? { ...f, servingSize: f.servingSize + 1 } : f
         )
       );
     } else {
@@ -188,11 +186,10 @@ export default function AddMeal() {
     const today = new Date().toISOString().split("T")[0];
     const username = clerkUser.id; // Use Clerk userId as username
 
-    try {
-      const totals = calculateTotals();
+    const totals = calculateTotals();
 
-      // Add each food item to database
-      for (const food of selectedFoods) {
+    // Add each food item to database
+    /*  for (const food of selectedFoods) {
         // Create nutrition data object in CalorieNinjas format
         const nutritionData = {
           name: food.name,
@@ -232,35 +229,32 @@ export default function AddMeal() {
         if (!logRes.ok) {
           throw new Error("Failed to log food entry");
         }
-      }
+      } */
 
-      // Update Context API for dashboard
-      addCalorieEntry({
-        name: selectedFoods.map((f) => f.name).join(", "),
+    // Update Context API for dashboard
+
+    for (const food of selectedFoods) {
+      addMeal({
+        name: food.name,
         date: today,
-        calories: Math.round(totals.calories),
-        proteinInGrams: Math.round(totals.protein),
-        carbsInGrams: Math.round(totals.carbs),
-        fatInGrams: Math.round(totals.fats),
-        sodiumInMg: Math.round(totals.sodium),
-        CO2Expense: Math.round(totals.carbonFootprint),
+        calories: Math.round(food.calories * food.servingSize),
+        proteinInGrams: Math.round(food.protein * food.servingSize),
+        carbsInGrams: Math.round(food.carbs * food.servingSize),
+        fatInGrams: Math.round(food.fats * food.servingSize),
+        sodiumInMg: Math.round(food.sodium * food.servingSize),
+        CO2Expense: Math.round(food.carbonFootprint * food.servingSize),
       });
-
-      // Clear selection
-      const mealCount = selectedFoods.length;
-      setSelectedFoods([]);
-      setSearchQuery("");
-      setSearchResults([]);
-      setSuccess(`${mealCount} food item(s) logged successfully! 🎉`);
-
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccess(null), 3000);
-    } catch (error) {
-      console.error("Failed to log meal:", error);
-      setError("Failed to log meal. Please try again.");
-    } finally {
-      setIsLoading(false);
     }
+
+    // Clear selection
+    const mealCount = selectedFoods.length;
+    setSelectedFoods([]);
+    setSearchQuery("");
+    setSearchResults([]);
+    setSuccess(`${mealCount} food item(s) logged successfully! 🎉`);
+
+    // Clear success message after 3 seconds
+    setTimeout(() => setSuccess(null), 3000);
   }
 
   const totals = calculateTotals();

@@ -37,7 +37,7 @@ export type CalorieHistoryItem = {
   fatsToday: number;
   sodiumToday: number;
   carbonFootPrintToday: number;
-  mealsToday: MealLog[];
+  //mealsToday: MealLog[];
 };
 
 export type User = {
@@ -99,7 +99,7 @@ const initialState: User = {
       fatsToday: 60,
       sodiumToday: 1800,
       carbonFootPrintToday: 7,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-07",
@@ -109,7 +109,7 @@ const initialState: User = {
       fatsToday: 70,
       sodiumToday: 2200,
       carbonFootPrintToday: 9,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-08",
@@ -119,7 +119,7 @@ const initialState: User = {
       fatsToday: 85,
       sodiumToday: 2400,
       carbonFootPrintToday: 11,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-09",
@@ -129,7 +129,7 @@ const initialState: User = {
       fatsToday: 65,
       sodiumToday: 2100,
       carbonFootPrintToday: 8,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-10",
@@ -139,7 +139,7 @@ const initialState: User = {
       fatsToday: 95,
       sodiumToday: 2600,
       carbonFootPrintToday: 12,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-11",
@@ -149,7 +149,7 @@ const initialState: User = {
       fatsToday: 80,
       sodiumToday: 2300,
       carbonFootPrintToday: 10,
-      mealsToday: [],
+      //  mealsToday: [],
     },
     {
       date: "2025-10-12",
@@ -159,7 +159,7 @@ const initialState: User = {
       fatsToday: 65,
       sodiumToday: 2000,
       carbonFootPrintToday: 8,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-13",
@@ -169,7 +169,7 @@ const initialState: User = {
       fatsToday: 75,
       sodiumToday: 2100,
       carbonFootPrintToday: 9,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-14",
@@ -179,7 +179,7 @@ const initialState: User = {
       fatsToday: 85,
       sodiumToday: 2400,
       carbonFootPrintToday: 11,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-15",
@@ -189,7 +189,7 @@ const initialState: User = {
       fatsToday: 80,
       sodiumToday: 2200,
       carbonFootPrintToday: 10,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-16",
@@ -199,7 +199,7 @@ const initialState: User = {
       fatsToday: 100,
       sodiumToday: 2600,
       carbonFootPrintToday: 13,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-17",
@@ -209,7 +209,7 @@ const initialState: User = {
       fatsToday: 90,
       sodiumToday: 2500,
       carbonFootPrintToday: 11,
-      mealsToday: [],
+      //mealsToday: [],
     },
     {
       date: "2025-10-18",
@@ -219,7 +219,7 @@ const initialState: User = {
       fatsToday: 70,
       sodiumToday: 2000,
       carbonFootPrintToday: 9,
-      mealsToday: [],
+      //  mealsToday: [],
     },
     {
       date: "2025-10-19",
@@ -229,7 +229,7 @@ const initialState: User = {
       fatsToday: 95,
       sodiumToday: 2700,
       carbonFootPrintToday: 12,
-      mealsToday: [],
+      //  mealsToday: [],
     },
   ],
 };
@@ -238,25 +238,40 @@ const initialState: User = {
 // Actions
 // =========================
 
-type AddCalorieEntryAction = {
-  type: "ADD_CALORIE_ENTRY";
+type AddMealEntryAction = {
+  type: "ADD_MEAL_ENTRY";
   payload: MealLog;
 };
 
-type SetUserAction = {
-  type: "SET_USER";
-  payload: User;
+type LoadUserAction = {
+  type: "LOAD_USER";
+  payload: Partial<User>;
 };
 
-type Action = AddCalorieEntryAction | SetUserAction;
+type CreateUserAction = {
+  type: "CREATE_USER";
+  payload: Partial<User>;
+};
+
+type UpdateUserAttributesAction = {
+  type: "UPDATE_USER_ATTRIBUTES";
+  payload: Partial<User>;
+};
+type Action =
+  | AddMealEntryAction
+  | LoadUserAction
+  | CreateUserAction
+  | UpdateUserAttributesAction;
 
 // =========================
 // Context Value
 // =========================
 
 type UserContextValue = User & {
-  addCalorieEntry: (meal: MealLog) => void;
-  setUser: (user: User) => void;
+  createUser: (userData: Partial<User>) => void;
+  updateUser: (updates: Partial<User>) => void;
+  addMeal: (meal: MealLog) => void;
+  loadUser: (username: string) => void;
 };
 
 // =========================
@@ -271,7 +286,7 @@ const UserContext = createContext<UserContextValue | null>(null);
 
 function userReducer(state: User, action: Action): User {
   switch (action.type) {
-    case "ADD_CALORIE_ENTRY": {
+    case "ADD_MEAL_ENTRY": {
       const meal = action.payload;
       const existingIndex = state.calorieHistory.findIndex(
         (entry) => entry.date === meal.date
@@ -292,7 +307,7 @@ function userReducer(state: User, action: Action): User {
                 sodiumToday: entry.sodiumToday + meal.sodiumInMg,
                 carbonFootPrintValueToday:
                   entry.carbonFootPrintToday + meal.CO2Expense,
-                mealsToday: [...entry.mealsToday, meal],
+                //  mealsToday: [...entry.mealsToday, meal],
               }
             : entry
         );
@@ -306,7 +321,7 @@ function userReducer(state: User, action: Action): User {
           fatsToday: meal.fatInGrams,
           sodiumToday: meal.sodiumInMg,
           carbonFootPrintToday: meal.CO2Expense,
-          mealsToday: [meal],
+          //  mealsToday: [meal],
         };
         updatedHistory = [...state.calorieHistory, newEntry];
       }
@@ -324,9 +339,16 @@ function userReducer(state: User, action: Action): User {
       };
     }
 
-    case "SET_USER": {
-      // PLACE API CALL TO UPDATE USER
-      return action.payload;
+    case "LOAD_USER": {
+      return { ...state, ...action.payload };
+    }
+
+    case "CREATE_USER": {
+      return { ...state, ...action.payload };
+    }
+
+    case "UPDATE_USER_ATTRIBUTES": {
+      return { ...state, ...action.payload };
     }
 
     default:
@@ -411,15 +433,64 @@ export default function UserContextProvider({
 
     fetchUserData();
   }, [userId, isLoaded]); */
+
+  async function createUser(userData: Partial<User>) {
+    /*   await fetch("/api/createUser", {
+      method: "POST",
+      body: JSON.stringify(userData),
+    }); */
+
+    // CALL loadUser on profile-setup page after createUser.
+
+    dispatch({ type: "CREATE_USER", payload: userData });
+  }
+
+  async function updateUser(updates: Partial<User>) {
+    /*     await fetch("/api/updateUser", {
+      method: "PATCH",
+      body: JSON.stringify(updates),
+    }); */
+
+    // CALL loadUser on Account page after update.
+
+    dispatch({ type: "UPDATE_USER_ATTRIBUTES", payload: updates });
+  }
+
+  async function addMeal(meal: MealLog) {
+    /*     await fetch("/api/addFoodLog", {
+      method: "PATCH",
+      body: JSON.stringify(meal),
+    }); */
+
+    // CALL loadUser after addMeal in AddMeal.tsx
+
+    dispatch({ type: "ADD_MEAL_ENTRY", payload: meal });
+  }
+
+  async function loadUser(username: string) {
+    const res = await fetch("/api/getUser", {
+      method: "POST",
+      body: JSON.stringify({ username }),
+    });
+
+    // CALL calculateCalorieHistory here
+
+    const user = await res.json();
+    /*  dispatch({ type: "LOAD_USER", payload: user }); */
+  }
+
   const ctx: UserContextValue = {
     ...userState,
-    addCalorieEntry(meal) {
-      dispatch({ type: "ADD_CALORIE_ENTRY", payload: meal });
-    },
-    setUser(user) {
-      dispatch({ type: "SET_USER", payload: user });
-    },
+    addMeal,
+    createUser,
+    updateUser,
+    loadUser,
   };
 
   return <UserContext.Provider value={ctx}>{children}</UserContext.Provider>;
 }
+
+// ========================= to do list =========================
+
+// Change name of meal log to food log.
+// create calculateCalorieHistory function.
