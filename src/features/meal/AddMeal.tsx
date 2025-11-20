@@ -50,7 +50,7 @@ type SelectedFood = {
 export default function AddMeal() {
   const { user: clerkUser } = useUser(); // Get Clerk user for userId
   const contextUser = useUserContext();
-  const { addMeal } = useUserContext();
+  const { addFoodLog } = useUserContext();
 
   // Console log user data for testing
   console.log("Current user data:", contextUser);
@@ -234,7 +234,7 @@ export default function AddMeal() {
     // Update Context API for dashboard
 
     for (const food of selectedFoods) {
-      addMeal({
+      addFoodLog({
         name: food.name,
         date: today,
         calories: Math.round(food.calories * food.servingSize),
@@ -243,6 +243,7 @@ export default function AddMeal() {
         fatInGrams: Math.round(food.fats * food.servingSize),
         sodiumInMg: Math.round(food.sodium * food.servingSize),
         CO2Expense: Math.round(food.carbonFootprint * food.servingSize),
+        servingSize: food.servingSize,
       });
     }
 

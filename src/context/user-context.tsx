@@ -18,7 +18,7 @@ proteinInGrams: Math.round(nutritionData.protein_g),
 carbsInGrams: Math.round(nutritionData.carbohydrates_total_g),
 sodiumInMg: Math.round(nutritionData.sodium_mg),
 CO2Expense */
-export type MealLog = {
+export type FoodLog = {
   name: string;
   date: string; // e.g., "2025-10-08"
   calories: number;
@@ -27,6 +27,7 @@ export type MealLog = {
   fatInGrams: number;
   sodiumInMg: number;
   CO2Expense: number;
+  servingSize: number;
 };
 
 export type CalorieHistoryItem = {
@@ -238,9 +239,9 @@ const initialState: User = {
 // Actions
 // =========================
 
-type AddMealEntryAction = {
-  type: "ADD_MEAL_ENTRY";
-  payload: MealLog;
+type AddFoodLogAction = {
+  type: "ADD_FOOD_LOG";
+  payload: FoodLog;
 };
 
 type LoadUserAction = {
@@ -257,11 +258,18 @@ type UpdateUserAttributesAction = {
   type: "UPDATE_USER_ATTRIBUTES";
   payload: Partial<User>;
 };
+
+type CalculateCalorieHistoryAction = {
+  type: "CALCULATE_CALORIE_HISTORY";
+  payload: CalorieHistoryItem[];
+};
+
 type Action =
-  | AddMealEntryAction
+  | AddFoodLogAction
   | LoadUserAction
   | CreateUserAction
-  | UpdateUserAttributesAction;
+  | UpdateUserAttributesAction
+  | CalculateCalorieHistoryAction;
 
 // =========================
 // Context Value
@@ -270,7 +278,7 @@ type Action =
 type UserContextValue = User & {
   createUser: (userData: Partial<User>) => void;
   updateUser: (updates: Partial<User>) => void;
-  addMeal: (meal: MealLog) => void;
+  addFoodLog: (foodLog: FoodLog) => void;
   loadUser: (username: string) => void;
 };
 
@@ -286,10 +294,10 @@ const UserContext = createContext<UserContextValue | null>(null);
 
 function userReducer(state: User, action: Action): User {
   switch (action.type) {
-    case "ADD_MEAL_ENTRY": {
-      const meal = action.payload;
+    case "ADD_FOOD_LOG": {
+      const foodLog = action.payload;
       const existingIndex = state.calorieHistory.findIndex(
-        (entry) => entry.date === meal.date
+        (entry) => entry.date === foodLog.date
       );
 
       let updatedHistory: CalorieHistoryItem[];
@@ -300,42 +308,42 @@ function userReducer(state: User, action: Action): User {
           idx === existingIndex
             ? {
                 ...entry,
-                caloriesToday: entry.caloriesToday + meal.calories,
-                proteinToday: entry.proteinToday + meal.proteinInGrams,
-                carbsToday: entry.carbsToday + meal.carbsInGrams,
-                fatsToday: entry.fatsToday + meal.fatInGrams,
-                sodiumToday: entry.sodiumToday + meal.sodiumInMg,
+                caloriesToday: entry.caloriesToday + foodLog.calories,
+                proteinToday: entry.proteinToday + foodLog.proteinInGrams,
+                carbsToday: entry.carbsToday + foodLog.carbsInGrams,
+                fatsToday: entry.fatsToday + foodLog.fatInGrams,
+                sodiumToday: entry.sodiumToday + foodLog.sodiumInMg,
                 carbonFootPrintValueToday:
-                  entry.carbonFootPrintToday + meal.CO2Expense,
-                //  mealsToday: [...entry.mealsToday, meal],
+                  entry.carbonFootPrintToday + foodLog.CO2Expense,
+                //  mealsToday: [...entry.mealsToday, foodLog],
               }
             : entry
         );
       } else {
         // Create new date entry
         const newEntry: CalorieHistoryItem = {
-          date: meal.date,
-          caloriesToday: meal.calories,
-          proteinToday: meal.proteinInGrams,
-          carbsToday: meal.carbsInGrams,
-          fatsToday: meal.fatInGrams,
-          sodiumToday: meal.sodiumInMg,
-          carbonFootPrintToday: meal.CO2Expense,
-          //  mealsToday: [meal],
+          date: foodLog.date,
+          caloriesToday: foodLog.calories,
+          proteinToday: foodLog.proteinInGrams,
+          carbsToday: foodLog.carbsInGrams,
+          fatsToday: foodLog.fatInGrams,
+          sodiumToday: foodLog.sodiumInMg,
+          carbonFootPrintToday: foodLog.CO2Expense,
+          //  mealsToday: [foodLog],
         };
         updatedHistory = [...state.calorieHistory, newEntry];
       }
 
       return {
         ...state,
-        // totalMeals: [...state.totalMeals, meal],
+        // totalMeals: [...state.totalMeals, foodLog],
         calorieHistory: updatedHistory,
-        totalCalories: state.totalCalories + meal.calories,
-        totalProtein: state.totalProtein + meal.proteinInGrams,
-        totalCarbs: state.totalCarbs + meal.carbsInGrams,
-        totalFats: state.totalFats + meal.fatInGrams,
-        totalSodium: state.totalSodium + meal.sodiumInMg,
-        totalCarbonFootPrint: state.totalCarbonFootPrint + meal.CO2Expense,
+        totalCalories: state.totalCalories + foodLog.calories,
+        totalProtein: state.totalProtein + foodLog.proteinInGrams,
+        totalCarbs: state.totalCarbs + foodLog.carbsInGrams,
+        totalFats: state.totalFats + foodLog.fatInGrams,
+        totalSodium: state.totalSodium + foodLog.sodiumInMg,
+        totalCarbonFootPrint: state.totalCarbonFootPrint + foodLog.CO2Expense,
       };
     }
 
@@ -348,6 +356,9 @@ function userReducer(state: User, action: Action): User {
     }
 
     case "UPDATE_USER_ATTRIBUTES": {
+      return { ...state, ...action.payload };
+    }
+    case "CALCULATE_CALORIE_HISTORY": {
       return { ...state, ...action.payload };
     }
 
@@ -456,15 +467,37 @@ export default function UserContextProvider({
     dispatch({ type: "UPDATE_USER_ATTRIBUTES", payload: updates });
   }
 
-  async function addMeal(meal: MealLog) {
+  async function addFoodLog(foodLog: FoodLog) {
     /*     await fetch("/api/addFoodLog", {
       method: "PATCH",
-      body: JSON.stringify(meal),
+      body: JSON.stringify(foodLog),
     }); */
 
     // CALL loadUser after addMeal in AddMeal.tsx
 
-    dispatch({ type: "ADD_MEAL_ENTRY", payload: meal });
+    dispatch({ type: "ADD_FOOD_LOG", payload: foodLog });
+  }
+
+  async function calculateCalorieHistoryByDate(username: string) {
+    const lastSevenDays = [];
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i); // subtract i days
+      const formatted = date.toISOString().split("T")[0]; // "YYYY-MM-DD"
+      lastSevenDays.push(formatted);
+    }
+
+    const calorieHistory: CalorieHistoryItem[] = [];
+    for (const date of lastSevenDays) {
+      const res = await fetch("/api/calculateCalorieHistory", {
+        method: "POST",
+        body: JSON.stringify({ username, date }),
+      });
+      const calorieHistoryItem: CalorieHistoryItem = await res.json();
+      calorieHistory.push(calorieHistoryItem);
+    }
+    dispatch({ type: "CALCULATE_CALORIE_HISTORY", payload: calorieHistory });
   }
 
   async function loadUser(username: string) {
@@ -473,15 +506,16 @@ export default function UserContextProvider({
       body: JSON.stringify({ username }),
     });
 
-    // CALL calculateCalorieHistory here
-
     const user = await res.json();
-    /*  dispatch({ type: "LOAD_USER", payload: user }); */
+
+    dispatch({ type: "LOAD_USER", payload: user });
+
+    calculateCalorieHistoryByDate(username);
   }
 
   const ctx: UserContextValue = {
     ...userState,
-    addMeal,
+    addFoodLog,
     createUser,
     updateUser,
     loadUser,
