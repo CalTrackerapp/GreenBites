@@ -456,15 +456,18 @@ export default function UserContextProvider({
     dispatch({ type: "CREATE_USER", payload: userData });
   }
 
-  async function updateUser(updates: Partial<User>) {
+  async function updateUser(updatedUserAttributes: Partial<User>) {
     /*     await fetch("/api/updateUser", {
       method: "PATCH",
-      body: JSON.stringify(updates),
+      body: JSON.stringify(updatedUserAttributes),
     }); */
 
     // CALL loadUser on Account page after update.
 
-    dispatch({ type: "UPDATE_USER_ATTRIBUTES", payload: updates });
+    dispatch({
+      type: "UPDATE_USER_ATTRIBUTES",
+      payload: updatedUserAttributes,
+    });
   }
 
   async function addFoodLog(foodLog: FoodLog) {

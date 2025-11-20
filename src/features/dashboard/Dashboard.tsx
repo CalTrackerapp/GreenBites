@@ -23,7 +23,7 @@ function Dashboard() {
   const weeklyCalories: { day: string; calories: number }[] = [];
 
   if (user?.calorieHistory) {
-    for (let i = 0; i < user.calorieHistory.length; i++) {
+    for (let i = 0; i < 7; i++) {
       weeklyCalories.push({
         day: user.calorieHistory[i].date,
         calories: user.calorieHistory[i].caloriesToday,
@@ -52,18 +52,27 @@ function Dashboard() {
   const remainingCalories = Math.max(0, calorieGoal - caloriesToday);
 
   // Prepare sodium trend data
-  const sodiumTrendData =
-    user?.calorieHistory.map((entry) => ({
-      day: entry.date,
-      sodium: entry.sodiumToday,
-    })) || [];
+  const sodiumTrendData: { day: string; sodium: number }[] = [];
+
+  if (user?.calorieHistory) {
+    for (let i = 0; i < 7; i++) {
+      sodiumTrendData.push({
+        day: user.calorieHistory[i].date,
+        sodium: user.calorieHistory[i].sodiumToday,
+      });
+    }
+  }
 
   // Prepare carbon footprint trend data
-  const carbonTrendData =
-    user?.calorieHistory.map((entry) => ({
-      day: entry.date,
-      carbonFootprint: entry.carbonFootPrintToday,
-    })) || [];
+  const carbonTrendData: { day: string; carbonFootprint: number }[] = [];
+  if (user?.calorieHistory) {
+    for (let i = 0; i < 7; i++) {
+      carbonTrendData.push({
+        day: user.calorieHistory[i].date,
+        carbonFootprint: user.calorieHistory[i].carbonFootPrintToday,
+      });
+    }
+  }
 
   return (
     <div className=" bg-gradient-to-br  from-green-700 via-indigo-800 to-green-400 ">

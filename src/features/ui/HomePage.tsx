@@ -25,7 +25,7 @@ export default function HomePage() {
       <section className="relative flex flex-col items-center text-center px-6 pt-32 pb-40 overflow-hidden">
         <div className="max-w-6xl mx-auto z-10">
           <div className="mb-8">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-green-100 px-4 py-2 rounded-full border border-emerald-200 mb-6">
+            <div className="flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-green-100 px-4 py-2 rounded-full border border-emerald-200 mb-6">
               <Sparkles className="w-4 h-4 text-emerald-600" />
               <span className="text-emerald-700 font-semibold text-sm">
                 Eco-Friendly Nutrition Tracking
