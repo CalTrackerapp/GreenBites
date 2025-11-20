@@ -1,6 +1,7 @@
 import { db } from "../index.ts"; 
 import * as schema from "../db/schema.ts";
-import { eq, and } from 'drizzle-orm'; 
+import { eq, and } from 'drizzle-orm';
+import { foodLog } from "../db/schema.ts";
 //data retrieved from each method assumes that the foodID and userID provided exist in their respective tables from the API calls
 
 type FoodLogData = { // data type for creating a food log entry
@@ -151,38 +152,81 @@ export async function getAllFoodLogs(username: string) {
 }
 
 
-export async function createFoodLogEntry(data: FoodLogData) {
-  const calories = await calculateCalories(data.foodID, data.servingSize);
-  const protein = await calculateProtein(data.foodID, data.servingSize);
-  const carbs = await calculateCarbs(data.foodID, data.servingSize);
-  const fats = await calculateFats(data.foodID, data.servingSize);
-  const sodium = await calculateSodium(data.foodID, data.servingSize);
-  const carbonFootPrintValue = await calculateCO2Expense(data.foodID, data.servingSize);
+// export async function createFoodLogEntry(data: FoodLogData) {
+//   const calories = await calculateCalories(data.foodID, data.servingSize);
+//   const protein = await calculateProtein(data.foodID, data.servingSize);
+//   const carbs = await calculateCarbs(data.foodID, data.servingSize);
+//   const fats = await calculateFats(data.foodID, data.servingSize);
+//   const sodium = await calculateSodium(data.foodID, data.servingSize);
+//   const carbonFootPrintValue = await calculateCO2Expense(data.foodID, data.servingSize);
 
-  const result = await db.insert(schema.foodLog).values({
-    userID: data.userID,
-    foodID: data.foodID,
-    servingSize: data.servingSize,
-    calories,
-    protein,
-    carbs,
-    fats,
-    sodium,
-    carbonFootPrintValue
-  }).returning();
+//   const result = await db.insert(schema.foodLog).values({
+//     userID: data.userID,
+//     foodID: data.foodID,
+//     servingSize: data.servingSize,
+//     calories,
+//     protein,
+//     carbs,
+//     fats,
+//     sodium,
+//     carbonFootPrintValue
+//   }).returning();
 
+//   await alterUserTotals(
+//     data.userID,
+//     calories,
+//     protein,
+//     carbs,
+//     fats,
+//     sodium,
+//     carbonFootPrintValue
+//   );
+
+//   return result;
+// }
+
+//update to method above
+
+export async function addFoodLogEntry(userID: string, foodID: string, data: {
+  name: string;
+  date: string;
+  servingSize: number;
+  calories: number;
+  proteinInGrams: number;
+  carbsInGrams: number;
+  fatInGrams: number;
+  sodiumInMg: number;
+  CO2Expense: number;
+}) {
+  // Insert directly using provided values
+const result = await db.insert(foodLog).values({
+  userID,
+  foodID,
+  name: data.name,
+  servingSize: data.servingSize,
+  calories: data.calories,
+  protein: data.proteinInGrams,
+  carbs: data.carbsInGrams,      
+  fats: data.fatInGrams,         
+  sodium: data.sodiumInMg,       
+  carbonFootPrintValue: data.CO2Expense,
+}).returning();
+
+
+  // Update user totals
   await alterUserTotals(
-    data.userID,
-    calories,
-    protein,
-    carbs,
-    fats,
-    sodium,
-    carbonFootPrintValue
+    userID,
+    data.calories,
+    data.proteinInGrams,
+    data.carbsInGrams,
+    data.fatInGrams,
+    data.sodiumInMg,
+    data.CO2Expense
   );
 
   return result;
 }
+
 
 export async function deleteFoodLogEntry(logID: number, userId: string) {
   return await db
