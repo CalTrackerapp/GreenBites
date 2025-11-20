@@ -16,7 +16,56 @@ import Image from "next/image";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-emerald-50 to-green-100 text-slate-800 overflow-hidden relative">
+    <main className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-emerald-50 to-green-100 text-slate-800 overflow-hidden relative">
+      <section className="relative px-6 lg:px-12 py-20 max-lg:hidden ">
+        <div className="max-w-6xl mx-auto rounded-[40px]  overflow-hidden">
+          <div className="flex flex-col lg:flex-row items-center">
+            <div className="flex-1 w-full">
+              <div className="relative h-full">
+                <div className="absolute -top-6 -left-8 w-32 h-32 bg-gradient-to-br from-emerald-200/70 to-green-300/50 rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-10 -right-10 w-36 h-36 bg-gradient-to-br from-teal-200/60 to-blue-200/60 rounded-full blur-3xl"></div>
+                <Image
+                  src="/logo2.jpg"
+                  alt="GreenBites experience preview"
+                  width={1400}
+                  height={1000}
+                  className="relative w-full h-full object-cover lg:min-h-[480px]"
+                  priority
+                />
+              </div>
+            </div>
+            <article className="flex-1 px-8 py-12 lg:py-16 space-y-6 text-left">
+              <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-emerald-600 bg-emerald-50 px-4 py-1 rounded-full">
+                <Sparkles className="w-4 h-4" />
+                All-in-one wellness
+              </p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                Track meals, stay motivated, and see the carbon impact in real
+                time.
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                GreenBites blends nutrition insights with sustainability data so
+                you can make smarter decisions every time you eat. Plan your
+                meals, measure progress, and celebrate greener wins.
+              </p>
+              <ul className="space-y-3 text-slate-700">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-500 mt-1" />
+                  Personalized guidance aligned with your calorie goals.
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-500 mt-1" />
+                  CO₂ estimates for every meal you log.
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-500 mt-1" />
+                  Beautiful dashboards that keep you inspired.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
       <section className="relative flex flex-col items-center text-center px-6 pt-32 pb-40 overflow-hidden">
         <div className="flex flex-col items-center justify-center max-w-6xl mx-auto z-10">
           <div className="mb-8">
@@ -68,7 +117,6 @@ export default function HomePage() {
 
         <Globe2 className="absolute top-1/3 right-1/4 w-12 h-12 text-teal-300 opacity-50" />
       </section>
-
       <section className="relative px-8 md:px-0 py-0">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
@@ -82,7 +130,7 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-32">
-            <div className="flex flex-col lg:flex-row items-center gap-16">
+            <article className="flex flex-col lg:flex-row items-center gap-16">
               <div className="w-2/3 md:w-1/2">
                 <div className=" rounded-3xl p-8 border border-white/30">
                   <Image
@@ -114,9 +162,9 @@ export default function HomePage() {
                   <span>Real-time carbon tracking</span>
                 </div>
               </div>
-            </div>
+            </article>
 
-            <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
+            <article className="flex flex-col lg:flex-row-reverse items-center gap-16">
               <div className=" w-2/3 md:w-1/2">
                 <div className=" rounded-3xl p-8 border border-white/30">
                   <Image
@@ -147,9 +195,9 @@ export default function HomePage() {
                   <span>Beautiful data visualizations</span>
                 </div>
               </div>
-            </div>
+            </article>
 
-            <div className="flex flex-col lg:flex-row items-center gap-16">
+            <article className="flex flex-col lg:flex-row items-center gap-16">
               <div className="w-2/3 md:w-1/2">
                 <div className=" rounded-3xl p-8">
                   <Image
@@ -175,16 +223,11 @@ export default function HomePage() {
                   taste, health, and sustainability — because the right choice
                   should also be the easiest one.
                 </p>
-                <div className="flex items-center gap-2 text-emerald-600 font-semibold">
-                  <CheckCircle className="w-5 h-5" />
-                  <span>AI-powered recommendations</span>
-                </div>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </section>
-
       <section className="relative bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white py-32 text-center overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)]"></div>
         <div className="relative max-w-4xl mx-auto px-6">
@@ -208,7 +251,6 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-
       <footer className="py-16 text-center bg-gradient-to-r from-slate-50 to-emerald-50 border-t border-emerald-200">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-center gap-3 mb-6">
@@ -227,6 +269,6 @@ export default function HomePage() {
           </p>
         </div>
       </footer>
-    </div>
+    </main>
   );
 }

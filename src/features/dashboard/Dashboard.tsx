@@ -75,7 +75,7 @@ function Dashboard() {
   }
 
   return (
-    <div className=" bg-gradient-to-br  from-green-700 via-indigo-800 to-green-400 ">
+    <main className=" bg-gradient-to-br  from-green-700 via-indigo-800 to-green-400 ">
       {/*   <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 rounded-full blur-3xl"></div>
@@ -85,7 +85,7 @@ function Dashboard() {
       <DashboardHeader username={firstName || ""} />
 
       <div className="relative max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-8">
+        <section className="mb-8">
           <div className="flex items-center gap-4 mb-6">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
             <h2 className="text-3xl font-bold text-white drop-shadow-lg flex items-center gap-3">
@@ -96,19 +96,19 @@ function Dashboard() {
             </h2>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
           </div>
-        </div>
 
-        <QuickStats
-          caloriesToday={caloriesToday}
-          calorieGoal={calorieGoal}
-          caloriePercentage={caloriePercentage}
-          proteinToday={todayProtein}
-          todayCarbonFootprint={todayCarbonFootprint}
-          remainingCalories={remainingCalories}
-          todaySodium={todaySodium}
-        />
+          <QuickStats
+            caloriesToday={caloriesToday}
+            calorieGoal={calorieGoal}
+            caloriePercentage={caloriePercentage}
+            proteinToday={todayProtein}
+            todayCarbonFootprint={todayCarbonFootprint}
+            remainingCalories={remainingCalories}
+            todaySodium={todaySodium}
+          />
+        </section>
 
-        <div className="mt-16 mb-8">
+        <section className="mt-16 mb-8">
           <div className="flex items-center gap-4 mb-6">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
             <h2 className="text-3xl font-bold text-white drop-shadow-lg flex items-center gap-3">
@@ -119,26 +119,26 @@ function Dashboard() {
             </h2>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1  gap-8 mb-8">
-          <DailyCaloriesBreakDown
-            caloriesToday={caloriesToday}
-            calorieGoal={calorieGoal}
-            caloriePercentage={caloriePercentage}
-          />
+          <div className="grid grid-cols-1  gap-8 mb-8">
+            <DailyCaloriesBreakDown
+              caloriesToday={caloriesToday}
+              calorieGoal={calorieGoal}
+              caloriePercentage={caloriePercentage}
+            />
 
-          <MacroNutrientsBreakdown macroData={macroData} />
+            <MacroNutrientsBreakdown macroData={macroData} />
 
-          <SodiumBreakdown
-            todaySodium={todaySodium}
-            sodiumTrendData={sodiumTrendData}
-          />
+            <SodiumBreakdown
+              todaySodium={todaySodium}
+              sodiumTrendData={sodiumTrendData}
+            />
 
-          <WeeklyCaloriesTrend weeklyCalories={weeklyCalories} />
-        </div>
+            <WeeklyCaloriesTrend weeklyCalories={weeklyCalories} />
+          </div>
+        </section>
 
-        <div className="mt-16 mb-8">
+        <section className="mt-16 mb-8">
           <div className="flex items-center gap-4 mb-6">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
             <h2 className="text-3xl font-bold text-white drop-shadow-lg flex items-center gap-3">
@@ -149,15 +149,15 @@ function Dashboard() {
             </h2>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
           </div>
-        </div>
 
-        <CarbonImpact
-          todayCarbonFootprint={todayCarbonFootprint}
-          totalCarbonFootprint={totalCarbonFootprint}
-          carbonTrendData={carbonTrendData}
-        />
+          <CarbonImpact
+            todayCarbonFootprint={todayCarbonFootprint}
+            totalCarbonFootprint={totalCarbonFootprint}
+            carbonTrendData={carbonTrendData}
+          />
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
 
