@@ -223,7 +223,7 @@ export async function getAllFoodLogs(username: string) {
 
 //update to method above
 
-export async function addFoodLogEntry(userID: string, data: {
+export async function createFoodLogEntry(userID: string, data: {
   name: string;
   date: string;
   servingSize: number;
