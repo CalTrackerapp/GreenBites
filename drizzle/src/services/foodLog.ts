@@ -187,7 +187,7 @@ export async function getAllFoodLogs(username: string) {
 
 //update to method above
 
-export async function addFoodLogEntry(userID: string, foodID: string, data: {
+export async function addFoodLogEntry(userID: string, data: {
   name: string;
   date: string;
   servingSize: number;
@@ -201,7 +201,7 @@ export async function addFoodLogEntry(userID: string, foodID: string, data: {
   // Insert directly using provided values
 const result = await db.insert(foodLog).values({
   userID,
-  foodID,
+  foodID : data.name, // Assuming foodID is same as name here, adjust if needed
   name: data.name,
   servingSize: data.servingSize,
   calories: data.calories,
