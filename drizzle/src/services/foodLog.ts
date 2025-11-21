@@ -105,19 +105,55 @@ async function calculateSodium(foodID: string, servingSize: number): Promise<num
     return first.sodiumInMg * servingSize;
 }
 
-export async function calculateCalorieHistory(username: string): Promise<number> { // returns an array of all calorie values from food log entries for a user
-    const foodLogs = await db.select().from(schema.foodLog).where(eq(schema.foodLog.userID, username));
-    let totalCalories = 0;
 
-    const calorieEntries: number[] = [];
+export async function calculateCalorieHistoryByDate(
+  username: string,
+  date: string
+): Promise<{
+  date: string;
+  caloriesToday: number;
+  proteinToday: number;
+  carbsToday: number;
+  fatsToday: number;
+  sodiumToday: number;
+  carbonFootPrintToday: number;
+}> {
+  // Get all food logs for this user on the given date
+  const foodLogs = await db
+    .select()
+    .from(schema.foodLog)
+    .where(
+      and(
+        eq(schema.foodLog.userID, username),
+        eq(schema.foodLog.loggedAt, new Date(date))
+      )
+    );
 
-    for (const log of foodLogs) {
-        const calories = await calculateCalories(log.foodID, log.servingSize);
-        calorieEntries.push(calories);
-    }
+  let caloriesToday = 0;
+  let proteinToday = 0;
+  let carbsToday = 0;
+  let fatsToday = 0;
+  let sodiumToday = 0;
+  let carbonFootPrintToday = 0;
 
+  for (const log of foodLogs) {
+    caloriesToday += await calculateCalories(log.foodID, log.servingSize);
+    proteinToday += await calculateProtein(log.foodID, log.servingSize);
+    carbsToday += await calculateCarbs(log.foodID, log.servingSize);
+    fatsToday += await calculateFats(log.foodID, log.servingSize);
+    sodiumToday += await calculateSodium(log.foodID, log.servingSize);
+    carbonFootPrintToday += await calculateCO2Expense(log.foodID, log.servingSize);
+  }
 
-    return totalCalories;
+  return {
+    date,
+    caloriesToday,
+    proteinToday,
+    carbsToday,
+    fatsToday,
+    sodiumToday,
+    carbonFootPrintToday,
+  };
 }
 
 async function alterUserTotals(username: string, calories: number, protein: number, carbs: number, fats: number, sodium: number, totalCO2Expense: number) { // updates user's total nutritional values by ADDING to existing totals
