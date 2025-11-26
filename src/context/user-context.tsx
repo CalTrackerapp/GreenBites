@@ -60,14 +60,14 @@ export type User = {
 // =========================
 // Initial State
 // =========================
-/* 
+
 const initialState: User = {
   username: "",
-  gender: "",
-  height: 0,
-  weight: 0,
-  calorieGoal: 0,
-  totalMeals: [],
+  gender: "Male",
+  height: 70,
+  weight: 180,
+  calorieGoal: 2500,
+  // totalMeals: [],
   totalCalories: 0,
   totalProtein: 0,
   totalCarbs: 0,
@@ -75,164 +75,6 @@ const initialState: User = {
   totalSodium: 0,
   totalCarbonFootPrint: 0,
   calorieHistory: [],
-};
- */
-
-const initialState: User = {
-  username: "TestUser",
-  gender: "Male",
-  height: 180,
-  weight: 75,
-  calorieGoal: 2500,
-  //totalMeals: [],
-  totalCalories: 5200,
-  totalProtein: 280,
-  totalCarbs: 600,
-  totalFats: 180,
-  totalSodium: 3000,
-  totalCarbonFootPrint: 25,
-  calorieHistory: [
-    {
-      date: "2025-10-06",
-      caloriesToday: 1800,
-      proteinToday: 95,
-      carbsToday: 230,
-      fatsToday: 60,
-      sodiumToday: 1800,
-      carbonFootPrintToday: 7,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-07",
-      caloriesToday: 2100,
-      proteinToday: 120,
-      carbsToday: 260,
-      fatsToday: 70,
-      sodiumToday: 2200,
-      carbonFootPrintToday: 9,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-08",
-      caloriesToday: 2500,
-      proteinToday: 135,
-      carbsToday: 290,
-      fatsToday: 85,
-      sodiumToday: 2400,
-      carbonFootPrintToday: 11,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-09",
-      caloriesToday: 1900,
-      proteinToday: 100,
-      carbsToday: 240,
-      fatsToday: 65,
-      sodiumToday: 2100,
-      carbonFootPrintToday: 8,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-10",
-      caloriesToday: 2750,
-      proteinToday: 160,
-      carbsToday: 320,
-      fatsToday: 95,
-      sodiumToday: 2600,
-      carbonFootPrintToday: 12,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-11",
-      caloriesToday: 2400,
-      proteinToday: 130,
-      carbsToday: 300,
-      fatsToday: 80,
-      sodiumToday: 2300,
-      carbonFootPrintToday: 10,
-      //  mealsToday: [],
-    },
-    {
-      date: "2025-10-12",
-      caloriesToday: 1950,
-      proteinToday: 105,
-      carbsToday: 250,
-      fatsToday: 65,
-      sodiumToday: 2000,
-      carbonFootPrintToday: 8,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-13",
-      caloriesToday: 2200,
-      proteinToday: 115,
-      carbsToday: 270,
-      fatsToday: 75,
-      sodiumToday: 2100,
-      carbonFootPrintToday: 9,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-14",
-      caloriesToday: 2600,
-      proteinToday: 140,
-      carbsToday: 310,
-      fatsToday: 85,
-      sodiumToday: 2400,
-      carbonFootPrintToday: 11,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-15",
-      caloriesToday: 2300,
-      proteinToday: 125,
-      carbsToday: 280,
-      fatsToday: 80,
-      sodiumToday: 2200,
-      carbonFootPrintToday: 10,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-16",
-      caloriesToday: 3200,
-      proteinToday: 170,
-      carbsToday: 350,
-      fatsToday: 100,
-      sodiumToday: 2600,
-      carbonFootPrintToday: 13,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-17",
-      caloriesToday: 2700,
-      proteinToday: 150,
-      carbsToday: 310,
-      fatsToday: 90,
-      sodiumToday: 2500,
-      carbonFootPrintToday: 11,
-      //mealsToday: [],
-    },
-    {
-      date: "2025-10-18",
-      caloriesToday: 2000,
-      proteinToday: 110,
-      carbsToday: 260,
-      fatsToday: 70,
-      sodiumToday: 2000,
-      carbonFootPrintToday: 9,
-      //  mealsToday: [],
-    },
-    {
-      date: "2025-10-19",
-      caloriesToday: 2050,
-      proteinToday: 165,
-      carbsToday: 340,
-      fatsToday: 95,
-      sodiumToday: 2700,
-      carbonFootPrintToday: 12,
-      //  mealsToday: [],
-    },
-  ],
 };
 
 // =========================
@@ -394,6 +236,29 @@ export default function UserContextProvider({
 }: UserContextProviderProps) {
   const [userState, dispatch] = useReducer(userReducer, initialState);
   const { userId, isLoaded } = useAuth();
+
+  // Load from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("userState");
+      if (saved) {
+        dispatch({ type: "LOAD_USER", payload: JSON.parse(saved) });
+      }
+    } catch (err) {
+      console.error("Failed to load userState from localStorage", err);
+    }
+  }, []);
+
+  // Save to localStorage automatically when userState changes
+  useEffect(() => {
+    try {
+      localStorage.setItem("userState", JSON.stringify(userState));
+    } catch (err) {
+      console.error("Failed to save userState to localStorage", err);
+    }
+  }, [userState]);
+
+  // Clear localStorage on logout
 
   /*  useEffect(() => {
     async function fetchUserData() {

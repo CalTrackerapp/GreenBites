@@ -32,42 +32,18 @@ export default function AccountPage() {
     e.preventDefault();
     setMessage(null);
 
-    try {
-      const response = await fetch("/api/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gender: formData.gender,
-          height: formData.height.toString(),
-          weight: formData.weight.toString(),
-          calorieGoal: formData.calorieGoal.toString(),
-        }),
-      });
+    // Update local context (no conversion needed - database stores inches/pounds)
+    // API returns calGoal but User type expects calorieGoal
+    const updatedUser: User = {
+      ...user,
+      gender: formData.gender,
+      height: formData.height,
+      weight: formData.weight,
+      calorieGoal: formData.calorieGoal,
+    };
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to update profile");
-      }
-
-      const updatedUserData = await response.json();
-      
-      // Update local context (no conversion needed - database stores inches/pounds)
-      // API returns calGoal but User type expects calorieGoal
-      const updatedUser: User = {
-        ...user,
-        gender: updatedUserData.gender || formData.gender,
-        height: updatedUserData.height || formData.height,
-        weight: updatedUserData.weight || formData.weight,
-        calorieGoal: updatedUserData.calorieGoal || updatedUserData.calGoal || formData.calorieGoal,
-      };
-
-      user.setUser(updatedUser);
-      setMessage({ type: "success", text: "Account updated successfully!" });
-    } catch (error) {
-      console.error("Error updating account:", error);
-      const errorMessage = error instanceof Error ? error.message : "Failed to update account. Please try again.";
-      setMessage({ type: "error", text: errorMessage });
-    }
+    user.updateUser(updatedUser);
+    setMessage({ type: "success", text: "Account updated successfully!" });
   }
 
   return (

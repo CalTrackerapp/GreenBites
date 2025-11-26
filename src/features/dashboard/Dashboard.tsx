@@ -22,8 +22,8 @@ function Dashboard() {
 
   const weeklyCalories: { day: string; calories: number }[] = [];
 
-  if (user?.calorieHistory) {
-    for (let i = 0; i < 7; i++) {
+  if (user.calorieHistory.length > 0) {
+    for (let i = user.calorieHistory.length - 1; i >= 0; i--) {
       weeklyCalories.push({
         day: user.calorieHistory[i].date,
         calories: user.calorieHistory[i].caloriesToday,
@@ -54,8 +54,8 @@ function Dashboard() {
   // Prepare sodium trend data
   const sodiumTrendData: { day: string; sodium: number }[] = [];
 
-  if (user?.calorieHistory) {
-    for (let i = 0; i < 7; i++) {
+  if (user.calorieHistory.length > 0) {
+    for (let i = user.calorieHistory.length - 1; i >= 0; i--) {
       sodiumTrendData.push({
         day: user.calorieHistory[i].date,
         sodium: user.calorieHistory[i].sodiumToday,
@@ -65,8 +65,8 @@ function Dashboard() {
 
   // Prepare carbon footprint trend data
   const carbonTrendData: { day: string; carbonFootprint: number }[] = [];
-  if (user?.calorieHistory) {
-    for (let i = 0; i < 7; i++) {
+  if (user.calorieHistory.length > 0) {
+    for (let i = user.calorieHistory.length - 1; i >= 0; i--) {
       carbonTrendData.push({
         day: user.calorieHistory[i].date,
         carbonFootprint: user.calorieHistory[i].carbonFootPrintToday,
