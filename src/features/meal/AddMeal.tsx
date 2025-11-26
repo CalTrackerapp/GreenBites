@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUserContext } from "../../context/user-context";
+import { useUserContext } from "../../context/use-user-context";
 import { useUser } from "@clerk/nextjs";
 import {
   Search,

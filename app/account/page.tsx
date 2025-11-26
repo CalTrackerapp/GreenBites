@@ -2,8 +2,8 @@
 
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import { useUserContext } from "../../src/context/user-context";
-import { User } from "../../src/context/user-context";
+import { useUserContext } from "../../src/context/use-user-context";
+import type { User } from "../../src/context/user-types";
 import { UserCircle, Save, Ruler, Weight, Target } from "lucide-react";
 
 export default function AccountPage() {

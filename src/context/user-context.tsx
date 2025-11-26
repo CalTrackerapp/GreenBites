@@ -1,61 +1,6 @@
-import { useAuth } from "@clerk/nextjs";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  type ReactNode,
-} from "react";
-
-// =========================
-// Types
-// =========================
-
-/* name: nutritionData.name,
-calories: Math.round(nutritionData.calories),
-fatInGrams: Math.round(nutritionData.fat_total_g),
-proteinInGrams: Math.round(nutritionData.protein_g),
-carbsInGrams: Math.round(nutritionData.carbohydrates_total_g),
-sodiumInMg: Math.round(nutritionData.sodium_mg),
-CO2Expense */
-export type FoodLog = {
-  name: string;
-  date: string; // e.g., "2025-10-08"
-  calories: number;
-  proteinInGrams: number;
-  carbsInGrams: number;
-  fatInGrams: number;
-  sodiumInMg: number;
-  CO2Expense: number;
-  servingSize: number;
-};
-
-export type CalorieHistoryItem = {
-  date: string;
-  caloriesToday: number;
-  proteinToday: number;
-  carbsToday: number;
-  fatsToday: number;
-  sodiumToday: number;
-  carbonFootPrintToday: number;
-  //mealsToday: MealLog[];
-};
-
-export type User = {
-  username: string;
-  gender: string;
-  height: number;
-  weight: number;
-  calorieGoal: number;
-  //totalMeals: MealLog[];
-  totalCalories: number;
-  totalProtein: number;
-  totalCarbs: number;
-  totalFats: number;
-  totalSodium: number;
-  totalCarbonFootPrint: number;
-  calorieHistory: CalorieHistoryItem[];
-};
+import { useEffect, useReducer, type ReactNode } from "react";
+import type { FoodLog, CalorieHistoryItem, User } from "./user-types";
+import { UserContext } from "./user-context-value";
 
 // =========================
 // Initial State
@@ -117,18 +62,12 @@ type Action =
 // Context Value
 // =========================
 
-type UserContextValue = User & {
+export type UserContextValue = User & {
   createUser: (userData: Partial<User>) => void;
   updateUser: (updates: Partial<User>) => void;
   addFoodLog: (foodLog: FoodLog) => void;
   loadUser: (username: string) => void;
 };
-
-// =========================
-// Create Context
-// =========================
-
-const UserContext = createContext<UserContextValue | null>(null);
 
 // =========================
 // Reducer
@@ -155,7 +94,7 @@ function userReducer(state: User, action: Action): User {
                 carbsToday: entry.carbsToday + foodLog.carbsInGrams,
                 fatsToday: entry.fatsToday + foodLog.fatInGrams,
                 sodiumToday: entry.sodiumToday + foodLog.sodiumInMg,
-                carbonFootPrintValueToday:
+                carbonFootPrintToday:
                   entry.carbonFootPrintToday + foodLog.CO2Expense,
                 //  mealsToday: [...entry.mealsToday, foodLog],
               }
@@ -207,20 +146,6 @@ function userReducer(state: User, action: Action): User {
     default:
       return state;
   }
-}
-
-// =========================
-// Hook
-// =========================
-
-export function useUserContext() {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error(
-      "useUserContext must be used within a <UserContextProvider />"
-    );
-  }
-  return context;
 }
 
 // =========================

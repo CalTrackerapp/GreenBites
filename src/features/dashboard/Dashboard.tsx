@@ -1,4 +1,4 @@
-import { useUserContext } from "../../context/user-context";
+import { useUserContext } from "../../context/use-user-context";
 import DashboardHeader from "./DashboardHeader";
 import QuickStats from "./QuickStats";
 import DailyCaloriesBreakDown from "./DailyCaloriesBreakDown";
