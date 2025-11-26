@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
-import { Pool } from 'pg';
-import dotenv from 'dotenv';
+import { NextResponse } from "next/server";
+import { Pool } from "pg";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -10,13 +10,13 @@ export async function GET() {
   if (!DATABASE_URL) {
     return NextResponse.json(
       {
-        status: 'error',
-        message: 'DATABASE_URL is not set',
+        status: "error",
+        message: "DATABASE_URL is not set",
         instructions: [
-          'Create a .env.local file in the project root',
-          'Add: DATABASE_URL=postgresql://user:password@host:5432/database',
-          'Get a free database from: https://neon.tech or https://supabase.com',
-          'See DATABASE_SETUP.md for detailed instructions',
+          "Create a .env.local file in the project root",
+          "Add: DATABASE_URL=postgresql://user:password@host:5432/database",
+          "Get a free database from: https://neon.tech or https://supabase.com",
+          "See DATABASE_SETUP.md for detailed instructions",
         ],
       },
       { status: 503 }
@@ -25,8 +25,8 @@ export async function GET() {
 
   try {
     // Detect if this is a Supabase connection
-    const isSupabase = DATABASE_URL.includes('supabase.co');
-    
+    const isSupabase = DATABASE_URL.includes("supabase.co");
+
     const pool = new Pool({
       connectionString: DATABASE_URL,
       connectionTimeoutMillis: 10000,
@@ -35,49 +35,53 @@ export async function GET() {
     });
 
     const client = await pool.connect();
-    await client.query('SELECT 1');
+    await client.query("SELECT 1");
     client.release();
     await pool.end();
 
     return NextResponse.json({
-      status: 'ok',
-      message: 'Database connection successful',
+      status: "ok",
+      message: "Database connection successful",
     });
-  } catch (error: any) {
-    let errorMessage = 'Database connection failed';
+  } catch (error) {
+    let errorMessage = "Database connection failed";
     let instructions: string[] = [];
 
-    if (error.code === 'ECONNREFUSED') {
-      errorMessage = 'Connection refused - database server is not running or host/port is incorrect';
+    if (error.code === "ECONNREFUSED") {
+      errorMessage =
+        "Connection refused - database server is not running or host/port is incorrect";
       instructions = [
-        'Verify your DATABASE_URL is correct',
-        'Make sure your database server is running',
-        'Check that the host and port are correct',
+        "Verify your DATABASE_URL is correct",
+        "Make sure your database server is running",
+        "Check that the host and port are correct",
       ];
-    } else if (error.code === 'ENOTFOUND') {
-      errorMessage = 'Host not found - check the hostname in DATABASE_URL';
-      instructions = ['Verify the hostname in your DATABASE_URL is correct'];
-    } else if (error.code === '28P01') {
-      errorMessage = 'Authentication failed - check username and password';
-      instructions = ['Verify the username and password in DATABASE_URL are correct'];
-    } else if (error.code === '3D000') {
-      errorMessage = 'Database does not exist';
-      instructions = ['Create the database or check the database name in DATABASE_URL'];
+    } else if (error.code === "ENOTFOUND") {
+      errorMessage = "Host not found - check the hostname in DATABASE_URL";
+      instructions = ["Verify the hostname in your DATABASE_URL is correct"];
+    } else if (error.code === "28P01") {
+      errorMessage = "Authentication failed - check username and password";
+      instructions = [
+        "Verify the username and password in DATABASE_URL are correct",
+      ];
+    } else if (error.code === "3D000") {
+      errorMessage = "Database does not exist";
+      instructions = [
+        "Create the database or check the database name in DATABASE_URL",
+      ];
     } else {
-      errorMessage = error.message || 'Unknown database error';
-      instructions = ['Check your DATABASE_URL and database server status'];
+      errorMessage = error.message || "Unknown database error";
+      instructions = ["Check your DATABASE_URL and database server status"];
     }
 
     return NextResponse.json(
       {
-        status: 'error',
+        status: "error",
         message: errorMessage,
         code: error.code,
         instructions,
-        help: 'See DATABASE_SETUP.md for setup instructions',
+        help: "See DATABASE_SETUP.md for setup instructions",
       },
       { status: 503 }
     );
   }
 }
-

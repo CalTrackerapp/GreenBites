@@ -184,9 +184,6 @@ export default function AddMeal() {
     setSuccess(null);
 
     const today = new Date().toISOString().split("T")[0];
-    const username = clerkUser.id; // Use Clerk userId as username
-
-    const totals = calculateTotals();
 
     // Add each food item to database
     /*  for (const food of selectedFoods) {

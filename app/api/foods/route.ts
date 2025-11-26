@@ -1,8 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getAllFoods, createFood } from '@services/foods';
+import { NextRequest, NextResponse } from "next/server";
+import { getAllFoods, createFood } from "@services/foods";
 
 export async function GET(req: NextRequest) {
   const foods = await getAllFoods();
+  const body = await req.json();
+  console.log(body);
   return NextResponse.json(foods);
 }
 

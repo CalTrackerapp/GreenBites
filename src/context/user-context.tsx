@@ -235,7 +235,6 @@ export default function UserContextProvider({
   children,
 }: UserContextProviderProps) {
   const [userState, dispatch] = useReducer(userReducer, initialState);
-  const { userId, isLoaded } = useAuth();
 
   // Load from localStorage
   useEffect(() => {

@@ -12,7 +12,6 @@ import {
   User,
 } from "lucide-react";
 
-import Image from "next/image";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useState } from "react";
 
