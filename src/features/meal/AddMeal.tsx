@@ -49,7 +49,7 @@ type SelectedFood = {
 const apiKey = "AIzaSyAsHbjK6248LmWWDbb5CgmgBWSyoIj4LRs";
 export default function AddMeal() {
   const { user: clerkUser } = useUser(); // Get Clerk user for userId
-  const contextUser = useUserContext();
+
   const { addFoodLog } = useUserContext();
 
   const [searchQuery, setSearchQuery] = useState("");
