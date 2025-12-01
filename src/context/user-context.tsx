@@ -51,12 +51,17 @@ type CalculateCalorieHistoryAction = {
   payload: CalorieHistoryItem[];
 };
 
+type AddTodayIfMissingAction = {
+  type: "ADD_TODAY_IF_MISSING";
+};
+
 type Action =
   | AddFoodLogAction
   | LoadUserAction
   | CreateUserAction
   | UpdateUserAttributesAction
-  | CalculateCalorieHistoryAction;
+  | CalculateCalorieHistoryAction
+  | AddTodayIfMissingAction;
 
 // =========================
 // Context Value
@@ -140,7 +145,31 @@ function userReducer(state: User, action: Action): User {
       return { ...state, ...action.payload };
     }
     case "CALCULATE_CALORIE_HISTORY": {
-      return { ...state, ...action.payload };
+      return { ...state, calorieHistory: action.payload };
+    }
+
+    case "ADD_TODAY_IF_MISSING": {
+      const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+      const lastEntry = state.calorieHistory[state.calorieHistory.length - 1];
+
+      // If no history exists or last entry is not today, add today's entry
+      if (!lastEntry || lastEntry.date !== today) {
+        const todayEntry: CalorieHistoryItem = {
+          date: today,
+          caloriesToday: 0,
+          proteinToday: 0,
+          carbsToday: 0,
+          fatsToday: 0,
+          sodiumToday: 0,
+          carbonFootPrintToday: 0,
+        };
+        return {
+          ...state,
+          calorieHistory: [...state.calorieHistory, todayEntry],
+        };
+      }
+
+      return state;
     }
 
     default:
@@ -166,10 +195,25 @@ export default function UserContextProvider({
     try {
       const saved = localStorage.getItem("userState");
       if (saved) {
-        dispatch({ type: "LOAD_USER", payload: JSON.parse(saved) });
+        const parsed = JSON.parse(saved);
+        dispatch({ type: "LOAD_USER", payload: parsed });
+
+        // After loading, ensure today's entry exists
+        const today = new Date().toISOString().split("T")[0];
+        const lastEntry =
+          parsed.calorieHistory?.[parsed.calorieHistory.length - 1];
+
+        if (!lastEntry || lastEntry.date !== today) {
+          dispatch({ type: "ADD_TODAY_IF_MISSING" });
+        }
+      } else {
+        // If no saved state, ensure today's entry exists for initial state
+        dispatch({ type: "ADD_TODAY_IF_MISSING" });
       }
     } catch (err) {
       console.error("Failed to load userState from localStorage", err);
+      // Even on error, ensure today's entry exists
+      dispatch({ type: "ADD_TODAY_IF_MISSING" });
     }
   }, []);
 

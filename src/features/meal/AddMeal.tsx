@@ -46,14 +46,12 @@ type SelectedFood = {
   servingSize: number;
   carbonFootprint: number;
 };
-
+const apiKey = "AIzaSyAsHbjK6248LmWWDbb5CgmgBWSyoIj4LRs";
 export default function AddMeal() {
   const { user: clerkUser } = useUser(); // Get Clerk user for userId
   const contextUser = useUserContext();
   const { addFoodLog } = useUserContext();
 
-  // Console log user data for testing
-  console.log("Current user data:", contextUser);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<CalorieNinjasItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -61,8 +59,8 @@ export default function AddMeal() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  console.log(selectedFoods);
 
+  console.log(selectedFoods);
   // Search for nutrition data using Next.js API route
   async function handleSearch() {
     if (!searchQuery.trim()) return;
@@ -99,7 +97,7 @@ export default function AddMeal() {
   }
 
   // Add food to selected foods
-  function addFoodToSelection(food: CalorieNinjasItem) {
+  async function addFoodToSelection(food: CalorieNinjasItem) {
     const existingFood = selectedFoods.find((f) => f.name === food.name);
     if (existingFood) {
       // Update serving size if food already exists
@@ -119,7 +117,10 @@ export default function AddMeal() {
         fats: food.fat_total_g,
         sodium: food.sodium_mg,
         servingSize: 1,
-        carbonFootprint: calculateCarbonFootprint(food.calories),
+        carbonFootprint: await calculateCarbonFootprint(
+          food.calories,
+          food.name
+        ),
       };
       setSelectedFoods([...selectedFoods, newFood]);
     }
@@ -141,9 +142,41 @@ export default function AddMeal() {
   }
 
   // Calculate carbon footprint based on calories
-  function calculateCarbonFootprint(calories: number): number {
-    // Rough estimation: 1 calorie ≈ 0.1 kg CO₂
-    return Math.round(calories * 0.1 * 100) / 100;
+  async function calculateCarbonFootprint(
+    calories: number,
+    foodName: string
+  ): Promise<number> {
+    async function getCarbonFootprint() {
+      const res = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
+          apiKey,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `Give me the approximate carbon footprint value of ${foodName} with ${calories} calories. Give it to me in kg of CO2 and only give me the number, nothing else`,
+                  },
+                ],
+              },
+            ],
+          }),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data.candidates[0].content.parts[0].text);
+      return parseFloat(data.candidates[0].content.parts[0].text); // "0.39"
+    }
+
+    getCarbonFootprint();
+
+    return Math.round((await getCarbonFootprint()) * 100) / 100;
   }
 
   // Calculate totals for selected foods

@@ -34,7 +34,7 @@ export default function CarbonImpact({
 
     let streak = 0;
     for (const entry of sortedData) {
-      if (entry.carbonFootprint <= 4.5) {
+      if (entry.carbonFootprint <= 1.3) {
         streak++;
       } else {
         break;
@@ -81,7 +81,7 @@ export default function CarbonImpact({
               kg CO₂ today
             </div>
             <div className="text-xs text-slate-500 mt-1">
-              Recommended: 4.5kg CO₂
+              Recommended: 1.3kg CO₂
             </div>
           </div>
         </div>
@@ -137,19 +137,19 @@ export default function CarbonImpact({
           <div className="flex items-center justify-between text-sm font-semibold">
             <span className="text-slate-600">Daily Progress</span>
             <span className="text-slate-800">
-              {Math.round((todayCarbonFootprint / 4.5) * 100)}%
+              {Math.round((todayCarbonFootprint / 1.3) * 100)}%
             </span>
           </div>
           <div className="mt-3 bg-slate-200 rounded-full h-3">
             <div
               className="bg-gradient-to-r from-green-500 to-emerald-600 h-3 rounded-full"
               style={{
-                width: `${Math.min((todayCarbonFootprint / 4.5) * 100, 100)}%`,
+                width: `${Math.min((todayCarbonFootprint / 1.3) * 100, 100)}%`,
               }}
             ></div>
           </div>
           <p className="text-xs text-slate-500 mt-2">
-            Recommended daily limit: 4.5kg CO₂
+            Recommended daily limit: 1.3kg CO₂
           </p>
 
           {/* Real-World Equivalent */}
@@ -245,7 +245,7 @@ export default function CarbonImpact({
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-3xl font-bold text-purple-600 mb-1">
-                  {Math.round((todayCarbonFootprint / 4.5) * 100)}%
+                  {Math.round((todayCarbonFootprint / 1.3) * 100)}%
                 </div>
                 <div className="text-sm text-slate-600 font-medium">
                   of Daily Limit
@@ -271,10 +271,10 @@ export default function CarbonImpact({
               </span>
             </div>
             <p className="text-xs text-slate-600 mt-1">
-              {averageDailyFootprint > 4.5
+              {averageDailyFootprint > 1.3
                 ? `You're saving ~${(
                     streak *
-                    (averageDailyFootprint - 4.5)
+                    (averageDailyFootprint - 1.3)
                   ).toFixed(1)} kg CO₂ compared to average. Keep it up! 🎉`
                 : `Excellent! You're maintaining a low-carbon lifestyle. Keep it up! 🎉`}
             </p>
@@ -285,7 +285,7 @@ export default function CarbonImpact({
           <div className="flex items-center space-x-3">
             <div
               className={`w-3 h-3 rounded-full animate-pulse ${
-                todayCarbonFootprint <= 4.5 ? "bg-green-500" : "bg-orange-500"
+                todayCarbonFootprint <= 1.3 ? "bg-green-500" : "bg-orange-500"
               }`}
             ></div>
             <span className="text-sm font-semibold text-slate-700">
@@ -293,14 +293,14 @@ export default function CarbonImpact({
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-2">
-            {todayCarbonFootprint <= 4.5
+            {todayCarbonFootprint <= 1.3
               ? "Great job! You're within the recommended daily carbon footprint limit."
               : "Consider choosing more sustainable food options to reduce your environmental impact."}
           </p>
         </div>
 
         {/* Personalized Reduction Suggestions */}
-        {todayCarbonFootprint > 4.5 && (
+        {todayCarbonFootprint > 1.3 && (
           <div className="mt-4 bg-green-50 border border-green-200 rounded-2xl p-4">
             <h3 className="text-green-700 font-semibold mb-2 text-sm">
               💡 Tips to Lower Tomorrow's Impact
