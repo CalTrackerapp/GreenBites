@@ -46,7 +46,7 @@ type SelectedFood = {
   servingSize: number;
   carbonFootprint: number;
 };
-const apiKey = "AIzaSyAsHbjK6248LmWWDbb5CgmgBWSyoIj4LRs";
+
 export default function AddMeal() {
   const { user: clerkUser } = useUser(); // Get Clerk user for userId
 
@@ -97,7 +97,7 @@ export default function AddMeal() {
   }
 
   // Add food to selected foods
-  async function addFoodToSelection(food: CalorieNinjasItem) {
+  function addFoodToSelection(food: CalorieNinjasItem) {
     const existingFood = selectedFoods.find((f) => f.name === food.name);
     if (existingFood) {
       // Update serving size if food already exists
@@ -117,10 +117,7 @@ export default function AddMeal() {
         fats: food.fat_total_g,
         sodium: food.sodium_mg,
         servingSize: 1,
-        carbonFootprint: await calculateCarbonFootprint(
-          food.calories,
-          food.name
-        ),
+        carbonFootprint: calculateCarbonFootprint(food.protein_g),
       };
       setSelectedFoods([...selectedFoods, newFood]);
     }
@@ -141,42 +138,11 @@ export default function AddMeal() {
     );
   }
 
-  // Calculate carbon footprint based on calories
-  async function calculateCarbonFootprint(
-    calories: number,
-    foodName: string
-  ): Promise<number> {
-    async function getCarbonFootprint() {
-      const res = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
-          apiKey,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  {
-                    text: `Give me the approximate carbon footprint value of ${foodName} with ${calories} calories. Give it to me in kg of CO2 and only give me the number, nothing else`,
-                  },
-                ],
-              },
-            ],
-          }),
-        }
-      );
-
-      const data = await res.json();
-      console.log(data.candidates[0].content.parts[0].text);
-      return parseFloat(data.candidates[0].content.parts[0].text); // "0.39"
-    }
-
-    getCarbonFootprint();
-
-    return Math.round((await getCarbonFootprint()) * 100) / 100;
+  // Calculate carbon footprint based on protein
+  // Formula: ~0.05 kg CO2 per gram of protein
+  function calculateCarbonFootprint(proteinGrams: number): number {
+    const carbonFootprint = proteinGrams * 0.05;
+    return Math.round(carbonFootprint * 100) / 100;
   }
 
   // Calculate totals for selected foods
