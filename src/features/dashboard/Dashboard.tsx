@@ -10,6 +10,7 @@ import { useUser } from "@clerk/clerk-react";
 
 function Dashboard() {
   const user = useUserContext();
+  console.log(user);
   const firstName = useUser().user?.firstName || "User";
   const caloriesToday = user.calorieHistory[user.calorieHistory.length - 1]
     ? user.calorieHistory[user.calorieHistory.length - 1].caloriesToday

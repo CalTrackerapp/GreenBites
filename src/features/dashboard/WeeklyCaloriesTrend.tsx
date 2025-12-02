@@ -20,6 +20,7 @@ type WeeklyCaloriesTrendProps = {
 export default function WeeklyCaloriesTrend({
   weeklyCalories,
 }: WeeklyCaloriesTrendProps) {
+  console.log(weeklyCalories);
   return (
     /*   lg:col-span-2 xl:col-span-1 */
     <div className="bg-white/80 rounded-3xl border-solid border-4 border-purple-600 p-8 ">
@@ -47,26 +48,10 @@ export default function WeeklyCaloriesTrend({
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-          <XAxis
-            dataKey="day"
-            stroke="#64748b"
-            fontSize={12}
-            tickFormatter={(value) =>
-              new Date(value).toLocaleDateString("en-US", {
-                weekday: "short",
-              })
-            }
-          />
+          <XAxis dataKey="day" stroke="#64748b" fontSize={12} />
           <YAxis stroke="#64748b" fontSize={12} />
           <Tooltip
             formatter={(value: number) => [`${value} kcal`, "Calories"]}
-            labelFormatter={(value) =>
-              new Date(value).toLocaleDateString("en-US", {
-                weekday: "long",
-                month: "short",
-                day: "numeric",
-              })
-            }
             contentStyle={{
               backgroundColor: "rgba(255, 255, 255, 0.95)",
               border: "none",

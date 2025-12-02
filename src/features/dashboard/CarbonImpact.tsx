@@ -95,29 +95,13 @@ export default function CarbonImpact({
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis
-              dataKey="day"
-              stroke="#64748b"
-              fontSize={11}
-              tickFormatter={(value) =>
-                new Date(value).toLocaleDateString("en-US", {
-                  weekday: "short",
-                })
-              }
-            />
+            <XAxis dataKey="day" stroke="#64748b" fontSize={11} />
             <YAxis stroke="#64748b" fontSize={11} />
             <Tooltip
               formatter={(value: number) => [
                 `${value} kg CO₂`,
                 "Carbon Footprint",
               ]}
-              labelFormatter={(value) =>
-                new Date(value).toLocaleDateString("en-US", {
-                  weekday: "long",
-                  month: "short",
-                  day: "numeric",
-                })
-              }
               contentStyle={{
                 backgroundColor: "rgba(255, 255, 255, 0.95)",
                 border: "none",
