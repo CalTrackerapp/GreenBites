@@ -78,18 +78,25 @@ export default function AddMeal() {
       });
 
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error || `API request failed: ${response.status}`
+        );
       }
 
       const data: CalorieNinjasResponse = await response.json();
       setSearchResults(data.items || []);
 
-      if (data.items.length === 0) {
+      if (!data.items || data.items.length === 0) {
         setError("No food items found. Try a different search term.");
       }
     } catch (error) {
       console.error("Search failed:", error);
-      setError("Failed to search for food items. Please try again.");
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to search for food items. Please try again."
+      );
       setSearchResults([]);
     } finally {
       setIsSearching(false);
@@ -184,74 +191,37 @@ export default function AddMeal() {
 
     const today = new Date().toISOString().split("T")[0];
 
-    // Add each food item to database
-    /*  for (const food of selectedFoods) {
-        // Create nutrition data object in CalorieNinjas format
-        const nutritionData = {
+    try {
+      // Add each food item via API
+      for (const food of selectedFoods) {
+        await addFoodLog({
           name: food.name,
-          calories: food.calories,
-          fat_total_g: food.fats,
-          protein_g: food.protein,
-          carbohydrates_total_g: food.carbs,
-          serving_size_g: 100, // Default serving size
-        };
-
-        // Create food in database
-        const foodRes = await fetch("/api/foods/fromNutrition", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            nutritionData,
-            userID: username,
-          }),
+          date: today,
+          calories: Math.round(food.calories * food.servingSize),
+          proteinInGrams: Math.round(food.protein * food.servingSize),
+          carbsInGrams: Math.round(food.carbs * food.servingSize),
+          fatInGrams: Math.round(food.fats * food.servingSize),
+          sodiumInMg: Math.round(food.sodium * food.servingSize),
+          CO2Expense: Math.round(food.carbonFootprint * food.servingSize),
+          servingSize: food.servingSize,
         });
+      }
 
-        if (!foodRes.ok) {
-          throw new Error("Failed to create food entry");
-        }
+      // Clear selection
+      const mealCount = selectedFoods.length;
+      setSelectedFoods([]);
+      setSearchQuery("");
+      setSearchResults([]);
+      setSuccess(`${mealCount} food item(s) logged successfully! 🎉`);
 
-        const foodData = await foodRes.json();
-
-        // Create food log entry
-        const logRes = await fetch(`/api/users/${username}/foodLogs`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            foodID: foodData.foodID,
-            servingSize: food.servingSize,
-          }),
-        });
-
-        if (!logRes.ok) {
-          throw new Error("Failed to log food entry");
-        }
-      } */
-
-    // Update Context API for dashboard
-
-    for (const food of selectedFoods) {
-      addFoodLog({
-        name: food.name,
-        date: today,
-        calories: Math.round(food.calories * food.servingSize),
-        proteinInGrams: Math.round(food.protein * food.servingSize),
-        carbsInGrams: Math.round(food.carbs * food.servingSize),
-        fatInGrams: Math.round(food.fats * food.servingSize),
-        sodiumInMg: Math.round(food.sodium * food.servingSize),
-        CO2Expense: Math.round(food.carbonFootprint * food.servingSize),
-        servingSize: food.servingSize,
-      });
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (error) {
+      console.error("Error logging meal:", error);
+      setError(error instanceof Error ? error.message : "Failed to log meal");
+    } finally {
+      setIsLoading(false);
     }
-
-    // Clear selection
-    const mealCount = selectedFoods.length;
-    setSelectedFoods([]);
-    setSearchQuery("");
-    setSearchResults([]);
-    setSuccess(`${mealCount} food item(s) logged successfully! 🎉`);
-
-    // Clear success message after 3 seconds
-    setTimeout(() => setSuccess(null), 3000);
   }
 
   const totals = calculateTotals();

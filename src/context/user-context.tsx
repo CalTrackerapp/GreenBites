@@ -1,4 +1,5 @@
 import { useEffect, useReducer, type ReactNode } from "react";
+import { useUser } from "@clerk/nextjs";
 import type { FoodLog, CalorieHistoryItem, User } from "./user-types";
 import { UserContext } from "./user-context-value";
 
@@ -6,97 +7,19 @@ import { UserContext } from "./user-context-value";
 // Initial State
 // =========================
 
-// Generate sample dates for the last 7 days
-function getSampleDates(): string[] {
-  const dates: string[] = [];
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    dates.push(date.toISOString().split("T")[0]);
-  }
-  return dates;
-}
-
-const sampleDates = getSampleDates();
-
 const initialState: User = {
-  username: "john_doe",
-  gender: "Male",
-  height: 70,
-  weight: 180,
+  username: "",
+  gender: "",
+  height: 0,
+  weight: 0,
   calorieGoal: 2500,
-  // totalMeals: [],
-  totalCalories: 15200,
-  totalProtein: 850,
-  totalCarbs: 1820,
-  totalFats: 420,
-  totalSodium: 12500,
-  totalCarbonFootPrint: 42.5,
-  calorieHistory: [
-    {
-      date: sampleDates[0], // 6 days ago
-      caloriesToday: 2100,
-      proteinToday: 120,
-      carbsToday: 250,
-      fatsToday: 55,
-      sodiumToday: 1800,
-      carbonFootPrintToday: 6.0,
-    },
-    {
-      date: sampleDates[1], // 5 days ago
-      caloriesToday: 2400,
-      proteinToday: 140,
-      carbsToday: 280,
-      fatsToday: 65,
-      sodiumToday: 2100,
-      carbonFootPrintToday: 7.0,
-    },
-    {
-      date: sampleDates[2], // 4 days ago
-      caloriesToday: 1950,
-      proteinToday: 110,
-      carbsToday: 220,
-      fatsToday: 50,
-      sodiumToday: 1600,
-      carbonFootPrintToday: 5.5,
-    },
-    {
-      date: sampleDates[3], // 3 days ago
-      caloriesToday: 2300,
-      proteinToday: 135,
-      carbsToday: 270,
-      fatsToday: 60,
-      sodiumToday: 2000,
-      carbonFootPrintToday: 6.75,
-    },
-    {
-      date: sampleDates[4], // 2 days ago
-      caloriesToday: 2200,
-      proteinToday: 125,
-      carbsToday: 260,
-      fatsToday: 58,
-      sodiumToday: 1900,
-      carbonFootPrintToday: 6.25,
-    },
-    {
-      date: sampleDates[5], // yesterday
-      caloriesToday: 2150,
-      proteinToday: 115,
-      carbsToday: 240,
-      fatsToday: 62,
-      sodiumToday: 1750,
-      carbonFootPrintToday: 5.75,
-    },
-    {
-      date: sampleDates[6], // today
-      caloriesToday: 2100,
-      proteinToday: 105,
-      carbsToday: 300,
-      fatsToday: 70,
-      sodiumToday: 1350,
-      carbonFootPrintToday: 5.25,
-    },
-  ],
+  totalCalories: 0,
+  totalProtein: 0,
+  totalCarbs: 0,
+  totalFats: 0,
+  totalSodium: 0,
+  totalCarbonFootPrint: 0,
+  calorieHistory: [],
 };
 
 // =========================
@@ -266,42 +189,20 @@ export default function UserContextProvider({
   children,
 }: UserContextProviderProps) {
   const [userState, dispatch] = useReducer(userReducer, initialState);
+  const { user: clerkUser, isLoaded } = useUser();
 
-  // Load from localStorage
+  // Load user data from API when Clerk user is loaded
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("userState");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        dispatch({ type: "LOAD_USER", payload: parsed });
+    if (!isLoaded) return;
 
-        // After loading, ensure today's entry exists
-        const today = new Date().toISOString().split("T")[0];
-        const lastEntry =
-          parsed.calorieHistory?.[parsed.calorieHistory.length - 1];
-
-        if (!lastEntry || lastEntry.date !== today) {
-          dispatch({ type: "ADD_TODAY_IF_MISSING" });
-        }
-      } else {
-        // If no saved state, ensure today's entry exists for initial state
-        dispatch({ type: "ADD_TODAY_IF_MISSING" });
-      }
-    } catch (err) {
-      console.error("Failed to load userState from localStorage", err);
-      // Even on error, ensure today's entry exists
-      dispatch({ type: "ADD_TODAY_IF_MISSING" });
+    if (clerkUser?.id) {
+      // User is logged in, load their data from API
+      loadUser(clerkUser.id);
+    } else {
+      // User is not logged in, reset to initial state
+      dispatch({ type: "LOAD_USER", payload: initialState });
     }
-  }, []);
-
-  // Save to localStorage automatically when userState changes
-  useEffect(() => {
-    try {
-      localStorage.setItem("userState", JSON.stringify(userState));
-    } catch (err) {
-      console.error("Failed to save userState to localStorage", err);
-    }
-  }, [userState]);
+  }, [clerkUser?.id, isLoaded]);
 
   // Clear localStorage on logout
 
@@ -356,74 +257,153 @@ export default function UserContextProvider({
   }, [userId, isLoaded]); */
 
   async function createUser(userData: Partial<User>) {
-    /*   await fetch("/api/createUser", {
-      method: "POST",
-      body: JSON.stringify(userData),
-    }); */
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: userData.username,
+          gender: userData.gender,
+          height: userData.height,
+          weight: userData.weight,
+          calorieGoal: userData.calorieGoal,
+        }),
+      });
 
-    // CALL loadUser on profile-setup page after createUser.
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to create user");
+      }
 
-    dispatch({ type: "CREATE_USER", payload: userData });
+      // After creating user, load their data
+      if (userData.username) {
+        await loadUser(userData.username);
+      }
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw error;
+    }
   }
 
   async function updateUser(updatedUserAttributes: Partial<User>) {
-    /*     await fetch("/api/updateUser", {
-      method: "PATCH",
-      body: JSON.stringify(updatedUserAttributes),
-    }); */
+    if (!clerkUser?.id) {
+      throw new Error("User must be logged in to update profile");
+    }
 
-    // CALL loadUser on Account page after update.
+    try {
+      const response = await fetch("/api/updateUser", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: clerkUser.id,
+          gender: updatedUserAttributes.gender,
+          height: updatedUserAttributes.height,
+          weight: updatedUserAttributes.weight,
+          calorieGoal: updatedUserAttributes.calorieGoal,
+        }),
+      });
 
-    dispatch({
-      type: "UPDATE_USER_ATTRIBUTES",
-      payload: updatedUserAttributes,
-    });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to update user");
+      }
+
+      // Reload user data to get latest values
+      await loadUser(clerkUser.id);
+
+      // Also update local state for immediate UI feedback
+      dispatch({
+        type: "UPDATE_USER_ATTRIBUTES",
+        payload: updatedUserAttributes,
+      });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw error;
+    }
   }
 
   async function addFoodLog(foodLog: FoodLog) {
-    /*     await fetch("/api/addFoodLog", {
-      method: "PATCH",
-      body: JSON.stringify(foodLog),
-    }); */
-
-    // CALL loadUser after addMeal in AddMeal.tsx
-
-    dispatch({ type: "ADD_FOOD_LOG", payload: foodLog });
-  }
-
-  async function calculateCalorieHistoryByDate(username: string) {
-    const lastSevenDays = [];
-
-    for (let i = 0; i < 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() - i); // subtract i days
-      const formatted = date.toISOString().split("T")[0]; // "YYYY-MM-DD"
-      lastSevenDays.push(formatted);
+    if (!clerkUser?.id) {
+      throw new Error("User must be logged in to add food log");
     }
 
-    const calorieHistory: CalorieHistoryItem[] = [];
-    for (const date of lastSevenDays) {
-      const res = await fetch("/api/calculateCalorieHistory", {
+    try {
+      const response = await fetch("/api/addFoodLog", {
         method: "POST",
-        body: JSON.stringify({ username, date }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: clerkUser.id,
+          name: foodLog.name,
+          date: foodLog.date,
+          calories: foodLog.calories,
+          proteinInGrams: foodLog.proteinInGrams,
+          carbsInGrams: foodLog.carbsInGrams,
+          fatInGrams: foodLog.fatInGrams,
+          sodiumInMg: foodLog.sodiumInMg,
+          CO2Expense: foodLog.CO2Expense,
+        }),
       });
-      const calorieHistoryItem: CalorieHistoryItem = await res.json();
-      calorieHistory.push(calorieHistoryItem);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to add food log");
+      }
+
+      // Reload user data to get updated totals
+      await loadUser(clerkUser.id);
+
+      // Also update local state for immediate UI feedback
+      dispatch({ type: "ADD_FOOD_LOG", payload: foodLog });
+    } catch (error) {
+      console.error("Error adding food log:", error);
+      throw error;
     }
-    dispatch({ type: "CALCULATE_CALORIE_HISTORY", payload: calorieHistory });
   }
 
   async function loadUser(username: string) {
-    const res = await fetch("/api/getUser", {
-      method: "POST",
-      body: JSON.stringify({ username }),
-    });
+    try {
+      const response = await fetch("/api/getUser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
 
-    const user = await res.json();
+      if (!response.ok) {
+        // If user doesn't exist, that's okay - they might need to create profile
+        if (response.status === 404) {
+          dispatch({
+            type: "LOAD_USER",
+            payload: { ...initialState, username },
+          });
+          return;
+        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to load user");
+      }
 
-    dispatch({ type: "LOAD_USER", payload: user });
+      const user = await response.json();
 
-    calculateCalorieHistoryByDate(username);
+      // Map API response to User type
+      const userData: User = {
+        username: user.username || username,
+        gender: user.gender || "",
+        height: user.height || 0,
+        weight: user.weight || 0,
+        calorieGoal: user.calorieGoal || 2500,
+        totalCalories: user.totalCalories || 0,
+        totalProtein: user.totalProtein || 0,
+        totalCarbs: user.totalCarbs || 0,
+        totalFats: user.totalFats || 0,
+        totalSodium: user.totalSodium || 0,
+        totalCarbonFootPrint: user.totalCarbonFootPrint || 0,
+        calorieHistory: user.calorieHistory || [],
+      };
+
+      dispatch({ type: "LOAD_USER", payload: userData });
+    } catch (error) {
+      console.error("Error loading user:", error);
+      // Don't throw - just log the error
+    }
   }
 
   const ctx: UserContextValue = {

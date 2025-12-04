@@ -32,18 +32,26 @@ export default function AccountPage() {
     e.preventDefault();
     setMessage(null);
 
-    // Update local context (no conversion needed - database stores inches/pounds)
-    // API returns calGoal but User type expects calorieGoal
-    const updatedUser: User = {
-      ...user,
-      gender: formData.gender,
-      height: formData.height,
-      weight: formData.weight,
-      calorieGoal: formData.calorieGoal,
-    };
+    try {
+      const updatedUser: Partial<User> = {
+        gender: formData.gender,
+        height: formData.height,
+        weight: formData.weight,
+        calorieGoal: formData.calorieGoal,
+      };
 
-    user.updateUser(updatedUser);
-    setMessage({ type: "success", text: "Account updated successfully!" });
+      await user.updateUser(updatedUser);
+      setMessage({ type: "success", text: "Account updated successfully!" });
+    } catch (error) {
+      console.error("Error updating account:", error);
+      setMessage({
+        type: "error",
+        text:
+          error instanceof Error
+            ? error.message
+            : "Failed to update account. Please try again.",
+      });
+    }
   }
 
   return (
