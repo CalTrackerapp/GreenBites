@@ -349,11 +349,9 @@ export default function UserContextProvider({
         throw new Error(errorData.error || "Failed to add food log");
       }
 
-      // Reload user data to get updated totals
+      // Reload user data to get updated totals from database
+      // This ensures we have the correct totals that match the database
       await loadUser(clerkUser.id);
-
-      // Also update local state for immediate UI feedback
-      dispatch({ type: "ADD_FOOD_LOG", payload: foodLog });
     } catch (error) {
       console.error("Error adding food log:", error);
       throw error;
