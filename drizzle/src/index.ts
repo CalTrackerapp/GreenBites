@@ -10,6 +10,28 @@ dotenv.config();
 // Lazy initialization of database connection
 let _pool: Pool | null = null;
 let _db: ReturnType<typeof drizzle> | null = null;
+let _connectionTested = false;
+
+// Test database connection
+async function testConnection() {
+  if (!_pool || _connectionTested) return;
+  
+  try {
+    const client = await _pool.connect();
+    const result = await client.query('SELECT NOW() as current_time, version() as pg_version');
+    client.release();
+    
+    console.log('✅ Database connection successful!');
+    console.log('📅 Current database time:', result.rows[0].current_time);
+    console.log('🐘 PostgreSQL version:', result.rows[0].pg_version.split(',')[0]);
+    console.log('🔗 Connected to Supabase database');
+    
+    _connectionTested = true;
+  } catch (error) {
+    console.error('❌ Database connection failed:', error);
+    throw error;
+  }
+}
 
 function getDatabase() {
   if (!process.env.DATABASE_URL) {
@@ -26,12 +48,20 @@ function getDatabase() {
     // Detect if this is a Supabase connection
     const isSupabase = connectionString?.includes('supabase.co');
     
+    console.log('🔌 Initializing database connection...');
+    console.log('📍 Connection string:', connectionString.replace(/:[^:@]+@/, ':****@')); // Hide password
+    
     _pool = new Pool({
       connectionString: connectionString,
       // Supabase requires SSL connections
       ssl: isSupabase ? { rejectUnauthorized: false } : undefined,
     });
     _db = drizzle(_pool, { schema });
+    
+    // Test connection asynchronously (don't block initialization)
+    testConnection().catch(err => {
+      console.error('⚠️ Connection test failed:', err);
+    });
   }
 
   return _db!;

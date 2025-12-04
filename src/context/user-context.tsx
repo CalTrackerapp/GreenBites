@@ -6,20 +6,97 @@ import { UserContext } from "./user-context-value";
 // Initial State
 // =========================
 
+// Generate sample dates for the last 7 days
+function getSampleDates(): string[] {
+  const dates: string[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    dates.push(date.toISOString().split("T")[0]);
+  }
+  return dates;
+}
+
+const sampleDates = getSampleDates();
+
 const initialState: User = {
-  username: "",
+  username: "john_doe",
   gender: "Male",
   height: 70,
   weight: 180,
   calorieGoal: 2500,
   // totalMeals: [],
-  totalCalories: 0,
-  totalProtein: 0,
-  totalCarbs: 0,
-  totalFats: 0,
-  totalSodium: 0,
-  totalCarbonFootPrint: 0,
-  calorieHistory: [],
+  totalCalories: 15200,
+  totalProtein: 850,
+  totalCarbs: 1820,
+  totalFats: 420,
+  totalSodium: 12500,
+  totalCarbonFootPrint: 42.5,
+  calorieHistory: [
+    {
+      date: sampleDates[0], // 6 days ago
+      caloriesToday: 2100,
+      proteinToday: 120,
+      carbsToday: 250,
+      fatsToday: 55,
+      sodiumToday: 1800,
+      carbonFootPrintToday: 6.0,
+    },
+    {
+      date: sampleDates[1], // 5 days ago
+      caloriesToday: 2400,
+      proteinToday: 140,
+      carbsToday: 280,
+      fatsToday: 65,
+      sodiumToday: 2100,
+      carbonFootPrintToday: 7.0,
+    },
+    {
+      date: sampleDates[2], // 4 days ago
+      caloriesToday: 1950,
+      proteinToday: 110,
+      carbsToday: 220,
+      fatsToday: 50,
+      sodiumToday: 1600,
+      carbonFootPrintToday: 5.5,
+    },
+    {
+      date: sampleDates[3], // 3 days ago
+      caloriesToday: 2300,
+      proteinToday: 135,
+      carbsToday: 270,
+      fatsToday: 60,
+      sodiumToday: 2000,
+      carbonFootPrintToday: 6.75,
+    },
+    {
+      date: sampleDates[4], // 2 days ago
+      caloriesToday: 2200,
+      proteinToday: 125,
+      carbsToday: 260,
+      fatsToday: 58,
+      sodiumToday: 1900,
+      carbonFootPrintToday: 6.25,
+    },
+    {
+      date: sampleDates[5], // yesterday
+      caloriesToday: 2150,
+      proteinToday: 115,
+      carbsToday: 240,
+      fatsToday: 62,
+      sodiumToday: 1750,
+      carbonFootPrintToday: 5.75,
+    },
+    {
+      date: sampleDates[6], // today
+      caloriesToday: 2100,
+      proteinToday: 105,
+      carbsToday: 300,
+      fatsToday: 70,
+      sodiumToday: 1350,
+      carbonFootPrintToday: 5.25,
+    },
+  ],
 };
 
 // =========================
