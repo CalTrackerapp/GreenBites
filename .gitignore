@@ -12,7 +12,4 @@ out/
 # clerk configuration (can include secrets)
 /.clerk/
 
-# Environment variables
-.env
-.env.local
-.env*.local
+
