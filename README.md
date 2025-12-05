@@ -55,7 +55,8 @@ Many people want to eat healthier and reduce their environmental impact, but lac
 - **Week 8** (Oct 28-Nov 3): Migration from Express to Next.js, Next.js API routes, project restructuring
 - **Week 9** (Nov 4-10): Profile setup page, account management, Next.js route integration, AddMeal component refinement
 - **Week 10** (Nov 11-17): Supabase database connection, profile data persistence, schema fixes, gender selection restrictions, documentation updates
-- **Week 11** (Nov 18-24): Testing, final bug fixes, production deployment, and launch preparation
+- **Week 11** (Nov 12-18): Database structure updates (sodium variables), services fixes, calorie history feature, dashboard redesign, UI/UX improvements, bug fixes
+- **Week 12** (Nov 19-25): API specification design, backend route standardization, service layer refactoring, calculateCalorieHistoryByDate implementation, route structure organization
 
 ## Getting Started
 

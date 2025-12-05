@@ -212,7 +212,10 @@ export default function AddMeal() {
         });
 
         if (!foodRes.ok) {
-          throw new Error("Failed to create food entry");
+          const errorData = await foodRes.json().catch(() => ({}));
+          const errorMessage = errorData.error || `Failed to create food entry (${foodRes.status})`;
+          console.error("Food creation error:", errorMessage, errorData);
+          throw new Error(errorMessage);
         }
 
         const foodData = await foodRes.json();

@@ -100,9 +100,61 @@
 - [x] User context data fetching improvements
 - [x] Documentation updates
 
-## Phase 5: Deployment & Testing (Week 11)
+## Phase 5: Refinement & Enhancement (Week 11)
 
-### Week 11 (Nov 18-24): Production Preparation
+### Week 11 (Nov 12-18): Database Structure & UI Polish
+- [x] Database structure updates (sodium variables added)
+- [x] Services layer fixes to match new database structure
+  - [x] Updated all query methods to use correct structure
+  - [x] Fixed foodLogs to save detailed nutritional information
+  - [x] Added sodium tracking to calculations
+- [x] Calorie history feature implementation
+  - [x] Added `calculateCalorieHistory` method in foodLog services
+  - [x] Created `/api/calorie-history` route
+  - [x] Returns calorie entry array for each log per user
+- [x] UI/UX improvements
+  - [x] Dashboard redesign and restyling
+  - [x] AddMeal component restyling
+  - [x] Homepage styling completion
+  - [x] CSS simplification for maintainability
+- [x] Bug fixes and stability
+  - [x] Fixed server startup issues
+  - [x] Resolved TypeScript warnings
+  - [x] Fixed API call setup
+  - [x] Context API variable name updates
+- [x] Code quality improvements
+  - [x] Verified all CRUD operations work with updated structure
+  - [x] Ensured route dependencies are updated
+
+## Phase 6: API Specification & Refinement (Week 12)
+
+### Week 12 (Nov 19-25): API Standardization
+- [x] API specification design and documentation
+  - [x] Defined 5 core API endpoints with request/response formats
+  - [x] Specified difficulty levels for implementation
+- [x] Backend route implementation and organization
+  - [x] POST getUser - returns user with aggregated totals (BMI, calorieGoal included)
+  - [x] PATCH updateUser - updates basic user attributes
+  - [x] POST addFoodLog - adds meal and updates user totals
+  - [x] POST createUser - creates new user
+  - [x] POST calculateCalorieHistoryByDate - returns detailed totals for specific date
+- [x] Service layer updates to match API spec
+  - [x] Updated users.ts (createUser, updateUser, getUser)
+  - [x] Updated foodLogs.ts (addFoodLogEntry)
+  - [x] Added BMI calculation and automatic updates
+  - [x] Updated addFoodLogEntry to reuse name as foodID
+- [x] Route structure organization
+  - [x] `/api/users/[username]/route.ts` (GET, PATCH)
+  - [x] `/api/users/[username]/foodLogs/route.ts` (POST)
+  - [x] `/api/users/route.ts` (POST createUser)
+  - [x] `/api/users/[username]/calorie-history/route.ts` (POST)
+- [x] calculateCalorieHistoryByDate enhancement
+  - [x] Returns detailed totals (calories, protein, carbs, fats, sodium, carbon footprint) for a given date
+- [x] Supabase testing branch created for experiments
+
+## Phase 7: Testing & Deployment (Week 13+)
+
+### Week 13+ (Nov 26+): Production Preparation
 - [ ] Comprehensive testing
   - [ ] Unit tests for services
   - [ ] Integration tests for API routes
