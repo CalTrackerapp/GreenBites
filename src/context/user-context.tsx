@@ -375,6 +375,40 @@ export default function UserContextProvider({
           return;
         }
 
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Fetch today's calorie history from database
+        let todayHistory: CalorieHistoryItem | null = null;
+        try {
+          const historyRes = await fetch(`/api/users/${userId}/calorie-history`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date: today }),
+          });
+          
+          if (historyRes.ok) {
+            const historyData = await historyRes.json();
+            // Create today's history entry if there's any data
+            if (historyData.caloriesToday > 0 || historyData.carbonFootPrintValueToday > 0 || 
+                historyData.proteinToday > 0 || historyData.carbsToday > 0 || historyData.fatsToday > 0) {
+              todayHistory = {
+                date: today,
+                caloriesToday: historyData.caloriesToday || 0,
+                proteinToday: historyData.proteinToday || 0,
+                carbsToday: historyData.carbsToday || 0,
+                fatsToday: historyData.fatsToday || 0,
+                sodiumToday: historyData.sodiumToday || 0,
+                carbonFootPrintValueToday: historyData.carbonFootPrintValueToday || 0,
+                mealsToday: [], // Individual meals can be loaded separately if needed
+              };
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching calorie history:", error);
+          // Continue without today's history if it fails - user can still use the app
+        }
+
         // Map API response to User type
         // The API returns: gender, height, weight, calorieGoal, and other fields
         // We need to map it to the full User type with all required fields
@@ -388,9 +422,9 @@ export default function UserContextProvider({
           totalProtein: data.totalProtein || 0,
           totalCarbs: data.totalCarb || 0,
           totalFats: data.totalFats || 0,
-          totalSodium: 0, // TODO: Add sodium tracking if needed
+          totalSodium: data.totalSodium || 0,
           totalCarbonFootPrint: data.totalCO2Expense || 0,
-          calorieHistory: [], // TODO: Load calorie history from database if needed
+          calorieHistory: todayHistory ? [todayHistory] : [], // Load today's history from database
         };
 
         dispatch({ type: "SET_USER", payload: userData });

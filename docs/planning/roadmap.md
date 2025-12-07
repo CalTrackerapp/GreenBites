@@ -151,6 +151,21 @@
 - [x] calculateCalorieHistoryByDate enhancement
   - [x] Returns detailed totals (calories, protein, carbs, fats, sodium, carbon footprint) for a given date
 - [x] Supabase testing branch created for experiments
+- [x] Daily data persistence fix
+  - [x] Fixed dashboard metrics resetting on logout/login
+  - [x] Implemented calorie history loading from database on login
+  - [x] Created calculateTodayTotals() function for daily totals calculation
+- [x] Database migration and connection fixes
+  - [x] Migrated to new Supabase project
+  - [x] Updated database connection string
+  - [x] Verified all database operations working
+- [x] Complete sodium tracking implementation
+  - [x] Added sodiumInMg to foods table schema
+  - [x] Added totalSodium to users table schema
+  - [x] Updated food creation to save sodium from API
+  - [x] Implemented calculateSodium() function
+  - [x] Updated user totals tracking to include sodium
+  - [x] Updated profile API and user context to handle sodium
 
 ## Phase 7: Testing & Deployment (Week 13+)
 

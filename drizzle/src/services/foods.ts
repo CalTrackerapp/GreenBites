@@ -11,6 +11,7 @@ type FoodData = {
     fatInGrams: number;
     proteinInGrams: number;
     carbsInGrams: number;
+    sodiumInMg: number;
     CO2Expense: number;
 };
 
@@ -41,6 +42,7 @@ export async function createFood(data: FoodData) {
         fatInGrams: data.fatInGrams,
         proteinInGrams: data.proteinInGrams,
         carbsInGrams: data.carbsInGrams,
+        sodiumInMg: data.sodiumInMg,
         CO2Expense: data.CO2Expense,
     }).returning();
 
@@ -101,6 +103,7 @@ export async function createFoodFromNutrition(nutritionData: NutritionAPIRespons
     fatInGrams: Math.round(nutritionData.fat_total_g),
     proteinInGrams: Math.round(nutritionData.protein_g),
     carbsInGrams: Math.round(nutritionData.carbohydrates_total_g),
+    sodiumInMg: Math.round(nutritionData.sodium_mg),
     CO2Expense
   };
   

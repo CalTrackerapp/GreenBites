@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
       totalProtein: user.totalProtein || 0,
       totalCarb: user.totalCarb || 0,
       totalFats: user.totalFats || 0,
+      totalSodium: user.totalSodium || 0,
       totalCO2Expense: user.totalCO2Expense || 0,
     }, { status: 200 });
   } catch (error: any) {

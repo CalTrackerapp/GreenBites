@@ -56,7 +56,7 @@ Many people want to eat healthier and reduce their environmental impact, but lac
 - **Week 9** (Nov 4-10): Profile setup page, account management, Next.js route integration, AddMeal component refinement
 - **Week 10** (Nov 11-17): Supabase database connection, profile data persistence, schema fixes, gender selection restrictions, documentation updates
 - **Week 11** (Nov 12-18): Database structure updates (sodium variables), services fixes, calorie history feature, dashboard redesign, UI/UX improvements, bug fixes
-- **Week 12** (Nov 19-25): API specification design, backend route standardization, service layer refactoring, calculateCalorieHistoryByDate implementation, route structure organization
+- **Week 12** (Nov 19-25): API specification design, backend route standardization, service layer refactoring, calculateCalorieHistoryByDate implementation, route structure organization, daily data persistence fix, Supabase database migration, complete sodium tracking implementation
 
 ## Getting Started
 
@@ -111,11 +111,11 @@ The project currently includes:
 - **Food Search & Logging** - Calorie Ninjas API integration for nutrition data
 - **AddMeal Component** - Search foods, select servings, and log meals to database
 - **Dashboard** - Interactive charts showing:
-  - Daily calorie progress with goal tracking
+  - Daily calorie progress with goal tracking (persists across sessions)
   - Macro breakdown (protein, carbs, fats)
   - Carbon footprint visualization
   - Weekly calorie trends
-  - Sodium tracking
+  - Sodium tracking (fully integrated with database)
 - **User Profile System** - Profile setup and account management with:
   - Gender, height, weight tracking
   - Customizable calorie goals

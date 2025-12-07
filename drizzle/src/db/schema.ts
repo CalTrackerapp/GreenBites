@@ -19,6 +19,7 @@ export const users = pgTable("users", {
   totalProtein: integer("totalProtein"),
   totalCarb: integer("totalCarb"),
   totalFats: integer("totalFats"),
+  totalSodium: integer("totalSodium"),
   totalCO2Expense: integer("totalCO2Expense"),
   calGoal: integer("calGoal"),
 });
@@ -31,6 +32,7 @@ export const foods = pgTable("foods", {
   fatInGrams: integer("fatInGrams"),
   proteinInGrams: integer("proteinInGrams"),
   carbsInGrams: integer("carbsInGrams"),
+  sodiumInMg: integer("sodiumInMg"),
   CO2Expense: integer("CO2Expense"),
 });
 

@@ -89,7 +89,22 @@ async function calculateCO2Expense(foodID: string, servingSize: number): Promise
     return first.CO2Expense * servingSize;
 }
 
-async function alterUserTotals(username: string, calories: number, protein: number, carbs: number, fats: number, totalCO2Expense: number) { // updates user's total nutritional values by ADDING to existing totals
+async function calculateSodium(foodID: string, servingSize: number): Promise<number> { // returns sodium in mg
+    const food = await db.select().from(schema.foods).where(eq(schema.foods.foodID, foodID)).limit(1);
+    if (food.length === 0) {
+        throw new Error(`Food with ID "${foodID}" not found.`);
+    }
+    const first = food[0];
+    if (!first) {
+        throw new Error(`Food with ID "${foodID}" not found.`);
+    }
+    if (first.sodiumInMg == null) {
+        throw new Error(`Sodium value for food ID "${foodID}" is missing.`);
+    }
+    return first.sodiumInMg * servingSize;
+}
+
+async function alterUserTotals(username: string, calories: number, protein: number, carbs: number, fats: number, sodium: number, totalCO2Expense: number) { // updates user's total nutritional values by ADDING to existing totals
     // Get current user totals
     const currentUser = await db.select().from(schema.users).where(eq(schema.users.username, username)).limit(1);
     
@@ -106,6 +121,7 @@ async function alterUserTotals(username: string, calories: number, protein: numb
       totalProtein: (user.totalProtein || 0) + protein,
       totalCarb: (user.totalCarb || 0) + carbs,
       totalFats: (user.totalFats || 0) + fats,
+      totalSodium: (user.totalSodium || 0) + sodium,
       totalCO2Expense: (user.totalCO2Expense || 0) + totalCO2Expense,
     })
     .where(eq(schema.users.username, username));
@@ -134,6 +150,7 @@ export async function createFoodLogEntry(data: FoodLogData) { // creates a new f
         await calculateProtein(data.foodID, data.servingSize),
         await calculateCarbs(data.foodID, data.servingSize),
         await calculateFats(data.foodID, data.servingSize),
+        await calculateSodium(data.foodID, data.servingSize),
         await calculateCO2Expense(data.foodID, data.servingSize)
     );
 
@@ -149,6 +166,60 @@ export async function deleteFoodLogEntry(logID: number, userId: string) {
         eq(schema.foodLog.userID, userId)
       )
     );
+}
+
+// Calculate today's totals from food logs
+export async function calculateTodayTotals(username: string, date: string): Promise<{
+  caloriesToday: number;
+  proteinToday: number;
+  carbsToday: number;
+  fatsToday: number;
+  sodiumToday: number;
+  carbonFootPrintValueToday: number;
+}> {
+  // Get all food logs for the user
+  const foodLogs = await getAllFoodLogs(username);
+  
+  // Filter logs for today (date format: "YYYY-MM-DD")
+  const todayLogs = foodLogs.filter(log => {
+    if (!log.loggedAt) return false;
+    const logDate = new Date(log.loggedAt);
+    const logDateStr = logDate.toISOString().split('T')[0]; // Get YYYY-MM-DD
+    return logDateStr === date;
+  });
+
+  // Calculate totals from today's logs
+  let caloriesToday = 0;
+  let proteinToday = 0;
+  let carbsToday = 0;
+  let fatsToday = 0;
+  let sodiumToday = 0;
+  let carbonFootPrintValueToday = 0;
+
+  for (const log of todayLogs) {
+    const calories = await calculateCalories(log.foodID, log.servingSize);
+    const protein = await calculateProtein(log.foodID, log.servingSize);
+    const carbs = await calculateCarbs(log.foodID, log.servingSize);
+    const fats = await calculateFats(log.foodID, log.servingSize);
+    const sodium = await calculateSodium(log.foodID, log.servingSize);
+    const co2 = await calculateCO2Expense(log.foodID, log.servingSize);
+    
+    caloriesToday += calories;
+    proteinToday += protein;
+    carbsToday += carbs;
+    fatsToday += fats;
+    sodiumToday += sodium;
+    carbonFootPrintValueToday += co2;
+  }
+
+  return {
+    caloriesToday: Math.round(caloriesToday),
+    proteinToday: Math.round(proteinToday),
+    carbsToday: Math.round(carbsToday),
+    fatsToday: Math.round(fatsToday),
+    sodiumToday: Math.round(sodiumToday),
+    carbonFootPrintValueToday: Math.round(carbonFootPrintValueToday),
+  };
 }
 
 

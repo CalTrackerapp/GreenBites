@@ -40,4 +40,39 @@
 - Team member (Damarcos) completed all service and route revisions
 - Team member (Muaad) provided clear API specifications
 - Started testing branch for Supabase experiments
+- Fixed daily data persistence issue - dashboard metrics now persist across logout/login
+- Migrated to new Supabase project due to connection issues
+- Implemented complete sodium tracking in database (schema, services, API)
+
+## Additional Work (Post-Week 12)
+
+### Daily Data Persistence Fix
+- **Problem**: Daily dashboard metrics (calories, CO2, sodium) were resetting to 0 when users logged out and back in on the same day
+- **Root Cause**: User context was not loading today's calorie history from food logs in the database
+- **Solution**: 
+  - Created `calculateTodayTotals()` function in foodLog service to calculate today's totals from database
+  - Updated user context to fetch today's calorie history on login via `/api/users/[username]/calorie-history`
+  - Dashboard now correctly displays persisted daily data
+
+### Supabase Database Migration
+- **Problem**: Database connection errors (`ENOTFOUND`, "Tenant or user not found")
+- **Root Cause**: Previous Supabase project was deleted or inaccessible, connection string was invalid
+- **Solution**: 
+  - Created new Supabase project
+  - Updated `DATABASE_URL` in `.env.local` with new connection string
+  - Verified connection with `npm run db:push`
+  - All database operations now working correctly
+
+### Sodium Tracking Implementation
+- **Problem**: Sodium was not stored in database, showing 0 after logout/login
+- **Solution**: Complete sodium tracking implementation
+  - Added `sodiumInMg` field to foods table schema
+  - Added `totalSodium` field to users table schema
+  - Updated `createFoodFromNutrition()` to save sodium from CalorieNinjas API
+  - Created `calculateSodium()` function in foodLog service
+  - Updated `alterUserTotals()` to track sodium in user totals
+  - Updated `calculateTodayTotals()` to calculate sodium from food logs
+  - Updated profile API to return `totalSodium`
+  - Updated user context to load `totalSodium` from API
+  - Applied schema changes to database with `npm run db:push`
 
