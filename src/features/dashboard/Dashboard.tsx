@@ -18,6 +18,7 @@ import {
   Bar,
 } from "recharts";
 import { useUserContext } from "../../context/user-context";
+import { useUser } from "@clerk/nextjs";
 
 //import { useSelector } from "react-redux";
 //import type { RootState } from "../../store/store";
@@ -26,6 +27,7 @@ const MACRO_COLORS = ["#ef4444", "#3b82f6", "#10b981"];
 
 function Dashboard() {
   const user = useUserContext();
+  const { user: clerkUser } = useUser();
   
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split('T')[0];
@@ -127,7 +129,7 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-5xl font-bold bg-gradient-to-r from-emerald-800 via-green-700 to-teal-700 bg-clip-text text-transparent hover:animate-none transition-all duration-300 hover:scale-105 drop-shadow-lg">
-                {greeting}, {user?.username}! 👋
+                {greeting}{clerkUser?.firstName ? `, ${clerkUser.firstName}` : ''}! 👋
               </h1>
               <p className="text-slate-600 text-lg font-medium">
                 Track your nutrition and environmental impact
