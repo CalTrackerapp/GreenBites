@@ -206,7 +206,30 @@ export async function PUT(req: NextRequest) {
     if (calorieGoal !== undefined) updateData.calGoal = parseInt(calorieGoal);
 
     // Update user in database
-    const updatedUser = await updateUser(userId, updateData);
+    let updatedUser;
+    try {
+      updatedUser = await updateUser(userId, updateData);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.error('Error updating user in database:', error);
+      
+      // Check if it's a database connection error
+      if (errorMessage.includes("DATABASE_URL") || errorMessage.includes("connection")) {
+        return NextResponse.json(
+          { 
+            error: "Database connection failed",
+            details: "Please check that DATABASE_URL is set in your Vercel environment variables",
+            message: errorMessage
+          },
+          { status: 503 }
+        );
+      }
+      
+      return NextResponse.json(
+        { error: 'Failed to update user', message: errorMessage },
+        { status: 500 }
+      );
+    }
 
     if (!updatedUser) {
       return NextResponse.json(

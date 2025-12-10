@@ -14,8 +14,10 @@ let _db: ReturnType<typeof drizzle> | null = null;
 function getDatabase() {
   if (!process.env.DATABASE_URL) {
     throw new Error(
-      'DATABASE_URL environment variable is not set. Please create a .env.local file with your database connection string.\n' +
-      'Example: DATABASE_URL=postgresql://user:password@localhost:5432/dbname\n' +
+      'DATABASE_URL environment variable is not set. Please set it in your environment variables.\n' +
+      'For local development: Create a .env.local file with DATABASE_URL\n' +
+      'For production: Set DATABASE_URL in your deployment platform (Vercel, etc.)\n' +
+      'Example: DATABASE_URL=postgresql://user:password@host:5432/dbname\n' +
       'See DATABASE_SETUP.md for detailed instructions.'
     );
   }
@@ -24,12 +26,26 @@ function getDatabase() {
     const connectionString = process.env.DATABASE_URL;
     
     // Detect if this is a Supabase connection
-    const isSupabase = connectionString?.includes('supabase.co');
+    const isSupabase = connectionString?.includes('supabase.co') || connectionString?.includes('pooler.supabase.com');
+    const isNeon = connectionString?.includes('neon.tech');
+    
+    // Configure SSL based on provider
+    let sslConfig: { rejectUnauthorized: boolean } | undefined;
+    if (isSupabase) {
+      // Supabase requires SSL but allows self-signed certificates
+      sslConfig = { rejectUnauthorized: false };
+    } else if (isNeon) {
+      // Neon requires SSL
+      sslConfig = { rejectUnauthorized: false };
+    }
     
     _pool = new Pool({
       connectionString: connectionString,
-      // Supabase requires SSL connections
-      ssl: isSupabase ? { rejectUnauthorized: false } : undefined,
+      ssl: sslConfig,
+      // Better connection pooling for serverless environments
+      max: 1, // Limit connections for serverless (Vercel)
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000,
     });
     _db = drizzle(_pool, { schema });
   }

@@ -27,8 +27,34 @@ export async function POST(
     return NextResponse.json(newFoodLog);
   } catch (error) {
     console.error('Error creating food log:', error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    
+    // Check if it's a database connection error
+    if (errorMessage.includes("DATABASE_URL") || errorMessage.includes("connection")) {
+      return NextResponse.json(
+        { 
+          error: "Database connection failed",
+          details: "Please check that DATABASE_URL is set in your environment variables",
+          message: errorMessage
+        },
+        { status: 503 }
+      );
+    }
+    
+    // Check if it's a foreign key constraint error
+    if (errorMessage.includes("foreign key constraint") || errorMessage.includes("violates foreign key")) {
+      return NextResponse.json(
+        { 
+          error: "User or food not found",
+          details: "The user or food item does not exist in the database",
+          message: errorMessage
+        },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to create food log entry' },
+      { error: 'Failed to create food log entry', message: errorMessage },
       { status: 500 }
     );
   }

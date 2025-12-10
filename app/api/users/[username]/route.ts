@@ -36,7 +36,24 @@ export async function GET(
     return NextResponse.json(user);
   } catch (error) {
     console.error("Failed to fetch user:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
+    
+    // Check if it's a database connection error
+    if (errorMessage.includes("DATABASE_URL") || errorMessage.includes("connection")) {
+      return NextResponse.json(
+        { 
+          error: "Database connection failed",
+          details: "Please check that DATABASE_URL is set in your environment variables",
+          message: errorMessage
+        },
+        { status: 503 }
+      );
+    }
+    
+    return NextResponse.json(
+      { error: "Internal server error", message: errorMessage },
+      { status: 500 }
+    );
   }
 }
 
