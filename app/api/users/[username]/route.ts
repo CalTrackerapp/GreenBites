@@ -3,10 +3,11 @@ import { deleteUser, getUser } from "@services/users";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   try {
-    const result = await deleteUser(params.username);
+    const { username } = await params;
+    const result = await deleteUser(username);
     return NextResponse.json({ success: true, result });
   } catch (error) {
     console.error("Failed to delete user:", error);
@@ -24,10 +25,11 @@ export async function DELETE(
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   try {
-    const user = await getUser(params.username);
+    const { username } = await params;
+    const user = await getUser(username);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
