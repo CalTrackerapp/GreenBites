@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllFoods, createFood } from '@services/foods';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const foods = await getAllFoods();
   return NextResponse.json(foods);
 }

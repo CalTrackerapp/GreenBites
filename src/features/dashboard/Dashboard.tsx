@@ -26,7 +26,6 @@ const MACRO_COLORS = ["#ef4444", "#3b82f6", "#10b981"];
 
 function Dashboard() {
   const user = useUserContext();
-  const { addCalorieEntry } = user;
   
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split('T')[0];
@@ -39,10 +38,11 @@ function Dashboard() {
   console.log(user);
 
   // const user = useSelector((state: RootState) => state.user.user);
+  // Use today's values for macros, not cumulative totals
   const macroData = [
-    { name: "Fat", value: user?.totalFats, color: "#ef4444" },
-    { name: "Protein", value: user?.totalProtein, color: "#3b82f6" },
-    { name: "Carbs", value: user?.totalCarbs, color: "#10b981" },
+    { name: "Fat", value: todayEntry?.fatsToday || 0, color: "#ef4444" },
+    { name: "Protein", value: todayEntry?.proteinToday || 0, color: "#3b82f6" },
+    { name: "Carbs", value: todayEntry?.carbsToday || 0, color: "#10b981" },
   ];
 
   const weeklyCalories: { day: string; calories: number }[] = [];
@@ -194,7 +194,7 @@ function Dashboard() {
                 <p className="text-emerald-100 text-sm font-semibold uppercase tracking-wide">
                   Protein
                 </p>
-                <p className="text-4xl font-bold">{user?.totalProtein}g</p>
+                <p className="text-4xl font-bold">{todayEntry?.proteinToday || 0}g</p>
                 <p className="text-emerald-200 text-sm">muscle building</p>
                 <div className="flex items-center space-x-1">
                   <div className="w-2 h-2 bg-emerald-300 rounded-full"></div>

@@ -54,8 +54,18 @@ export async function deleteFood(foodID: string) {
 }
 
 // Nutrition API integration
-const NUTRITION_API_KEY = '3E9YfbcWaIFwspwgXs5oVg==vyJeVpWtQfKfjOkZ';
 const NUTRITION_API_URL = 'https://api.calorieninjas.com/v1/nutrition';
+
+function getNutritionApiKey(): string {
+  const apiKey = process.env.CALORIE_NINJAS_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'CALORIE_NINJAS_API_KEY is not set. Please add it to your .env.local file.\n' +
+      'Get your API key from: https://www.calorieninjas.com/api'
+    );
+  }
+  return apiKey;
+}
 
 export type NutritionAPIResponse = {
   items: Array<{
@@ -76,15 +86,19 @@ export type NutritionAPIResponse = {
 
 export async function searchNutrition(query: string): Promise<NutritionAPIResponse> {
   try {
+    const apiKey = getNutritionApiKey();
     const response = await axios.get(NUTRITION_API_URL, {
       params: { query },
       headers: {
-        'X-Api-Key': NUTRITION_API_KEY
+        'X-Api-Key': apiKey
       }
     });
     return response.data;
   } catch (error) {
     console.error('Nutrition API error:', error);
+    if (error instanceof Error && error.message.includes('CALORIE_NINJAS_API_KEY')) {
+      throw error; // Re-throw the API key error with helpful message
+    }
     throw new Error('Failed to fetch nutrition data');
   }
 }

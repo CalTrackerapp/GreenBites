@@ -83,6 +83,7 @@ npm install
    - Create `.env.local` file in the project root
    - Add `DATABASE_URL` (from Supabase or Neon - see [DATABASE_SETUP.md](./DATABASE_SETUP.md))
    - Add Clerk keys: `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` (see [CLERK_SETUP.md](./CLERK_SETUP.md))
+   - Add `CALORIE_NINJAS_API_KEY` (get from https://www.calorieninjas.com/api)
 
 4. Run database migrations:
 ```bash

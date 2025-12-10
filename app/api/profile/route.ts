@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { createUser, updateUser, getUser } from '@services/users';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     // Get the authenticated user from Clerk
     const { userId } = await auth();
@@ -40,20 +40,22 @@ export async function GET(req: NextRequest) {
       totalSodium: user.totalSodium || 0,
       totalCO2Expense: user.totalCO2Expense || 0,
     }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching user:', error);
     
+    const dbError = error as { cause?: { code?: string }; message?: string };
+    
     // Provide more specific error messages
-    if (error?.cause?.code === 'ECONNREFUSED') {
+    if (dbError.cause?.code === 'ECONNREFUSED') {
       return NextResponse.json(
         { error: 'Database connection failed. Please ensure the database server is running and DATABASE_URL is configured in your .env.local file.' },
         { status: 503 }
       );
     }
     
-    if (error?.message) {
+    if (dbError.message) {
       return NextResponse.json(
-        { error: `Failed to fetch user: ${error.message}` },
+        { error: `Failed to fetch user: ${dbError.message}` },
         { status: 500 }
       );
     }
@@ -114,20 +116,22 @@ export async function POST(req: NextRequest) {
       totalFats: createdUser.totalFats || 0,
       totalCO2Expense: createdUser.totalCO2Expense || 0,
     }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating user:', error);
     
+    const dbError = error as { cause?: { code?: string }; message?: string };
+    
     // Provide more specific error messages
-    if (error?.cause?.code === 'ECONNREFUSED') {
+    if (dbError.cause?.code === 'ECONNREFUSED') {
       return NextResponse.json(
         { error: 'Database connection failed. Please ensure the database server is running and DATABASE_URL is configured in your .env.local file.' },
         { status: 503 }
       );
     }
     
-    if (error?.message) {
+    if (dbError.message) {
       return NextResponse.json(
-        { error: `Failed to create user: ${error.message}` },
+        { error: `Failed to create user: ${dbError.message}` },
         { status: 500 }
       );
     }
@@ -190,7 +194,12 @@ export async function PUT(req: NextRequest) {
     }
 
     // Update user data (height and weight are already in inches and pounds)
-    const updateData: any = {};
+    const updateData: {
+      gender?: string;
+      height?: number;
+      weight?: number;
+      calGoal?: number;
+    } = {};
     if (gender !== undefined) updateData.gender = gender;
     if (height !== undefined) updateData.height = Math.round(parseFloat(height));
     if (weight !== undefined) updateData.weight = Math.round(parseFloat(weight));
@@ -220,20 +229,22 @@ export async function PUT(req: NextRequest) {
       totalFats: updatedUser.totalFats || 0,
       totalCO2Expense: updatedUser.totalCO2Expense || 0,
     }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating user:', error);
     
+    const dbError = error as { cause?: { code?: string }; message?: string };
+    
     // Provide more specific error messages
-    if (error?.cause?.code === 'ECONNREFUSED') {
+    if (dbError.cause?.code === 'ECONNREFUSED') {
       return NextResponse.json(
         { error: 'Database connection failed. Please ensure the database server is running and DATABASE_URL is configured in your .env.local file.' },
         { status: 503 }
       );
     }
     
-    if (error?.message) {
+    if (dbError.message) {
       return NextResponse.json(
-        { error: `Failed to update user: ${error.message}` },
+        { error: `Failed to update user: ${dbError.message}` },
         { status: 500 }
       );
     }

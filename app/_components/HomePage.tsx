@@ -7,7 +7,6 @@ import {
   Sprout,
   Globe2,
   Zap,
-  Heart,
   Sparkles,
   ArrowRight,
   CheckCircle,

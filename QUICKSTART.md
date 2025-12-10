@@ -48,24 +48,32 @@ npm install
    CLERK_SECRET_KEY=sk_test_your_key_here
    ```
 
-## Step 4: Run Database Migrations
+## Step 4: Set Up Calorie Ninjas API
+1. Go to https://www.calorieninjas.com/api and sign up for a free API key
+2. Copy your API key
+3. Update `.env.local`:
+   ```
+   CALORIE_NINJAS_API_KEY=your_api_key_here
+   ```
+
+## Step 5: Run Database Migrations
 ```bash
 npm run db:push
 ```
 This creates all the required tables in your database.
 
-## Step 5: Verify Setup
+## Step 6: Verify Setup
 ```bash
 npm run db:check
 ```
 This will test your database connection and show any issues.
 
-## Step 6: Start Development Server
+## Step 7: Start Development Server
 ```bash
 npm run dev
 ```
 
-## Step 7: Test the Application
+## Step 8: Test the Application
 1. Open http://localhost:3000
 2. Sign up for an account
 3. Complete your profile setup
@@ -91,6 +99,11 @@ npm run dev
 - Check the browser console for error messages
 - Verify you're signed in with Clerk
 - Check that the database tables were created correctly
+
+### "CALORIE_NINJAS_API_KEY is not set"
+- Make sure `.env.local` exists and includes `CALORIE_NINJAS_API_KEY`
+- Get your API key from https://www.calorieninjas.com/api
+- Restart your dev server after adding the key
 
 ## Need Help?
 - See `DATABASE_SETUP.md` for detailed database setup instructions

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useAuth } from "@clerk/nextjs";
 import {
   createContext,
