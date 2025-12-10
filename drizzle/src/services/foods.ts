@@ -89,21 +89,29 @@ export async function searchNutrition(query: string): Promise<NutritionAPIRespon
   }
 }
 
+// Helper function to safely convert to integer, defaulting to 0 if invalid
+function safeRound(value: number | undefined | null): number {
+  if (value === undefined || value === null || isNaN(value)) {
+    return 0;
+  }
+  return Math.round(value);
+}
+
 export async function createFoodFromNutrition(nutritionData: NutritionAPIResponse['items'][0], userID: string): Promise<any> {
   // Generate a unique foodID
   const foodID = `${nutritionData.name.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
   
   // Calculate CO2Expense (placeholder - you'll need to implement carbon footprint calculation)
-  const CO2Expense = Math.round(nutritionData.calories * 0.1); // Placeholder calculation
+  const CO2Expense = safeRound(nutritionData.calories * 0.1); // Placeholder calculation
   
   const foodData: FoodData = {
     foodID,
     name: nutritionData.name,
-    calories: Math.round(nutritionData.calories),
-    fatInGrams: Math.round(nutritionData.fat_total_g),
-    proteinInGrams: Math.round(nutritionData.protein_g),
-    carbsInGrams: Math.round(nutritionData.carbohydrates_total_g),
-    sodiumInMg: Math.round(nutritionData.sodium_mg),
+    calories: safeRound(nutritionData.calories),
+    fatInGrams: safeRound(nutritionData.fat_total_g),
+    proteinInGrams: safeRound(nutritionData.protein_g),
+    carbsInGrams: safeRound(nutritionData.carbohydrates_total_g),
+    sodiumInMg: safeRound(nutritionData.sodium_mg),
     CO2Expense
   };
   

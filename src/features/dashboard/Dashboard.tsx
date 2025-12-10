@@ -27,9 +27,14 @@ const MACRO_COLORS = ["#ef4444", "#3b82f6", "#10b981"];
 function Dashboard() {
   const user = useUserContext();
   const { addCalorieEntry } = user;
-  const caloriesToday = user.calorieHistory[user.calorieHistory.length - 1]
-    ? user.calorieHistory[user.calorieHistory.length - 1].caloriesToday
-    : 0;
+  
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
+  
+  // Find today's entry in calorie history
+  const todayEntry = user?.calorieHistory?.find(entry => entry.date === today);
+  
+  const caloriesToday = todayEntry?.caloriesToday || 0;
 
   console.log(user);
 
@@ -55,14 +60,11 @@ function Dashboard() {
   const caloriePercentage = Math.round((caloriesToday / calorieGoal) * 100);
 
   // Get today's carbon footprint
-  const todayCarbonFootprint =
-    user?.calorieHistory[user.calorieHistory.length - 1]
-      ?.carbonFootPrintValueToday || 0;
+  const todayCarbonFootprint = todayEntry?.carbonFootPrintValueToday || 0;
   const totalCarbonFootprint = user?.totalCarbonFootPrint || 0;
 
   // Get today's sodium
-  const todaySodium =
-    user?.calorieHistory[user.calorieHistory.length - 1]?.sodiumToday || 0;
+  const todaySodium = todayEntry?.sodiumToday || 0;
 
   // Calculate remaining calories
   const remainingCalories = Math.max(0, calorieGoal - caloriesToday);

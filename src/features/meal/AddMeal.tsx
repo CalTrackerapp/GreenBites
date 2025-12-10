@@ -171,6 +171,31 @@ export default function AddMeal() {
     );
   }
 
+  // Ensure the user exists in the database before logging meals
+  async function ensureUserExists(username: string) {
+    // Quick check: does user exist?
+    const existing = await fetch(`/api/users/${username}`);
+    if (existing.ok) return;
+
+    // If not, create a minimal user record so FK constraints pass
+    const createRes = await fetch("/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: username,
+        gender: contextUser.gender || "",
+        height: contextUser.height || 0,
+        weight: contextUser.weight || 0,
+        calGoal: contextUser.calorieGoal || 0,
+      }),
+    });
+
+    if (!createRes.ok) {
+      const err = await createRes.json().catch(() => ({}));
+      throw new Error(err.error || `Failed to create user (${createRes.status})`);
+    }
+  }
+
   // Log the meal
   async function logMeal() {
     if (selectedFoods.length === 0) return;
@@ -187,6 +212,9 @@ export default function AddMeal() {
     const username = clerkUser.id; // Use Clerk userId as username
 
     try {
+      // Make sure the user exists in our DB (needed for FK on food logs)
+      await ensureUserExists(username);
+
       const totals = calculateTotals();
       
       // Add each food item to database

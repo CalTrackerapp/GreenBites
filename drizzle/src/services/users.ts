@@ -4,7 +4,10 @@ import * as schema from "../db/schema.ts";
 import { eq } from 'drizzle-orm'; 
 
 function calculateBMI(weightInPounds: number, heightInInches: number): number {
-  if (heightInInches === 0) throw new Error("Height cannot be zero.");
+  // Guard against missing/zero height so we don't throw when creating placeholder users
+  if (!heightInInches || heightInInches <= 0) {
+    return 0;
+  }
   return (weightInPounds * 703) / (heightInInches ** 2);
 }
 
