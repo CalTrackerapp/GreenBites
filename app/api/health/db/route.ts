@@ -46,7 +46,7 @@ export async function GET() {
   } catch (error: unknown) {
     let errorMessage = 'Database connection failed';
     let instructions: string[] = [];
-    
+
     const dbError = error as { code?: string; message?: string };
 
     if (dbError.code === 'ECONNREFUSED') {

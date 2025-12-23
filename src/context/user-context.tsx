@@ -392,16 +392,16 @@ export default function UserContextProvider({
             const historyData = await historyRes.json();
             // Always create today's history entry from database (even if all values are 0)
             // This ensures the dashboard can display current day data properly
-            todayHistory = {
-              date: today,
-              caloriesToday: historyData.caloriesToday || 0,
-              proteinToday: historyData.proteinToday || 0,
-              carbsToday: historyData.carbsToday || 0,
-              fatsToday: historyData.fatsToday || 0,
-              sodiumToday: historyData.sodiumToday || 0,
-              carbonFootPrintValueToday: historyData.carbonFootPrintValueToday || 0,
-              mealsToday: [], // Individual meals can be loaded separately if needed
-            };
+              todayHistory = {
+                date: today,
+                caloriesToday: historyData.caloriesToday || 0,
+                proteinToday: historyData.proteinToday || 0,
+                carbsToday: historyData.carbsToday || 0,
+                fatsToday: historyData.fatsToday || 0,
+                sodiumToday: historyData.sodiumToday || 0,
+                carbonFootPrintValueToday: historyData.carbonFootPrintValueToday || 0,
+                mealsToday: [], // Individual meals can be loaded separately if needed
+              };
           }
         } catch (error) {
           console.error("Error fetching calorie history:", error);

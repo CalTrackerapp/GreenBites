@@ -1,5 +1,7 @@
 # GreenBites
 
+Vercel Deployed Link: https://green-bites-henna.vercel.app/
+
 A clean nutrition & sustainability logger where you search or describe meals, save entries, and see how your choices impact health and carbon footprint.
 
 ## Overview
@@ -39,7 +41,7 @@ Many people want to eat healthier and reduce their environmental impact, but lac
 | Authentication | Clerk | Secure, scalable authentication with social login options |
 | External APIs | Calorie Ninjas API | Comprehensive nutrition data for accurate food tracking |
 | Data Visualization | Recharts | Interactive charts for dashboard analytics |
-| Deployment | Vercel/Netlify | Serverless deployment with automatic scaling |
+| Deployment | Vercel | Serverless deployment with automatic scaling |
 | Testing | (Planned) Vitest + React Testing Library | Fast unit and integration testing with 70%+ coverage |
 | CI/CD | (Planned) GitHub Actions | Automated testing, building, and deployment pipeline |
 
@@ -185,11 +187,10 @@ For bug reports or feature requests, please use the GitHub Issues tab.
 - [ ] Build comprehensive testing strategies with high coverage
 - [ ] Optimize performance and implement caching strategies
 
-## Author
+## Authors
 
-**[Your Name]**
-- GitHub: [Your GitHub profile]
-- LinkedIn: [Your LinkedIn profile]
+**[Sajib Rafi Hossain, Muaad Alomari, Damarcos Estevez, Toufiq Hasan]**
+- GitHubs: [rafihoss, Movieguy333, elracing, Toufiqh92]
 
 ## License
 
